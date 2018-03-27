@@ -1,0 +1,3 @@
+[submodule "stemp"]
+	path = stemp
+	url = https://github.com/rl-institut/WAM_APP_stemp_mv.git
