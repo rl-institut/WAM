@@ -5,15 +5,13 @@ from django.core.wsgi import get_wsgi_application
 os.environ['DJANGO_SETTINGS_MODULE'] = 'kopy.settings'
 application = get_wsgi_application()
 
-from energysystem.models import Simulation
+from stemp.models import OEPScenario
 
 
-def clear_simulations():
-    sims = Simulation.objects.all()
-    for sim in sims:
-        print(sim.id)
-    sims.delete()
+def clear_scenario():
+    OEPScenario.delete_table()
+    OEPScenario.create_table()
 
 
 if __name__ == '__main__':
-    clear_simulations()
+    clear_scenario()
