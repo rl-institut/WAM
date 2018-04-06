@@ -14585,10 +14585,28 @@ window.$ = _jquery2.default;
 
 (0, _jquery2.default)(document).foundation();
 
-// Navigation mobile
+// WIZARD START ----------------------------------------------
+
+var mq = window.matchMedia('all and (max-width: 767px)');
+
+if (mq.matches) {
+    var progressBarList = document.querySelectorAll('.progressbar-li');
+    progressBarList[0].innerHTML = '';
+    progressBarList[1].innerHTML = '';
+    progressBarList[2].innerHTML = '';
+    progressBarList[3].innerHTML = '';
+}
+
+// WIZARD END ----------------------------------------------
+
+
+// NAVIGATION MOBILE START ---------------------------------------------
 var menuHamburger = document.getElementById('menu-hamburger');
 var topNavBar = document.getElementById('top-nav-bar');
 var titleBarMobile = document.getElementById('title-bar-mobile');
+
+// after loading
+titleBarMobile.style.backgroundColor = 'transparent';
 
 menuHamburger.addEventListener('click', function () {
     // no bg color when the menu is invisible
@@ -14599,6 +14617,7 @@ menuHamburger.addEventListener('click', function () {
         titleBarMobile.style.backgroundColor = '#002E4F';
     }
 });
+// NAVIGATION MOBILE END ---------------------------------------------
 
 /***/ }),
 /* 21 */
