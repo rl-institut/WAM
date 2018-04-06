@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from .settings import DEBUG
+from kopy.settings import DEBUG, WAM_APPS
 from testing.test_highcharts import HighchartsTestView
 
 urlpatterns = [
@@ -28,11 +28,14 @@ urlpatterns = [
             permanent=False)
         ),
     url(r'^admin/', admin.site.urls),
-    url(
-        r'^stemp/',
-        include('stemp.urls', namespace='stemp')
-    ),
 ]
+
+for app_name in WAM_APPS:
+    app_url = url(
+        r'^{}/'.format(app_name),
+        include(app_name + '.urls', namespace=app_name)
+    )
+    urlpatterns.append(app_url)
 
 if DEBUG:
     urlpatterns.append(url(r'^test/', HighchartsTestView.as_view()))

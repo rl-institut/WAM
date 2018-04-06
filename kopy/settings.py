@@ -33,11 +33,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'testserver', '127.0.0.1', '172.18.0.3']
 
+# Additional apps are loaded from environment variable
+WAM_APPS = os.environ['WAM_APPS'].split(' ')
 
 # Application definition
-
-INSTALLED_APPS = [
-    'stemp',
+INSTALLED_APPS = WAM_APPS + [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
