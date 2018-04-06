@@ -1,3 +1,6 @@
 [submodule "stemp"]
 	path = stemp
 	url = https://github.com/rl-institut/WAM_APP_stemp_mv.git
+[submodule "LISMap"]
+	path = LISMap
+	url = ssh://git_user@wam.rl-institut.de/git/lis.git
