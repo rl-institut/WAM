@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import path, include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
@@ -21,21 +21,21 @@ from kopy.settings import DEBUG, WAM_APPS
 from testing.test_highcharts import HighchartsTestView
 
 urlpatterns = [
-    url(
-        r'^$',
+    path(
+        '',
         RedirectView.as_view(
             pattern_name='stemp:select',
             permanent=False)
         ),
-    url(r'^admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]
 
 for app_name in WAM_APPS:
-    app_url = url(
-        r'^{}/'.format(app_name),
+    app_url = path(
+        '{}/'.format(app_name),
         include(app_name + '.urls', namespace=app_name)
     )
     urlpatterns.append(app_url)
 
 if DEBUG:
-    urlpatterns.append(url(r'^test/', HighchartsTestView.as_view()))
+    urlpatterns.append(path('test/', HighchartsTestView.as_view()))
