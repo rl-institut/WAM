@@ -4,6 +4,7 @@ from celery import Celery
 app = Celery(
     'kopy',
     broker='amqp://rabbitmq:rabbitmq@rabbitmq:5672',
+    backend='amqp://rabbitmq:rabbitmq@rabbitmq:5672',
     include=['stemp.tasks']
 )
 
