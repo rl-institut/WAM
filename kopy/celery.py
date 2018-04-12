@@ -4,7 +4,7 @@ from celery import Celery
 app = Celery(
     'kopy',
     broker='amqp://rabbitmq:rabbitmq@rabbitmq:5672',
-    include=['kopy.tasks']
+    include=['stemp.tasks']
 )
 
 # Optional configuration, see the application user guide.
