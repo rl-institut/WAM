@@ -133,7 +133,7 @@ STATICFILES_DIRS = (
     os.path.join('static/foundation-icons'),
 )
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Contains data under session key:
 SESSION_DATA = None
