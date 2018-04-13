@@ -2,10 +2,10 @@
 import requests
 import logging
 from collections import namedtuple
-from kopy.settings import db_config
+from kopy.settings import config
 
 try:
-    token = db_config['OEP']['TOKEN']
+    token = config['OEP']['TOKEN']
 except KeyError:
     token = None
 

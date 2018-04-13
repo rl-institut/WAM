@@ -1,10 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 from celery import Celery
+from kopy.settings import config
 
+url = 'amqp://{user}:{password}@{host}:{port}'.format(
+    user=config['CELERY']['USER'],
+    password=config['CELERY']['PASSWORD'],
+    host=config['CELERY']['HOST'],
+    port=config['CELERY']['PORT'],
+)
 app = Celery(
     'kopy',
-    broker='amqp://rabbitmq:rabbitmq@rabbitmq:5672',
-    backend='amqp://rabbitmq:rabbitmq@rabbitmq:5672',
+    broker=url,
+    backend=url,
     include=['stemp.tasks']
 )
 
