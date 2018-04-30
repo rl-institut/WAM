@@ -3,7 +3,7 @@ import logging
 from stemp.oep_models import OEPScenario
 from stemp.scenarios import bhkw_scenario, oil_scenario, pv_heatpump_scenario
 
-logging.basicConfig(level=logging.CRITICAL)
+logging.getLogger().setLevel(logging.INFO)
 
 
 def delete_oep_scenario(scenario):
