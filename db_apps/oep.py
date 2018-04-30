@@ -1,10 +1,12 @@
 
+import os
+from configobj import ConfigObj
 import requests
 import logging
 from collections import namedtuple
-from kopy.settings import config
 
 try:
+    config = ConfigObj(os.environ['CONFIG_PATH'])
     token = config['OEP']['TOKEN']
 except KeyError:
     token = None
@@ -31,6 +33,11 @@ cases = {
         'Could not insert data into table "{schema}.{table}".'
     ),
     'delete': Case(
+        200,
+        'Rows in "{schema}.{table}" deleted successfully.',
+        'Could not delete rows from "{schema}.{table}".'
+    ),
+    'delete_table': Case(
         200,
         'Table "{schema}.{table}" deleted successfully.',
         'Could not delete table "{schema}.{table}".'
@@ -78,6 +85,21 @@ class OEPTable(object):
         cls.__check_response('insert', response)
 
     @classmethod
+    def delete(cls, data):
+        # Not working yet!
+        insert_url = cls.__set_meta(
+            '{oep_url}/api/v0/schema/{schema}/tables/{table}/rows/')
+        response = requests.delete(
+            insert_url,
+            json={'query': data},
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': 'Token %s' % token
+            }
+        )
+        cls.__check_response('delete', response)
+
+    @classmethod
     def create_table(cls):
         if token is None:
             raise RuntimeError('No OEP token given in DB config')
@@ -110,7 +132,7 @@ class OEPTable(object):
             delete_url,
             headers={'Authorization': 'Token %s' % token}
         )
-        cls.__check_response('delete', response)
+        cls.__check_response('delete_table', response)
 
     @classmethod
     def __set_meta(cls, entry):
