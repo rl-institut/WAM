@@ -3,10 +3,10 @@ channels:
     - conda-forge
     - defaults
 dependencies:
-    - python=3.6=0
+    - python=3.6.5=0
+    - django
     - docopt
     - shapely
-    - feedinlib
     - bokeh
     - pandas
     - numpy
@@ -16,6 +16,9 @@ dependencies:
     - pathos
     - psycopg2
     - sqlalchemy
-    - sqlahelper
     - celery
     - geoalchemy2
+    - pip:
+        - sqlahelper
+        - oemof
+        - feedinlib
