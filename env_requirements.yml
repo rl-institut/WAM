@@ -1,0 +1,24 @@
+name: wam
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.6.5=0
+    - django
+    - docopt
+    - shapely
+    - bokeh
+    - pandas
+    - numpy
+    - scipy
+    - configobj
+    - requests
+    - pathos
+    - psycopg2
+    - sqlalchemy
+    - celery
+    - geoalchemy2
+    - pip:
+        - sqlahelper
+        - oemof
+        - feedinlib
