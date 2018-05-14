@@ -4,3 +4,6 @@
 [submodule "LISMap"]
 	path = LISMap
 	url = ssh://git_user@wam.rl-institut.de/git/lis.git
+[submodule "app_eGoDP"]
+	path = app_eGoDP
+	url = ssh://git_user@wam.rl-institut.de/git/app_eGoDP.git
