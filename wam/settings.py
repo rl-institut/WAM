@@ -127,6 +127,7 @@ STATICFILES_DIRS = (
     os.path.join('static', 'foundation', 'js'),
     os.path.join('static', 'foundation', 'img'),
     os.path.join('static', 'foundation-icons'),
+    os.path.join('static', 'ionicons-2.0.1'),
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
