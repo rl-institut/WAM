@@ -1,4 +1,4 @@
-"""kopy URL Configuration
+"""wam URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -17,7 +17,7 @@ from django.urls import path, include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from kopy.settings import DEBUG, WAM_APPS
+from wam.settings import DEBUG, WAM_APPS
 from testing.test_highcharts import HighchartsTestView
 
 urlpatterns = [
