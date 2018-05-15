@@ -15,18 +15,13 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.contrib import admin
-from django.views.generic.base import RedirectView
 
 from wam.settings import DEBUG, WAM_APPS
+from wam.views import IndexView
 from testing.test_highcharts import HighchartsTestView
 
 urlpatterns = [
-    path(
-        '',
-        RedirectView.as_view(
-            pattern_name='stemp:select',
-            permanent=False)
-        ),
+    path('', IndexView.as_view()),
     path('admin/', admin.site.urls),
 ]
 
