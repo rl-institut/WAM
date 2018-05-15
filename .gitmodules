@@ -8,3 +8,6 @@
 	path = app_eGoDP
 	url = ssh://git_user@wam.rl-institut.de/git/app_eGoDP.git
     
+[submodule "app_eGoVIS"]
+	path = app_eGoVIS
+	url = ssh://git_user@wam.rl-institut.de/git/app_eGoVIS.git
