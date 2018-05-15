@@ -121,12 +121,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join('static'),
-    os.path.join('static/highcharts/code'),
-    os.path.join('static/assets/css'),
-    os.path.join('static/assets/js'),
-    os.path.join('static/assets/img'),
-    os.path.join('static/foundation-icons'),
+    'static',
+    os.path.join('static', 'highcharts', 'code'),
+    os.path.join('static', 'foundation', 'css'),
+    os.path.join('static', 'foundation', 'js'),
+    os.path.join('static', 'foundation', 'img'),
+    os.path.join('static', 'foundation-icons'),
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
