@@ -18,7 +18,6 @@ from django.contrib import admin
 
 from wam.settings import DEBUG, WAM_APPS
 from wam.views import IndexView
-from testing.test_highcharts import HighchartsTestView
 
 urlpatterns = [
     path('', IndexView.as_view()),
@@ -31,6 +30,3 @@ for app_name in WAM_APPS:
         include(app_name + '.urls', namespace=app_name)
     )
     urlpatterns.append(app_url)
-
-if DEBUG:
-    urlpatterns.append(path('test/', HighchartsTestView.as_view()))
