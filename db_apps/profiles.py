@@ -7,7 +7,7 @@ from random import randrange
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'kopy.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'wam.settings'
 application = get_wsgi_application()
 
 from stemp.models import LoadProfile, HeatProfile
