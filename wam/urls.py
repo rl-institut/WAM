@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
-from wam.settings import DEBUG, WAM_APPS
+from wam.settings import WAM_APPS
 from wam.views import IndexView
 
 urlpatterns = [
