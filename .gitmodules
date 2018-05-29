@@ -7,3 +7,6 @@
 [submodule "app_eGoVIS"]
 	path = app_eGoVIS
 	url = ssh://git_user@wam.rl-institut.de/git/app_eGoVIS.git
+[submodule "app_mapping"]
+	path = app_mapping
+	url = ssh://root@wam.rl-institut.de/git/app_mapping.git
