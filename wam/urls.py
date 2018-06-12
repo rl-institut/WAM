@@ -13,15 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib import admin
 
 from wam.settings import WAM_APPS
 from wam.views import IndexView
 
+
 urlpatterns = [
     path('', IndexView.as_view()),
     path('admin/', admin.site.urls),
+    re_path(r'^markdownx/', include('markdownx.urls')),
 ]
 
 for app_name in WAM_APPS:

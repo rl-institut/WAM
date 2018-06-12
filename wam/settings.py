@@ -38,6 +38,7 @@ WAM_APPS = os.environ['WAM_APPS'].split(' ')
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
+    'markdownx',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
