@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 from configobj import ConfigObj
 
-# Pyomo objects must be loaded in main thread and are imported from here:
-from oemof.solph.plumbing import _Sequence as Sequence
-
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
 
@@ -38,7 +35,6 @@ WAM_APPS = os.environ['WAM_APPS'].split(' ')
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
-    'markdownx',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -135,3 +131,18 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Contains data under session key:
 SESSION_DATA = None
+
+# Import Applicaton-specific Settings
+for app in WAM_APPS:
+    try:
+        app_module = __import__(app, globals(), locals(), ["settings"])
+    except ImportError:
+        continue
+    app_settings = getattr(app_module, "settings", None)
+    if app_settings is not None:
+        for setting in dir(app_settings):
+            if setting == setting.upper():
+                if setting in locals() and isinstance(locals()[setting], list):
+                    locals()[setting] += getattr(app_settings, setting)
+                else:
+                    locals()[setting] = getattr(app_settings, setting)
