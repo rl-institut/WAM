@@ -116,18 +116,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static_production')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    # os.path.join('static', 'highcharts', 'code'),
-    # os.path.join('static', 'foundation', 'css'),
-    # os.path.join('static', 'foundation', 'js'),
-    # os.path.join('static', 'foundation', 'img'),
-    # os.path.join('static', 'foundation-icons'),
-    # os.path.join('static', 'ionicons-2.0.1'),
-    os.path.join('static', 'markdownx', 'admin', 'css'),
-    os.path.join('static', 'markdownx', 'js'),
-)
+STATICFILES_DIRS = [os.path.join(app, 'static') for app in WAM_APPS] + [
+    os.path.join(BASE_DIR, "static"),
+]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
