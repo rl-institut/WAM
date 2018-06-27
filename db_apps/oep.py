@@ -2,6 +2,7 @@
 import os
 from configobj import ConfigObj
 import requests
+from json.decoder import JSONDecodeError
 import logging
 from collections import namedtuple
 
@@ -68,7 +69,10 @@ class OEPTable(object):
 
         result = requests.get(select_url)
         cls.__check_response('select', result)
-        return result.json()
+        try:
+            return result.json()
+        except JSONDecodeError:
+            return []
 
     @classmethod
     def insert(cls, data):
@@ -157,7 +161,7 @@ class OEPTable(object):
                 )
         else:
             try:
-                reason = response.json()['reason']
+                reason = response.reason
             except (KeyError, AttributeError):
                 reason = response.text
             logging.warning(
