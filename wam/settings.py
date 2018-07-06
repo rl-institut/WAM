@@ -77,8 +77,13 @@ WSGI_APPLICATION = 'wam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 DATABASES = {
-    'default': config['DEFAULT'],
+    'default': {
+        **config['DATABASES']['DEFAULT'],
+    }
 }
+engine = 'django.db.backends.' + config['DATABASES']['DEFAULT']['ENGINE']
+DATABASES['default']['ENGINE'] = engine
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
