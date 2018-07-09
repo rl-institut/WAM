@@ -1,10 +1,12 @@
 
 import pandas
+import transaction
 from sqlalchemy import (
     Column, Integer, String, ARRAY, ForeignKey)
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION
 from sqlalchemy.ext.declarative import declarative_base
+
 from oemof.outputlib.processing import convert_keys_to_strings
 
 """
@@ -201,7 +203,7 @@ def store_results(session, input_data, result_data):
     session.add(input_result)
     session.flush()
     result_id = input_result.input_result_id
-    session.commit()
+    transaction.commit()
     return result_id
 
 
