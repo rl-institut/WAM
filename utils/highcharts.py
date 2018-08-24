@@ -1,7 +1,7 @@
 
 import pandas
 import json
-from collections import namedtuple
+from collections import namedtuple, ChainMap
 from functools import reduce
 from warnings import warn
 
@@ -18,18 +18,58 @@ hc_kwargs = {
 }
 
 
+RLI_THEME = {
+  'colors': [
+      '#fc8e65', '#55aae5', '#7fadb7', '#fce288', '#f69c3a', '#c28e5e',
+      '#a27b82', '#797097'
+  ],
+  'title': {
+      'style': {
+          'color': '#002E4F',
+          'font': 'bold 1.2rem "Trebuchet MS", Verdana, sans-serif'
+      }
+  },
+  'subtitle': {
+      'style': {
+          'color': '#666',
+          'font': 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+      }
+  },
+
+  'legend': {
+      'itemStyle': {
+          'font': '1rem Trebuchet MS, Verdana, sans-serif',
+          'color': 'black'
+      },
+      'itemHoverStyle': {
+          'color': 'gray'
+      }
+  }
+}
+
+
 class Highchart(object):
     id_counter = 0
 
     def __init__(
             self,
             data: [pandas.Series, pandas.DataFrame],
-            style: str='column',
+            style: str = 'column',
+            theme: dict = None,
+            setup: dict = None,
             **kwargs
     ):
         self.id = self.id_counter
         self.__class__.id_counter += 1
-        self.__dict = {
+        self.dict = self.__init_highchart_parameters(setup)
+        self.__set_style(style)
+        self.__set_data(data)
+        self.__set_additional_kwargs(kwargs)
+        self.__set_theme(theme)
+
+    @staticmethod
+    def __init_highchart_parameters(setup):
+        default_dict = {
             'chart': {},
             'legend': {},
             'plotOptions': {},
@@ -37,24 +77,44 @@ class Highchart(object):
             'xAxis': {},
             'yAxis': {}
         }
-        self.__set_style(style)
-        self.__set_data(data)
-        self.__set_additional_kwargs(kwargs)
+        setup = {} if setup is None else setup
+        return dict(ChainMap(setup, default_dict))
 
-    def render(self, div_id=None):
-        div, div_id = self.__div(div_id)
+    def __set_theme(self, theme):
+        def set_on_position(current_position, current_dict):
+            for key, value in current_dict.items():
+                if key not in current_position:
+                    current_position[key] = value
+                else:
+                    if isinstance(value, dict):
+                        set_on_position(current_position[key], value)
+
+        if theme is None:
+            return
+        set_on_position(self.dict, theme)
+
+    def render(self, div_id=None, div_kwargs=None):
+        div, div_id = self.__div(div_id, div_kwargs)
         self.__set_value('renderTo', div_id)
         return HC_Renderer(div, self.__script)
 
-    def __div(self, div_id: str=None):
+    def __div(self, div_id, div_kwargs):
         if div_id is None:
             div_id = 'hc_' + str(self.id)
-        div = '<div id=' + div_id + '></div>'
+        params = ''
+        if div_kwargs is not None:
+            params = ' ' + ' '.join(
+                [k + '="' + v + '"' for k, v in div_kwargs.items()])
+        div = f'<div id="' + div_id + '"' + params + '></div>'
         return div, div_id
 
     @property
+    def __style(self):
+        return self.dict['chart'].get('type')
+
+    @property
     def __script(self):
-        hc_json = json.dumps(self.__dict)
+        hc_json = json.dumps(self.dict)
         script = (
             '<script type="text/javascript">'
             'new Highcharts.Chart({0});'
@@ -64,23 +124,28 @@ class Highchart(object):
 
     def __set_data(self, data):
         if isinstance(data, pandas.Series):
-            self.__dict['series'].append(
+            self.dict['series'].append(
                 {'name': data.name, 'data': data.values.tolist()}
             )
         elif isinstance(data, pandas.DataFrame):
             for column in data.columns:
+                if self.__style == 'scatter':
+                    series_data = [data[column].tolist()]
+                else:
+                    series_data = data[column].tolist()
                 series = {
                     'name': column,
-                    'data': data[column].tolist()
+                    'data': series_data
                 }
-                self.__dict['series'].append(series)
+                self.dict['series'].append(series)
         else:
-            self.__dict['series'].append({'data': data})
+            self.dict['series'].append({'data': data})
         if (
                 isinstance(data, pandas.Series) or
-                isinstance(data, pandas.DataFrame)
+                isinstance(data, pandas.DataFrame) and
+                self.__style != 'scatter'
         ):
-            self.__dict['xAxis'] = {'categories': data.index.values.tolist()}
+            self.dict['xAxis'] = {'categories': data.index.values.tolist()}
 
     def __set_style(self, style):
         if style == 'bar':
@@ -109,16 +174,6 @@ class Highchart(object):
         current_level = []
         for level in hierarchy[:-1]:
             current_level.append(level)
-            if reduce(dict.get, current_level, self.__dict) is None:
-                reduce(dict.get, current_level[:-1], self.__dict)[level] = {}
-        reduce(dict.get, current_level, self.__dict)[hierarchy[-1]] = value
-
-
-if __name__ == '__main__':
-    df = pandas.DataFrame(
-        {'a': range(3), 'b': range(4, 7)},
-        index=['c', 'd', 'e']
-    )
-    print(df)
-    hc = Highchart(df, 'column', stacked=True)
-    print(hc.render('hc'))
+            if reduce(dict.get, current_level, self.dict) is None:
+                reduce(dict.get, current_level[:-1], self.dict)[level] = {}
+        reduce(dict.get, current_level, self.dict)[hierarchy[-1]] = value
