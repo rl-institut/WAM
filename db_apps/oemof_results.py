@@ -1,4 +1,5 @@
 
+import re
 import pandas
 import transaction
 from sqlalchemy import (
@@ -207,7 +208,8 @@ def store_results(session, input_data, result_data):
     return result_id
 
 
-def restore_results(session, input_result_id):
+def restore_results(session, input_result_id, restore_none_type=False,
+                    advanced_label=None):
     """
     Restores input and result data from OemofInputResult from DB
 
@@ -217,7 +219,11 @@ def restore_results(session, input_result_id):
         SQLAlchemy session build via sqlalchemy.orm.sessionmaker
     input_result_id: int
         Index of OemofInputResult object to restore
-
+    restore_none_type: boolean
+        If set to "True" node strings containing 'None' are converted to real
+        None type
+    advanced_label: namedtuple
+        Labels are converted into given namedtuple format if possible
     Returns
     -------
     (dict, dict):
@@ -235,6 +241,50 @@ def restore_results(session, input_result_id):
         else:
             raise TypeError('Unknown conversion type "' + value_type + '"')
 
+    def convert_label_to_namedtuple(label):
+        def unpack_tuples(value):
+            if value.startswith('(') and value.endswith(')'):
+                value_list = value[1:-1].split(', ')
+                if len(value_list) == 1:
+                    single = value_list[0][:-1]
+                    return (None, ) if single == 'None' else (single, )
+                else:
+                    return (None if v == 'None' else v for v in value_list)
+            else:
+                return None if value == 'None' else value
+
+        pattern = (
+            f"{advanced_label.__name__}\(" +
+            ', '.join(
+                [
+                    f"{field}=(?P<{field}>[\(\)A-Za-z0-9_,\ ']*)"
+                    for field in advanced_label._fields
+                ]
+            ) +
+            "\)"
+        )
+        try:
+            match = re.match(pattern, label.replace('\'', ''))
+        except AttributeError:
+            return label
+        if match is not None:
+            fields = {
+                k: unpack_tuples(v)
+                for k, v in match.groupdict().items()
+            }
+            return advanced_label(**fields)
+        else:
+            return label
+
+    def get_nodes(scalar_or_sequence):
+        raw_nodes = scalar_or_sequence.from_node, scalar_or_sequence.to_node
+        if advanced_label is not None:
+            raw_nodes = tuple(map(convert_label_to_namedtuple, raw_nodes))
+        if restore_none_type:
+            return tuple(map(lambda x: None if x == 'None' else x, raw_nodes))
+        else:
+            return raw_nodes
+
     # Find results:
     input_result = session.query(OemofInputResult).filter(
         OemofInputResult.input_result_id == input_result_id).first()
@@ -248,13 +298,13 @@ def restore_results(session, input_result_id):
             ('input', input_data), ('result', result_data)):
         ir_attr = getattr(input_result, input_result_attr)
         for scalar in ir_attr.scalars:
-            nodes = (scalar.from_node, scalar.to_node)
+            nodes = get_nodes(scalar)
             if nodes not in data:
                 data[nodes] = {'scalars': {}, 'sequences': {}}
             data[nodes]['scalars'][scalar.attribute] = type_conversion(
                 scalar.value, scalar.type)
         for sequence in ir_attr.sequences:
-            nodes = (sequence.from_node, sequence.to_node)
+            nodes = get_nodes(sequence)
             if nodes not in data:
                 data[nodes] = {'scalars': {}, 'sequences': {}}
             if sequence.type == 'series':
