@@ -1,6 +1,7 @@
 
 import pandas
 import json
+import itertools
 from collections import namedtuple, ChainMap
 from functools import reduce
 from warnings import warn
@@ -49,21 +50,21 @@ RLI_THEME = {
 
 
 class Highchart(object):
-    id_counter = 0
+    id_counter = itertools.count()
 
     def __init__(
             self,
-            data: [pandas.Series, pandas.DataFrame],
+            data=None,
             style: str = 'column',
             theme: dict = None,
             setup: dict = None,
             **kwargs
     ):
-        self.id = self.id_counter
-        self.__class__.id_counter += 1
+        self.id = next(self.id_counter)
         self.dict = self.__init_highchart_parameters(setup)
         self.__set_style(style)
-        self.__set_data(data)
+        if data is not None:
+            self.set_data(data)
         self.__set_additional_kwargs(kwargs)
         self.__set_theme(theme)
 
@@ -122,7 +123,8 @@ class Highchart(object):
         ).format(hc_json)
         return script
 
-    def __set_data(self, data):
+    def set_data(self, data):
+        self.dict['series'] = []
         if isinstance(data, pandas.Series):
             self.dict['series'].append(
                 {'name': data.name, 'data': data.values.tolist()}
