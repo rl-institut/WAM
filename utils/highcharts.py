@@ -12,6 +12,7 @@ HC_Renderer = namedtuple('HighchartsRenderer', ['div', 'script'])
 hc_kwargs = {
     'style': ['chart', 'type'],
     'title': ['title', 'text'],
+    'subtitle': ['subtitle', 'text'],
     'renderTo': ['chart', 'renderTo'],
     'x_title': ['xAxis', 'title', 'text'],
     'y_title': ['yAxis', 'title', 'text'],
