@@ -1,6 +1,11 @@
 
+{% load labels %}
+
+{% label 'hallo' %}
 <ul>
 {% for app_name, app_url in apps.items %}
   <li><a href="{% url app_url %}">{{app_name}}</a></li>
 {% endfor %}
 </ul>
+
+{{test}}
