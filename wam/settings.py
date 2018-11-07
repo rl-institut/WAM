@@ -42,6 +42,7 @@ INSTALLED_APPS = WAM_APPS + [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.forms',
     'crispy_forms'
 ]
 
@@ -76,6 +77,7 @@ TEMPLATES = [
         },
     },
 ]
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 WSGI_APPLICATION = 'wam.wsgi.application'
 
