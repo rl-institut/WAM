@@ -19,7 +19,7 @@ Clone repository from gogs via:
 
 .. code:: bash
 
-  git clone https://wam.rl-institut.de:86/Hendrik/WAM.git
+  git clone https://github.com/rl-institut/WAM.git
 
 Setup conda environment with required packages via:
 
