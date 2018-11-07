@@ -1,3 +1,6 @@
+
+[![Documentation Status](https://readthedocs.org/projects/wam/badge/?version=latest)](https://wam.readthedocs.io/en/latest/?badge=latest)
+
 # Zurb-Installation on Linux:
 Download nodejs from: https://nodejs.org/en/
 
