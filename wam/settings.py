@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from configobj import ConfigObj
+import importlib
 
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
@@ -147,15 +148,21 @@ SESSION_DATA = None
 
 # Import Applicaton-specific Settings
 for app in WAM_APPS:
+    # Import settings module from app and add constants to wam.settings
     try:
-        app_module = __import__(app, globals(), locals(), ["settings"])
-    except ImportError:
-        continue
-    app_settings = getattr(app_module, "settings", None)
-    if app_settings is not None:
-        for setting in dir(app_settings):
+        settings = importlib.import_module(f'{app}.settings', package='wam')
+    except ModuleNotFoundError:
+        pass
+    else:
+        for setting in dir(settings):
             if setting == setting.upper():
                 if setting in locals() and isinstance(locals()[setting], list):
-                    locals()[setting] += getattr(app_settings, setting)
+                    locals()[setting] += getattr(settings, setting)
                 else:
-                    locals()[setting] = getattr(app_settings, setting)
+                    locals()[setting] = getattr(settings, setting)
+
+    # Import app_settings from app
+    try:
+        importlib.import_module(f'{app}.app_settings', package='wam')
+    except ModuleNotFoundError:
+        pass
