@@ -12,6 +12,7 @@ Welcome to WAM-Server's documentation!
 
    getting_started
    helpers
+   api_changes
 
 
 Indices and tables

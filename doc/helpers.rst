@@ -54,3 +54,51 @@ with *labels.cfg* as:
     The *labels* templatetag uses requested path to specify for which application a label is requested.
     Thus, path *stemp/index/* will try to load labels from application *stemp*.
     If no label is found or given (sub-) section is not found, *None* will be returned.
+
+
+.. _custom_admin_site:
+
+Customizing Admin Site
+----------------------
+
+With custom admin site, it is possible to add app-specific views to admin pages.
+The WAM-backend is configured to search for list `admin_url_patterns` in `urls.py` for every app.
+Those urls are internally added in `AdminSite.get_url()`_ and are afterwards available on admin site.
+
+.. _`AdminSite.get_url()`: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_urls
+
+An additional view for admin site can now integrated via:
+
+.. code:: python
+
+  # my_app/urls.py
+
+  from my_app import views
+
+  admin_url_patterns = [
+      path(
+          'my_url',
+          views.MyView.as_view(),
+      ),
+  ]
+
+Afterwards, this view would be accessible (**to all users!**, see example below for admin-only-access) under *.../admin/my_url*.
+
+An additional example can be found in `Stemp Tool MV`_
+
+.. _`Stemp Tool MV`: https://github.com/rl-institut/WAM_APP_stemp_mv/blob/master/urls.py
+
+.. code:: python
+
+  from wam.admin import wam_admin_site
+  from stemp import views_admin
+
+  admin_url_patterns = [
+      path(
+          'stemp/manage',
+          wam_admin_site.admin_view(views_admin.ManageView.as_view()),
+          name='manage'
+      ),
+  ]
+
+Please notice the wrapping of custom view into `wam_admin_site.admin_view` function - this will guarantee admin-only access!
