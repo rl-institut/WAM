@@ -28,7 +28,7 @@ Labels
 ------
 
 A templatetag *label* is provided to easily load labels into templates.
-Therefore, labels can be configured in a file *labels.cfg* within application folder.
+To do so, labels can be configured in a file *labels.cfg* within application folder.
 Section, subsection, etc. are supported (use *:* to separate sections) to organize labels within needed structure.
 
 Example:
@@ -49,10 +49,16 @@ with *labels.cfg* as:
         [[landing_page]]
             title = Das ist die Startseite!
 
+Additionally, the label template tag supports two attributes:
+
+- `safe` (boolean, default=False): Can be set to allow import of html-code
+- `app` (str, default=None): Can be set explicitly to load labels from given app (Must be set, if template tag is requested from widget or form template)
+
 .. note::
 
     The *labels* templatetag uses requested path to specify for which application a label is requested.
     Thus, path *stemp/index/* will try to load labels from application *stemp*.
+    If template tag is used within widget or form template, app attribute has to be set.
     If no label is found or given (sub-) section is not found, *None* will be returned.
 
 
