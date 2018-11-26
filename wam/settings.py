@@ -90,8 +90,6 @@ DATABASES = {
         **config['DATABASES']['DEFAULT'],
     }
 }
-engine = 'django.db.backends.' + config['DATABASES']['DEFAULT']['ENGINE']
-DATABASES['default']['ENGINE'] = engine
 
 
 # Password validation
