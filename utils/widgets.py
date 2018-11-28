@@ -14,7 +14,7 @@ class InfoButton(object):
     (markdown supported).
     """
 
-    template_name = 'widgets/help_button.html'
+    template_name = 'widgets/info_button.html'
     counter = count()
 
     def __init__(self, text, tooltip, is_markdown=False):
