@@ -1,9 +1,9 @@
 <span class="has-tip--no-border">
-  <i data-open="{{help_id}}" class ="icon ion-information-circled icon--small info-box" title="{{tooltip}}}}"></i>
+  <i data-open="{{info_id}}" class ="icon ion-information-circled icon--small info-box" title="{{tooltip}}"></i>
 </span>
-<div class="reveal" id="{{help_id}}" data-reveal>
+<div class="reveal" id="{{info_id}}" data-reveal>
   <div class="grid-x">
-    {{text}}
+    {{text|safe}}
   </div>
   <button class="close-button" data-close aria-label="Schließen" type="button">
     <span aria-hidden="true">&times;</span>
