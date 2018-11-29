@@ -8,4 +8,3 @@ def redirect_with_get_parameters(url, **parameters):
     response['Location'] += '?' + '&'.join(
         [str(key) + '=' + str(value) for key, value in parameters.items()])
     return response
-
