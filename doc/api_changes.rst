@@ -4,6 +4,11 @@ API Changes
 
 List of API-Changes which have to be regarded when using WAM-Django-Backend.
 
+7667dc9 (29.11.2018)
+--------------------
+
+Renamed utils.utils to utils.shortcuts
+
 551866e (19.11.2018)
 --------------------
 
