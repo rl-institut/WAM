@@ -170,3 +170,7 @@ class Highchart(VisualizationTemplate):
             if reduce(dict.get, current_level, self.dict) is None:
                 reduce(dict.get, current_level[:-1], self.dict)[level] = {}
         reduce(dict.get, current_level, self.dict)[hierarchy[-1]] = value
+
+    def _create_str(self):
+        renderer = self.render()
+        return renderer.div + '\n' + renderer.script

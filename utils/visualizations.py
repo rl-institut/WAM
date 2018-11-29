@@ -2,6 +2,8 @@
 import itertools
 from abc import ABC, abstractmethod
 
+from django.utils.safestring import mark_safe
+
 
 class VisualizationTemplate(ABC):
     id_counter = itertools.count()
@@ -28,3 +30,10 @@ class VisualizationTemplate(ABC):
                 [k + '="' + v + '"' for k, v in div_kwargs.items()])
         div = f'<div id="' + div_id + '"' + params + '></div>'
         return div, div_id
+
+    @abstractmethod
+    def _create_str(self):
+        pass
+
+    def __str__(self):
+        return mark_safe(self._create_str())
