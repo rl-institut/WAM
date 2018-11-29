@@ -14,26 +14,12 @@ class VisualizationTemplate(ABC):
             self.set_data(data)
 
     @abstractmethod
-    def render(self, div_id=None, div_kwargs=None):
+    def render(self, **kwargs):
         pass
 
     @abstractmethod
     def set_data(self, data):
         pass
 
-    def _create_div(self, div_id, div_kwargs):
-        if div_id is None:
-            div_id = 'vis_' + str(self.id)
-        params = ''
-        if div_kwargs is not None:
-            params = ' ' + ' '.join(
-                [k + '="' + v + '"' for k, v in div_kwargs.items()])
-        div = f'<div id="' + div_id + '"' + params + '></div>'
-        return div, div_id
-
-    @abstractmethod
-    def _create_str(self):
-        pass
-
     def __str__(self):
-        return mark_safe(self._create_str())
+        return mark_safe(self.render())
