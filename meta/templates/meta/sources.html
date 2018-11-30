@@ -28,7 +28,7 @@
               <ul class="table__list">
                 {% for source in category.list %}
                 <li>
-                  <a href="{{source.url}}" target="_blank">{{source.author}}</a>{{source.description}}, {{source.year}}, {{source.license}}
+                  <a href="{{source.url}}" target="_blank">{{source.author}}</a>: {{source.description}}, {{source.year}}, {{source.license}}
                 </li>
                 {% endfor %}
               </ul>
