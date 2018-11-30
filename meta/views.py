@@ -5,8 +5,7 @@ from wam.settings import BASE_DIR
 
 
 class SourcesView(ListView):
-    """
-    Lists all sources grouped by source category
+    """Lists all sources grouped by source category.
 
     Sources can be filtered by app_name attribute. If base template is given
     within specified app, SourceView extends this template. The base template
@@ -25,6 +24,13 @@ class SourcesView(ListView):
             path('sources', SourcesView.as_view(app_name='stemp')),
             ...
         ]
+
+    Notes
+    -----
+    * Models are defined in :mod:`~.meta.models`
+    * The sources template displays all sources in a table, each row has a
+    unique id
+
     """
     template_name = 'meta/sources.html'
     app_name = None
