@@ -138,7 +138,7 @@ class Highchart(object):
                 if self.__style == 'scatter':
                     series_data = [data[column].tolist()]
                 elif self.__style == 'line':
-                    series_data = data[column][0]
+                    series_data = data[column].tolist()
                 else:
                     series_data = data[column].tolist()
                 series = {
