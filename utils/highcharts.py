@@ -1,10 +1,13 @@
 
 import pandas
 import json
-import itertools
 from collections import namedtuple, ChainMap
 from functools import reduce
 from warnings import warn
+
+from django.utils.safestring import mark_safe
+
+from utils.visualizations import VisualizationTemplate
 
 HC_Renderer = namedtuple('HighchartsRenderer', ['div', 'script'])
 
@@ -50,9 +53,7 @@ RLI_THEME = {
 }
 
 
-class Highchart(object):
-    id_counter = itertools.count()
-
+class Highchart(VisualizationTemplate):
     def __init__(
             self,
             data=None,
@@ -61,11 +62,9 @@ class Highchart(object):
             setup: dict = None,
             **kwargs
     ):
-        self.id = next(self.id_counter)
+        super(Highchart, self).__init__(data)
         self.dict = self.__init_highchart_parameters(setup)
         self.__set_style(style)
-        if data is not None:
-            self.set_data(data)
         self.__set_additional_kwargs(kwargs)
         self.__set_theme(theme)
 
@@ -96,19 +95,9 @@ class Highchart(object):
         set_on_position(self.dict, theme)
 
     def render(self, div_id=None, div_kwargs=None):
-        div, div_id = self.__div(div_id, div_kwargs)
+        div, div_id = self.__create_div(div_id, div_kwargs)
         self.__set_value('renderTo', div_id)
         return HC_Renderer(div, self.__script)
-
-    def __div(self, div_id, div_kwargs):
-        if div_id is None:
-            div_id = 'hc_' + str(self.id)
-        params = ''
-        if div_kwargs is not None:
-            params = ' ' + ' '.join(
-                [k + '="' + v + '"' for k, v in div_kwargs.items()])
-        div = f'<div id="' + div_id + '"' + params + '></div>'
-        return div, div_id
 
     @property
     def __style(self):
@@ -182,3 +171,17 @@ class Highchart(object):
             if reduce(dict.get, current_level, self.dict) is None:
                 reduce(dict.get, current_level[:-1], self.dict)[level] = {}
         reduce(dict.get, current_level, self.dict)[hierarchy[-1]] = value
+
+    def __str__(self):
+        renderer = self.render()
+        return mark_safe(renderer.div + '\n' + renderer.script)
+
+    def __create_div(self, div_id, div_kwargs):
+        if div_id is None:
+            div_id = 'vis_' + str(self.id)
+        params = ''
+        if div_kwargs is not None:
+            params = ' ' + ' '.join(
+                [k + '="' + v + '"' for k, v in div_kwargs.items()])
+        div = f'<div id="' + div_id + '"' + params + '></div>'
+        return div, div_id
