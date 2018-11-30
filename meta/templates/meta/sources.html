@@ -21,13 +21,13 @@
         </thead>
         <tbody class="table__body table__body--text-top">
           {% for category in categories %}
-            <tr id="source-{{category.grouper.id}}">
+            <tr id="source-category-{{category.grouper.id}}">
               <td>{{category.grouper.name}}</td>
               <td>{{category.grouper.description}}</td>
               <td>
               <ul class="table__list">
                 {% for source in category.list %}
-                <li>
+                <li id="source-{{source.id}}">
                   <a href="{{source.url}}" target="_blank">{{source.author}}</a>: {{source.description}}, {{source.year}}, {{source.license}}
                 </li>
                 {% endfor %}
