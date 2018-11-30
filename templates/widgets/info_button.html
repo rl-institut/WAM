@@ -1,5 +1,5 @@
 <span class="has-tip--no-border">
-  <i data-open="{{info_id}}" class ="icon ion-information-circled icon--small info-box" title="{{tooltip}}"></i>
+  <i data-open="{{info_id}}" class="icon {{ionicon_type}} icon--{{ionicon_size}} info-box" {% if ionicon_color is not None %}style="color: {{ionicon_color}};"{% endif %} title="{{tooltip}}"></i>
 </span>
 <div class="reveal" id="{{info_id}}" data-reveal>
   <div class="grid-x">
