@@ -14,6 +14,8 @@ import os
 from configobj import ConfigObj
 import importlib
 
+from utils.shortcuts import get_list_from_env
+
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
 
@@ -32,7 +34,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = os.environ['WAM_APPS'].split(',')
+WAM_APPS = get_list_from_env('WAM_APPS')
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
