@@ -60,7 +60,7 @@ class Highchart(VisualizationTemplate):
     def __init__(
             self,
             data=None,
-            style: str = 'column',
+            style: str = None,
             theme: dict = None,
             setup: dict = None,
             **kwargs
@@ -147,10 +147,16 @@ class Highchart(VisualizationTemplate):
             self.dict['xAxis'] = {'categories': data.index.values.tolist()}
 
     def __set_style(self, style):
-        if style == 'bar':
+        if style is None:
+            if self.dict['chart'].get('type') is None:
+                warn('No chart type set, will fall back to column chart.')
+                self.__set_value('style', 'column')
+        else:
+            self.__set_value('style', style)
+
+        if self.dict['chart'].get('type') == 'bar':
             warn('Highcharts uses keyword "column" instead of "bar" for '
                  'vertical bar charts')
-        self.__set_value('style', style)
 
     def __set_additional_kwargs(self, kwargs):
         for key, value in kwargs.items():
