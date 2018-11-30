@@ -46,7 +46,8 @@ INSTALLED_APPS = WAM_APPS + [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'django.forms',
-    'crispy_forms'
+    'crispy_forms',
+    'meta'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,43 @@
+
+{% extends base_template %}
+
+{% block content %}
+
+{% regroup object_list by category as categories %}
+
+<div class="grid-container u-padding-top--xl">
+  <div class="grid-x">
+    <div class="cell">
+      <h1 class="u-text--center">Quellen</h1>
+    </div>
+    <div class="cell">
+      <table class="table unstriped">
+        <thead class="table__head table__head--color">
+          <tr>
+            <th class="table__h table__h--small">Datensatz</th>
+            <th class="table__h table__h--medium">Beschreibung</th>
+            <th class="table__h">Quellen</th>
+          </tr>
+        </thead>
+        <tbody class="table__body table__body--text-top">
+          {% for category in categories %}
+            <tr id="source-{{category.grouper.id}}">
+              <td>{{category.grouper.name}}</td>
+              <td>{{category.grouper.description}}</td>
+              <td>
+              <ul class="table__list">
+                {% for source in category.list %}
+                <li>
+                  <a href="{{source.url}}" target="_blank">{{source.author}}</a>{{source.description}}, {{source.year}}, {{source.license}}
+                </li>
+                {% endfor %}
+              </ul>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}}
