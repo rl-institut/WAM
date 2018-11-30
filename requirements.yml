@@ -1,0 +1,12 @@
+name: django
+dependencies:
+- python=3.6
+- pip:
+  - django
+  - pandas
+  - whitenoise
+  - celery
+  - configobj
+  - django-markdownx
+  - django-crispy-forms
+  - "git+https://github.com/openego/oedialect"

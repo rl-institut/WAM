@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from configobj import ConfigObj
+import importlib
+
+from utils.shortcuts import get_list_from_env
 
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
@@ -26,12 +29,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', 'testserver', '127.0.0.1', '172.18.0.3']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = os.environ['WAM_APPS'].split(',')
+WAM_APPS = get_list_from_env('WAM_APPS')
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
@@ -41,10 +44,15 @@ INSTALLED_APPS = WAM_APPS + [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
+    'django.forms',
+    'crispy_forms',
+    'meta'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,9 +75,13 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'labels': 'templatetags.labels',
+            },
         },
     },
 ]
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 WSGI_APPLICATION = 'wam.wsgi.application'
 
@@ -81,8 +93,6 @@ DATABASES = {
         **config['DATABASES']['DEFAULT'],
     }
 }
-engine = 'django.db.backends.' + config['DATABASES']['DEFAULT']['ENGINE']
-DATABASES['default']['ENGINE'] = engine
 
 
 # Password validation
@@ -121,11 +131,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static_production')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(app, 'static') for app in WAM_APPS] + [
-    os.path.join(BASE_DIR, "static"),
-]
+STATICFILES_DIRS = (
+    [
+        os.path.join(app, 'static') for app in WAM_APPS
+        if os.path.exists(os.path.join(app, 'static'))
+    ] +
+    [os.path.join(BASE_DIR, "static")]
+)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
@@ -134,15 +149,21 @@ SESSION_DATA = None
 
 # Import Applicaton-specific Settings
 for app in WAM_APPS:
+    # Import settings module from app and add constants to wam.settings
     try:
-        app_module = __import__(app, globals(), locals(), ["settings"])
-    except ImportError:
-        continue
-    app_settings = getattr(app_module, "settings", None)
-    if app_settings is not None:
-        for setting in dir(app_settings):
+        settings = importlib.import_module(f'{app}.settings', package='wam')
+    except ModuleNotFoundError:
+        pass
+    else:
+        for setting in dir(settings):
             if setting == setting.upper():
                 if setting in locals() and isinstance(locals()[setting], list):
-                    locals()[setting] += getattr(app_settings, setting)
+                    locals()[setting] += getattr(settings, setting)
                 else:
-                    locals()[setting] = getattr(app_settings, setting)
+                    locals()[setting] = getattr(settings, setting)
+
+    # Import app_settings from app
+    try:
+        importlib.import_module(f'{app}.app_settings', package='wam')
+    except ModuleNotFoundError:
+        pass

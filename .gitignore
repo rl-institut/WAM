@@ -2,7 +2,10 @@
 .idea/
 __pycache__/
 *.pyc
+.pycharmrc
 
 db.sqlite3
 config/
 maps/
+doc/_build/
+staticfiles/

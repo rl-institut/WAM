@@ -14,17 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.urls import path, re_path, include
-from django.contrib import admin
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView
 
+from wam.admin import wam_admin_site
 from wam.settings import WAM_APPS
 from wam.views import IndexView
 
 
 urlpatterns = [
     path('', IndexView.as_view()),
-    path('admin/', admin.site.urls),
+    path('admin/', wam_admin_site.urls),
     path('accounts/login/', LoginView.as_view(template_name='login.html')),
     path('access_denied/', TemplateView.as_view(
         template_name='access_denied.html'), name='access_denied')

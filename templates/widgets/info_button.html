@@ -1,0 +1,11 @@
+<span class="has-tip--no-border">
+  <i data-open="{{info_id}}" class="icon {{ionicon_type}} icon--{{ionicon_size}} info-box" {% if ionicon_color is not None %}style="color: {{ionicon_color}};"{% endif %} title="{{tooltip}}"></i>
+</span>
+<div class="reveal" id="{{info_id}}" data-reveal>
+  <div class="grid-x">
+    {{text|safe}}
+  </div>
+  <button class="close-button" data-close aria-label="Schließen" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
