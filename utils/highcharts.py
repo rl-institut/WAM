@@ -21,6 +21,9 @@ hc_kwargs = {
 
 
 RLI_THEME = {
+  'credits': {
+      'enabled': False
+  },
   'colors': [
       '#fc8e65', '#55aae5', '#7fadb7', '#fce288', '#f69c3a', '#c28e5e',
       '#a27b82', '#797097'
