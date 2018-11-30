@@ -10,7 +10,7 @@ class Assumption(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     value = models.CharField(max_length=64)
-    value_type = models.CharField(max_length=32)
+    unit = models.CharField(max_length=32)
 
     app_name = models.CharField(max_length=255)
 
