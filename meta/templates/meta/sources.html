@@ -21,7 +21,7 @@
         </thead>
         <tbody class="table__body table__body--text-top">
           {% for category in categories %}
-            <tr>
+            <tr id="source-{{category.grouper.id}}">
               <td>{{category.grouper.name}}</td>
               <td>{{category.grouper.description}}</td>
               <td>
