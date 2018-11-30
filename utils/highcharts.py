@@ -65,8 +65,10 @@ class Highchart(VisualizationTemplate):
             setup: dict = None,
             **kwargs
     ):
-        super(Highchart, self).__init__(data)
+        super(Highchart, self).__init__()
         self.dict = self.__init_highchart_parameters(setup)
+        if data is not None:
+            self.set_data(data)
         self.__set_style(style)
         self.__set_additional_kwargs(kwargs)
         self.__set_theme(theme)
