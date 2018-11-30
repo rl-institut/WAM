@@ -3,6 +3,10 @@ from django.db import models
 
 
 class Assumption(models.Model):
+    """Defines an assumption for references.
+
+    A source must be assigned to exactly one :class:`Source` defined in `source`.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField()
     value = models.CharField(max_length=64)
@@ -17,6 +21,10 @@ class Assumption(models.Model):
 
 
 class Source(models.Model):
+    """Defines a source in references, e.g. a book, thesis or dataset
+
+    A source must be assigned to exactly one :class:`SourceCategory`  defined in `category`.
+    """
     author = models.CharField(max_length=255)
     url = models.URLField()
     description = models.TextField()
@@ -32,6 +40,10 @@ class Source(models.Model):
 
 
 class SourceCategory(models.Model):
+    """Defines a source category in references, e.g. emissions.
+
+    A category subsumes one or multiple sources, see :class:`Source`.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField()
 

@@ -1,4 +1,3 @@
-
 import os
 from django.views.generic import ListView
 from meta import models
@@ -10,8 +9,11 @@ class SourcesView(ListView):
     Lists all sources grouped by source category
 
     Sources can be filtered by app_name attribute. If base template is given
-    within specified app, SourceView extends this template. Otherwise, base
-    template from meta app is taken.
+    within specified app, SourceView extends this template. The base template
+    is assumed to be located at
+    <WAM_base_dir>/<app_name>/templates/<app_name>/base.html .
+
+    if base template is not found, base template from meta app is taken.
 
     Usage:
         # in urls.py:
@@ -27,7 +29,7 @@ class SourcesView(ListView):
     template_name = 'meta/sources.html'
     app_name = None
     ordering = ['category__name']
-    
+
     def __init__(self, *args, **kwargs):
         super(SourcesView, self).__init__(*args, **kwargs)
         if self.app_name is not None:
