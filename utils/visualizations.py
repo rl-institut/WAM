@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 class VisualizationTemplate(ABC):
     id_counter = itertools.count()
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         self.id = next(self.id_counter)
         if data is not None:
             self.set_data(data)
