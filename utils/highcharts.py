@@ -24,6 +24,9 @@ hc_kwargs = {
 
 
 RLI_THEME = {
+  'credits': {
+      'enabled': False
+  },
   'colors': [
       '#fc8e65', '#55aae5', '#7fadb7', '#fce288', '#f69c3a', '#c28e5e',
       '#a27b82', '#797097'
@@ -57,16 +60,17 @@ class Highchart(VisualizationTemplate):
     def __init__(
             self,
             data=None,
-            style: str = 'column',
+            style: str = None,
             theme: dict = None,
             setup: dict = None,
             **kwargs
     ):
-        super(Highchart, self).__init__(data)
         self.dict = self.__init_highchart_parameters(setup)
         self.__set_style(style)
         self.__set_additional_kwargs(kwargs)
         self.__set_theme(theme)
+
+        super(Highchart, self).__init__(data)
 
     @staticmethod
     def __init_highchart_parameters(setup):
@@ -124,7 +128,7 @@ class Highchart(VisualizationTemplate):
                 if self.__style == 'scatter':
                     series_data = [data[column].tolist()]
                 elif self.__style == 'line':
-                    series_data = data[column][0]
+                    series_data = data[column].tolist()
                 else:
                     series_data = data[column].tolist()
                 series = {
@@ -142,10 +146,16 @@ class Highchart(VisualizationTemplate):
             self.dict['xAxis'] = {'categories': data.index.values.tolist()}
 
     def __set_style(self, style):
-        if style == 'bar':
+        if style is None:
+            if self.dict['chart'].get('type') is None:
+                warn('No chart type set, will fall back to column chart.')
+                self.__set_value('style', 'column')
+        else:
+            self.__set_value('style', style)
+
+        if self.dict['chart'].get('type') == 'bar':
             warn('Highcharts uses keyword "column" instead of "bar" for '
                  'vertical bar charts')
-        self.__set_value('style', style)
 
     def __set_additional_kwargs(self, kwargs):
         for key, value in kwargs.items():
