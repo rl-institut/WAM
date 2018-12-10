@@ -27,7 +27,7 @@ class VisualizationTemplate(ABC):
             raise TemplateDoesNotExist('No template_name set')
         renderer = get_default_renderer()
         context = self.get_context(**kwargs)
-        return mark_safe(renderer.render(self.template_name, context))
+        return renderer.render(self.template_name, context)
 
     @abstractmethod
     def set_data(self, data):
