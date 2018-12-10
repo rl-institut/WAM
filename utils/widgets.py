@@ -1,11 +1,34 @@
 
+from abc import ABC
+from typing import List, Tuple, Optional
 from markdown import markdown
 from itertools import count
+
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
 
 
-class InfoButton(object):
+class CustomWidget(ABC):
+    template_name:str = None
+
+    def __str__(self):
+        return self.render()
+
+    def get_context(self):
+        return {}
+
+    def render(self):
+        """Render the widget as an HTML string."""
+        context = self.get_context()
+        return self._render(self.template_name, context)
+
+    @staticmethod
+    def _render(template_name, context):
+        renderer = get_default_renderer()
+        return mark_safe(renderer.render(template_name, context))
+
+
+class InfoButton(CustomWidget):
     """
     Clickable icon which opens reveal window showing info text
 
@@ -18,12 +41,12 @@ class InfoButton(object):
 
     def __init__(
             self,
-            text='',
-            tooltip='',
-            is_markdown=False,
-            ionicon_type='ion-information-circled',
-            ionicon_size='small',
-            ionicon_color=None
+            text: str = '',
+            tooltip: str = '',
+            is_markdown: bool = False,
+            ionicon_type: str = 'ion-information-circled',
+            ionicon_size: str = 'small',
+            ionicon_color: str = None
     ):
         """
 
@@ -51,9 +74,6 @@ class InfoButton(object):
         self.ionicon_size = ionicon_size
         self.ionicon_color = ionicon_color
 
-    def __str__(self):
-        return self.render()
-
     def get_context(self):
         return {
             'info_id': f'info_{self.id}',
@@ -64,12 +84,41 @@ class InfoButton(object):
             'ionicon_color': self.ionicon_color
         }
 
-    def render(self):
-        """Render the widget as an HTML string."""
-        context = self.get_context()
-        return self._render(self.template_name, context)
 
-    @staticmethod
-    def _render(template_name, context):
-        renderer = get_default_renderer()
-        return mark_safe(renderer.render(template_name, context))
+class Wizard(CustomWidget):
+    """
+    Step-Wizard showing active, current and coming steps
+
+    Active steps are hrefs, current step is circled, coming steps are inactive.
+    Optionally, screen reader text for current step can be given.
+    """
+    template_name = 'widgets/wizard.html'
+
+    def __init__(
+            self,
+            urls: List[Optional[Tuple[str, str]]],
+            current: int,
+            screen_reader_for_current: str = None
+    ):
+        """
+
+        Parameters
+        ----------
+        urls :
+            Clicking on steps can redirect to given urls. If steps without url
+            shall be shown enter "None".
+        current : int
+            Circles current step
+        screen_reader_for_current : str
+            Screen reader text for curretn step supported
+        """
+        self.urls = urls
+        self.current = current
+        self.screen_reader = screen_reader_for_current
+
+    def get_context(self):
+        return {
+            'urls': self.urls,
+            'current': self.current,
+            'screen_reader': self.screen_reader
+        }

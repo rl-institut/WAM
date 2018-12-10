@@ -1,0 +1,22 @@
+<ul class="wizard wizard-circular" role="steps" aria-label="Steps">
+  {% for url in urls %}
+    {% if forloop.counter0 == current %}
+      <li class="wizard__step current">
+        {% if screen_reader is not None %}
+          <span class="show-for-sr">{{screen_reader}}</span>
+        {% endif %}
+        {{forloop.counter}}
+      </li>
+    {% elif url is None %}
+      <li class="wizard__step">
+        {{forloop.counter}}
+      </li>
+    {% else %}
+      <li class="wizard__step active">
+        <a href="{{url.0}}" title="{{url.1}}">
+          {{forloop.counter}}
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
