@@ -61,4 +61,5 @@ class SourcesView(ListView):
             if os.path.exists(base_template_file):
                 base_template = self.app_name + '/base.html'
         context['base_template'] = base_template
+
         return context

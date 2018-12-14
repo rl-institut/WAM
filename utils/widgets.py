@@ -9,7 +9,7 @@ from django.forms.renderers import get_default_renderer
 
 
 class CustomWidget(ABC):
-    template_name:str = None
+    template_name: str = None
 
     def __str__(self):
         return self.render()
