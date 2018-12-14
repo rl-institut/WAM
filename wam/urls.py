@@ -21,9 +21,12 @@ from wam.admin import wam_admin_site
 from wam.settings import WAM_APPS
 from wam.views import IndexView
 
+from meta.views import SourcesView
+
 
 urlpatterns = [
     path('', IndexView.as_view()),
+    path('sources/', SourcesView.as_view()),
     path('admin/', wam_admin_site.urls),
     path('accounts/login/', LoginView.as_view(template_name='login.html')),
     path('access_denied/', TemplateView.as_view(
