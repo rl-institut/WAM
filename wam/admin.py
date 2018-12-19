@@ -2,7 +2,8 @@
 import importlib
 
 from django.contrib.admin import AdminSite
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.admin import GroupAdmin, UserAdmin
 
 from wam import settings
 
@@ -20,5 +21,5 @@ class WamAdminSite(AdminSite):
 
 
 wam_admin_site = WamAdminSite()
-wam_admin_site.register(User)
-wam_admin_site.register(Group)
+wam_admin_site.register(User, UserAdmin)
+wam_admin_site.register(Group, GroupAdmin)
