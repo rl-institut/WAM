@@ -49,7 +49,7 @@ class Source(models.Model):
     def html(self):
         if self.meta_data is None:
             html = (
-                f'<a href="{self.url}" target="_blank">{self.author}</a>:' 
+                f'<a href="{self.url}" target="_blank">{self.author}</a>: '
                 f'{self.description}, {self.year}, {self.license}'
             )
         else:
