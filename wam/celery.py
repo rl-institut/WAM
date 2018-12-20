@@ -1,6 +1,10 @@
+
 from __future__ import absolute_import, unicode_literals
+import os
 from celery import Celery
 from wam.settings import config
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wam.settings')
 
 url = 'amqp://{user}:{password}@{host}:{port}'.format(
     user=config['CELERY']['USER'],
@@ -12,8 +16,8 @@ app = Celery(
     'wam',
     broker=url,
     backend=url,
-    include=['stemp.tasks']
 )
+app.autodiscover_tasks()
 
 # Optional configuration, see the application user guide.
 app.conf.update(
