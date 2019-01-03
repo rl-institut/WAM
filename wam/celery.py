@@ -1,7 +1,9 @@
 
 from __future__ import absolute_import, unicode_literals
 import os
+import logging
 from celery import Celery
+
 from wam.settings import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wam.settings')
@@ -18,11 +20,26 @@ app = Celery(
     backend=url,
 )
 app.autodiscover_tasks()
+app.conf.task_default_queue = 'wam_queue'
 
 # Optional configuration, see the application user guide.
 app.conf.update(
     result_expires=3600,
 )
+
+
+class CeleryExeption(Exception):
+    pass
+
+
+def is_active():
+    inspect = app.control.inspect()
+    return inspect.stats()
+
+
+logging.info('Check if celery is running...')
+logging.info(f'Celery running: {is_active()}')
+
 
 if __name__ == '__main__':
     app.start()
