@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 from configobj import ConfigObj
 import importlib
+import logging
 
 from utils.shortcuts import get_list_from_env
-
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
 
@@ -30,6 +30,9 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+logging_level = logging.DEBUG if DEBUG else logging.INFO
+logging.getLogger().setLevel(logging_level)
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
