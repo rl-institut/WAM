@@ -30,7 +30,7 @@ urlpatterns = [
     path('admin/', wam_admin_site.urls),
     path('accounts/login/', LoginView.as_view(template_name='login.html')),
     path('access_denied/', TemplateView.as_view(
-        template_name='access_denied.html'), name='access_denied')
+        template_name='access_denied.html'), name='access_denied'),
 ]
 
 try:

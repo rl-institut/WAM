@@ -1,0 +1,9 @@
+
+List of current session keys:
+<ul>
+  {% for key in session_keys %}
+    <li>{{key}}</li>
+  {% empty %}
+    <li>No session keys</li>
+  {% endfor %}
+</ul>
