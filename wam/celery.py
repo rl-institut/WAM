@@ -28,18 +28,5 @@ app.conf.update(
 )
 
 
-class CeleryExeption(Exception):
-    pass
-
-
-def is_active():
-    inspect = app.control.inspect()
-    return inspect.stats()
-
-
-logging.info('Check if celery is running...')
-logging.info(f'Celery running: {is_active()}')
-
-
 if __name__ == '__main__':
     app.start()
