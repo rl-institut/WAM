@@ -26,6 +26,7 @@ from meta.views import SourcesView
 
 urlpatterns = [
     path('', IndexView.as_view()),
+    path('sources/<int:source>', SourcesView.as_view()),
     path('sources/', SourcesView.as_view()),
     path('admin/', wam_admin_site.urls),
     path('accounts/login/', LoginView.as_view(template_name='login.html')),

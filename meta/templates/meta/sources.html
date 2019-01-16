@@ -27,7 +27,7 @@
               <td>
               <ul class="table__list">
                 {% for source in category.list %}
-                <li id="source-{{source.id}}">
+                <li id="{{source.id}}">
                   {{source.html}}
                 </li>
                 {% endfor %}
@@ -40,4 +40,16 @@
   </div>
 </div>
 
-{% endblock %}}
+{% endblock %}
+
+{% block scripts %}
+<script>
+var $ = jQuery;
+
+{% if source %}
+  $(document).ready(function () {
+      $('#{{source}}').effect("highlight", {}, 5000);
+  });
+{% endif %}
+</script>
+{% endblock %}

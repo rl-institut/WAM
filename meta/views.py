@@ -62,4 +62,12 @@ class SourcesView(ListView):
                 base_template = self.app_name + '/base.html'
         context['base_template'] = base_template
 
+        # Highlight source:
+        source_id = self.kwargs.pop('source', None)
+        if (
+                source_id is not None and
+                context['object_list'].filter(pk=source_id).exists()
+        ):
+            context['source'] = str(source_id)
+
         return context
