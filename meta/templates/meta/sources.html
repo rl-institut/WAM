@@ -21,13 +21,13 @@
         </thead>
         <tbody class="table__body table__body--text-top">
           {% for category in categories %}
-            <tr id="source-category-{{category.grouper.id}}">
+            <tr id="category-{{category.grouper.id}}">
               <td>{{category.grouper.name}}</td>
               <td>{{category.grouper.description}}</td>
               <td>
               <ul class="table__list">
                 {% for source in category.list %}
-                <li id="{{source.id}}">
+                <li id="source-{{source.id}}">
                   {{source.html}}
                 </li>
                 {% endfor %}
@@ -46,10 +46,14 @@
 <script>
 var $ = jQuery;
 
-{% if source %}
   $(document).ready(function () {
-      $('#{{source}}').effect("highlight", {}, 5000);
+    {% if source %}
+      $('#source-{{source}}').effect("highlight", {}, 5000);
+    {% endif %}
+
+    {% if category %}
+      $('#category-{{category}}').effect("highlight", {}, 5000);
+    {% endif %}
   });
-{% endif %}
 </script>
 {% endblock %}
