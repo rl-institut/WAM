@@ -8,11 +8,12 @@ from wam.settings import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wam.settings')
 
-url = 'amqp://{user}:{password}@{host}:{port}'.format(
+url = 'amqp://{user}:{password}@{host}:{port}/{vhost}'.format(
     user=config['CELERY']['USER'],
     password=config['CELERY']['PASSWORD'],
     host=config['CELERY']['HOST'],
     port=config['CELERY']['PORT'],
+    vhost=config['CELERY']['VHOST'],
 )
 app = Celery(
     'wam',
