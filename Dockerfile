@@ -38,6 +38,7 @@ WORKDIR /code/
 
 # Install dependencies from WAM_APPS:
 ARG WAM_APPS
+ENV WAM_APPS=$WAM_APPS
 RUN echo "Installing reqiurements for following apps: $WAM_APPS"
 RUN python /code/install_requirements.py
 
