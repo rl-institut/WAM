@@ -15,8 +15,6 @@ from configobj import ConfigObj
 import importlib
 import logging
 
-from utils.shortcuts import get_list_from_env
-
 config = ConfigObj(os.environ['CONFIG_PATH'])
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,18 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = config['WAM']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = config['WAM'].get('DEBUG', 'True') == 'True'
 
 logging_level = logging.DEBUG if DEBUG else logging.INFO
 logging.getLogger().setLevel(logging_level)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
+ALLOWED_HOSTS = config['WAM'].get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = get_list_from_env('WAM_APPS')
+WAM_APPS = config['WAM'].get('APPS', [])
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
