@@ -1,0 +1,61 @@
+version: '2'
+services:
+  wam:
+    restart: unless-stopped
+    build:
+      context: ./WAM
+      args:
+      - WAM_APPS=stemp,stemp_abw,app_mapping  # Activate wam apps here!
+    image: wam
+    container_name: wam
+    command: /bin/bash -c "source activate django && cd /code && gunicorn --bind 0.0.0.0:5000 wam.wsgi:application"
+    environment:
+      CONFIG_PATH: /config/config.cfg
+    volumes:
+    - ../config:/config
+    networks:
+    - wam_network
+    depends_on: 
+    - wam_db
+    - celery
+  celery:
+    restart: unless-stopped
+    image: wam
+    container_name: celery
+    command: /bin/bash -c "source activate django && cd /code && celery -A wam -Q wam_queue worker -l info"
+    environment:
+      CONFIG_PATH: /config/config.cfg
+    volumes:
+    - ../config:/config
+    networks:
+    - wam_network
+  wam_db:
+    build:
+      context: ./WAM/
+      dockerfile: Dockerfile.postgis
+    image: postgis
+    container_name: wam_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: password  # Change this!
+    ports:
+    - "127.0.0.1:5432:5432"
+    volumes:
+    - ../django_db:/var/lib/postgresql/data
+    networks:
+    - wam_network
+  rabbitmq:
+    restart: unless-stopped
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+    - "127.0.0.1:5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_VHOST: vhost    # Change this!
+      RABBITMQ_DEFAULT_USER: user      # Change this!
+      RABBITMQ_DEFAULT_PASS: password  # Change this! 
+    networks:
+    - wam_network
+
+networks:
+  wam_network:
