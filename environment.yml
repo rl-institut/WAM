@@ -3,6 +3,7 @@ dependencies:
 - python=3.6
 - pip:
   - django
+  - gunicorn
   - pandas
   - whitenoise
   - celery
