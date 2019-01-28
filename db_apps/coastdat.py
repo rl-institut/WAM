@@ -9,7 +9,7 @@ import geoalchemy2
 SCHEMA = 'coastdat'
 
 Base = declarative_base()
-Base.metadata.bind = sqlahelper.get_engine('reiners_db')
+Base.metadata.bind = sqlahelper.get_engine('DB_INTERNAL')
 
 
 class Timeseries(Base):
