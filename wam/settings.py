@@ -35,7 +35,7 @@ logging.getLogger().setLevel(logging_level)
 ALLOWED_HOSTS = config['WAM'].get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = config['WAM'].get('APPS', [])
+WAM_APPS = os.environ['WAM_APPS'].split(',')
 
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
