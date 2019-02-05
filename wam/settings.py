@@ -90,9 +90,10 @@ WSGI_APPLICATION = 'wam.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+DJANGO_DB = config['WAM'].get('DJANGO_DB', 'DEFAULT')
 DATABASES = {
     'default': {
-        **config['DATABASES']['DEFAULT'],
+        **config['DATABASES'][DJANGO_DB],
     }
 }
 
