@@ -1,17 +1,10 @@
 
-import os
-from configobj import ConfigObj
 from django import template
 from django.utils.safestring import mark_safe
 
-from wam.settings import WAM_APPS, BASE_DIR
+from wam.settings import APP_LABELS
 
 register = template.Library()
-
-labels = {
-    app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
-    for app in WAM_APPS
-}
 
 
 @register.simple_tag(takes_context=True)
@@ -33,7 +26,7 @@ def label(context, value, safe=False, app=None):
             )
     if app == '':
         return None
-    current = labels.get(app)
+    current = APP_LABELS.get(app)
     if current is None:
         return None
 

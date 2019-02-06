@@ -37,6 +37,11 @@ ALLOWED_HOSTS = config['WAM'].get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 # Additional apps are loaded from environment variable
 WAM_APPS = os.environ['WAM_APPS'].split(',')
 
+APP_LABELS = {
+    app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
+    for app in WAM_APPS
+}
+
 # Application definition
 INSTALLED_APPS = WAM_APPS + [
     'django.contrib.admin',
