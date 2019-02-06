@@ -79,6 +79,7 @@ TEMPLATES = [
             ],
             'libraries': {
                 'labels': 'templatetags.labels',
+                'dictionary': 'templatetags.dictionary',
             },
         },
     },
