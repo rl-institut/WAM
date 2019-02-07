@@ -1,0 +1,26 @@
+{% extends 'meta/app_list.html' %}
+
+{% block items %}
+  <ul class="list">
+    {% for item in category.list %}
+      <li id="id-{{item.id}}">
+        {% if item.meta_data %}
+          {% if item.render_url %}
+            <a href="{{item.render_url}}" target="_blank">{{item.author}}</a>
+          {% else %}
+            {{item.author}}
+          {% endif %}
+          ,{{item.meta_data.license.id}}
+          <span class="has-tip--no-border">
+            <i data-open="meta_data_{{item.id}}" class ="icon ion-information-circled icon--small info-box" title="Hier klicken für mehr Informationen zur Quelle"></i>
+          </span>
+          <div class="reveal" id="meta_data_{{item.id}}" data-reveal>
+            {{item.render_json}}
+          </div>
+        {% else %}
+          <a href="{{item.url}}" target="_blank">{{item.author}}</a>: {{item.description}}, {{item.year}}, {{item.license}}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

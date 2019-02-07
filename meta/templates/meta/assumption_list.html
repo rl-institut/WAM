@@ -1,0 +1,14 @@
+{% extends 'meta/app_list.html' %}
+
+{% block items %}
+  <table class="table__list">
+    <tr><th>Parameter</th><th>Wert</th><th>Quelle</th></tr>
+    {% for item in category.list %}
+      <tr>
+        <td><span data-tooltip title="{{item.description}}">{{item.name}}</span></td>
+        <td>{{item.value}}</td>
+        <td><a href="{% url source_url %}?source={{item.source.id|urlencode}}">Zur Quelle</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

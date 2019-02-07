@@ -1,5 +1,36 @@
 {% extends base_template %}
 
+{% block content %}
+
+{% regroup object_list by category as categories %}
+
+<div class="grid-container u-padding-top--xl">
+  <div class="grid-x">
+    <div class="cell">
+      <h1 class="u-text--center">Quellen</h1>
+    </div>
+    <div class="cell">
+      {% for category in categories %}
+        <div id="category-{{category.grouper.id}}">
+          <h2>{{category.grouper.name}}</h2>
+          <h4>{{category.grouper.description}}</h4>
+          {% block items %}
+            <ul class="table__list">
+              {% for item in category.list %}
+              <li id="id-{{item.id}}">
+                {{item}}
+              </li>
+              {% endfor %}
+            </ul>
+          {% endblock %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
 {% block scripts %}
 <script>
   $(document).ready(function () {
