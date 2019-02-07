@@ -1,5 +1,5 @@
 
-{% extends base_template %}
+{% extends 'meta/app_list.html' %}
 
 {% block content %}
 
@@ -27,7 +27,7 @@
               <td>
               <ul class="table__list">
                 {% for source in category.list %}
-                <li id="source-{{source.id}}">
+                <li id="id-{{source.id}}">
                   {{source.html}}
                 </li>
                 {% endfor %}
@@ -40,19 +40,4 @@
   </div>
 </div>
 
-{% endblock %}
-
-{% block scripts %}
-<script>
-
-  $(document).ready(function () {
-    {% if source %}
-      $('#source-{{source}}').effect("highlight", {}, 5000);
-    {% endif %}
-
-    {% if category %}
-      $('#category-{{category}}').effect("highlight", {}, 5000);
-    {% endif %}
-  });
-</script>
 {% endblock %}

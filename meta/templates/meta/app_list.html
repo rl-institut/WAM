@@ -1,0 +1,15 @@
+{% extends base_template %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    {% if highlight %}
+      $('#id-{{highlight}}').effect("highlight", {}, 5000);
+    {% endif %}
+
+    {% if category %}
+      $('#category-{{category}}').effect("highlight", {}, 5000);
+    {% endif %}
+  });
+</script>
+{% endblock %}
