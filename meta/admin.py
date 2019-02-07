@@ -4,4 +4,4 @@ from meta import models
 
 wam_admin_site.register(models.Assumption)
 wam_admin_site.register(models.Source)
-wam_admin_site.register(models.SourceCategory)
+wam_admin_site.register(models.Category)

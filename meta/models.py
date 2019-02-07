@@ -20,6 +20,7 @@ class Assumption(models.Model):
     app_name = models.CharField(max_length=255)
 
     source = models.ForeignKey('Source', on_delete=models.DO_NOTHING)
+    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
@@ -28,7 +29,7 @@ class Assumption(models.Model):
 class Source(models.Model):
     """Defines a source in references, e.g. a book, thesis or dataset
 
-    A source must be assigned to exactly one :class:`SourceCategory`
+    A source must be assigned to exactly one :class:`Category`
     defined in `category`.
     """
     author = models.CharField(max_length=255)
@@ -40,7 +41,7 @@ class Source(models.Model):
 
     app_name = models.CharField(max_length=255)
 
-    category = models.ForeignKey('SourceCategory', on_delete=models.DO_NOTHING)
+    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.author
@@ -87,8 +88,8 @@ class Source(models.Model):
         return mark_safe(html)
 
 
-class SourceCategory(models.Model):
-    """Defines a source category in references, e.g. emissions.
+class Category(models.Model):
+    """Defines a category in references, e.g. emissions.
 
     A category subsumes one or multiple sources, see :class:`Source`.
     """
