@@ -31,19 +31,11 @@ class Source(models.Model):
     A source must be assigned to exactly one :class:`Category`
     defined in `category`.
     """
-    author = models.CharField(max_length=255)
-    url = models.URLField()
-    description = models.TextField()
-    year = models.IntegerField()
-    license = models.CharField(max_length=255)
     meta_data = JSONField(null=True)
 
     app_name = models.CharField(max_length=255)
 
     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
-
-    def __str__(self):
-        return self.author
 
     def render_json(self):
         return JsonWidget(self.meta_data).render()
