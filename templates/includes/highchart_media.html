@@ -1,0 +1,14 @@
+
+<script>
+$(function(){
+  Highcharts.setOptions({{chart.setoption|safe}});
+  var option = {{chart.option|safe}};
+  var chart = new Highcharts.Chart(option);
+
+  var data = {{chart.data|safe}};
+  var dataLen = data.length;
+  for (var ix = 0; ix < dataLen; ix++) {
+    chart.addSeries(data[ix]);
+  }
+});
+</script>

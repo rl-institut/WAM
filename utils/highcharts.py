@@ -1,26 +1,8 @@
 
 import pandas
-import json
-from collections import namedtuple, ChainMap
-from functools import reduce
-from warnings import warn
 from highcharts import Highchart as HC
 from django.utils.safestring import mark_safe
-
-from utils.visualizations import VisualizationTemplate
-
-HC_Renderer = namedtuple('HighchartsRenderer', ['div', 'script'])
-
-
-hc_kwargs = {
-    'style': ['chart', 'type'],
-    'title': ['title', 'text'],
-    'subtitle': ['subtitle', 'text'],
-    'renderTo': ['chart', 'renderTo'],
-    'x_title': ['xAxis', 'title', 'text'],
-    'y_title': ['yAxis', 'title', 'text'],
-    'stacked': ['plotOptions', 'series', 'stacking'],
-}
+from django.forms.renderers import get_default_renderer
 
 
 RLI_THEME = {
@@ -57,39 +39,49 @@ RLI_THEME = {
 
 
 class Highchart(HC):
+    media_template = 'includes/highchart_media.html'
+
     def __init__(self, data=None, options=None, **kwargs):
         super(Highchart, self).__init__()
+        self.set_dict_options(RLI_THEME)
         if options is not None:
             self.set_dict_options(options)
         if data is not None:
             self.add_pandas_data_set(data, **kwargs)
 
-    def render(self):
-        self.buildcontent()
-        return self._htmlcontent.decode('utf-8')
-
-    def __str__(self):
-        return mark_safe(self.render())
-
-    def add_pandas_data_set(self, data, series_type='column', name=None):
-        hc_data = []
+    def add_pandas_data_set(self, data, series_type='column'):
         if isinstance(data, pandas.Series):
-            hc_data.append(
-                {'name': data.name, 'data': data.values.tolist()}
-            )
+            self.add_data_set(data, series_type, data.name)
         elif isinstance(data, pandas.DataFrame):
             for column in data.columns:
                 if series_type == 'scatter':
-                    series_data = [data[column].tolist()]
-                elif series_type == 'line':
-                    series_data = data[column].tolist()
+                    self.add_data_set(
+                        [data[column].tolist()],
+                        series_type,
+                        column
+                    )
                 else:
-                    series_data = data[column].tolist()
-                series = {
-                    'name': column,
-                    'data': series_data
-                }
-                hc_data.append(series)
+                    self.add_data_set(
+                        data[column].tolist(),
+                        series_type, column
+                    )
         else:
-            hc_data.append({'data': data})
-        self.add_data_set(hc_data, series_type, name)
+            self.add_data_set(data, series_type)
+        if (
+                isinstance(data, pandas.Series) or
+                isinstance(data, pandas.DataFrame) and
+                series_type != 'scatter'
+        ):
+            self.set_options(
+                'xAxis',
+                {'categories': data.index.values.tolist()}
+            )
+
+    def __str__(self):
+        self.buildhtml()
+        return mark_safe(self.container)
+
+    def media(self):
+        context = {'chart': self}
+        renderer = get_default_renderer()
+        return mark_safe(renderer.render(self.media_template, context))
