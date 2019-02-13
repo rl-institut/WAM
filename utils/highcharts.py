@@ -49,21 +49,24 @@ class Highchart(HC):
         if data is not None:
             self.add_pandas_data_set(data, **kwargs)
 
-    def add_pandas_data_set(self, data, series_type='column'):
+    def add_pandas_data_set(self, data, series_type='column', **kwargs):
         if isinstance(data, pandas.Series):
-            self.add_data_set(data, series_type, data.name)
+            self.add_data_set(
+                data.values.tolist(), series_type, data.name, **kwargs)
         elif isinstance(data, pandas.DataFrame):
             for column in data.columns:
                 if series_type == 'scatter':
                     self.add_data_set(
                         [data[column].tolist()],
                         series_type,
-                        column
+                        column,
+                        **kwargs
                     )
                 else:
                     self.add_data_set(
                         data[column].tolist(),
-                        series_type, column
+                        series_type, column,
+                        **kwargs
                     )
         else:
             self.add_data_set(data, series_type)
