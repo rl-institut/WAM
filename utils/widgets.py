@@ -1,4 +1,6 @@
 
+import os
+import pandas
 from abc import ABC
 from typing import List, Tuple, Optional
 from markdown import markdown
@@ -6,6 +8,8 @@ from itertools import count
 
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
+
+from wam.settings import BASE_DIR
 
 
 class CustomWidget(ABC):
@@ -122,3 +126,34 @@ class Wizard(CustomWidget):
             'current': self.current,
             'screen_reader': self.screen_reader
         }
+
+
+class CSVWidget:
+    """Reads in CSV-file and renders it as table"""
+
+    def __init__(self, filename, caption, csv_kwargs=None, html_kwargs=None):
+        """
+        Parameters
+        ----------
+        filename: str
+            Filename is joined with basic wam-path. Thus, if file "nems.csv"
+            in folder "texts" from app "stemp" shall be loaded, filename has to
+            be given as 'stemp/texts/names.csv'
+        caption: str
+            Caption for table
+        csv_kwargs: dict
+            csv_kwargs are passed to `pandas.read_csv`
+        html_kwargs: dict
+            html_kwargs are passed to `pandas.style`
+        """
+        self.caption = caption
+        self.html_kwargs = {} if html_kwargs is None else html_kwargs
+
+        filename = os.path.join(BASE_DIR, filename)
+        csv_kwargs = {} if csv_kwargs is None else csv_kwargs
+        self.data = pandas.read_csv(filename, **csv_kwargs)
+
+    def __str__(self):
+        style = self.data.style
+        style.set_caption(self.caption)
+        return mark_safe(style.render(**self.html_kwargs))
