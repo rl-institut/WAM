@@ -1,4 +1,5 @@
 
+from itertools import count
 import pandas
 from highcharts import Highchart as HC
 from django.utils.safestring import mark_safe
@@ -40,14 +41,15 @@ RLI_THEME = {
 
 class Highchart(HC):
     media_template = 'includes/highchart_media.html'
+    id_counter = count()
 
-    def __init__(self, data=None, options=None, **kwargs):
-        super(Highchart, self).__init__()
-        self.set_dict_options(RLI_THEME)
-        if options is not None:
-            self.set_dict_options(options)
-        if data is not None:
-            self.add_pandas_data_set(data, **kwargs)
+    def __init__(self, use_rli_theme=True, **kwargs):
+        self.id = next(self.id_counter)
+        if 'renderTo' not in kwargs:
+            kwargs['renderTo'] = f'hc_{self.id}'
+        super(Highchart, self).__init__(**kwargs)
+        if use_rli_theme:
+            self.set_dict_options(RLI_THEME)
 
     def add_pandas_data_set(self, data, series_type='column', **kwargs):
         if isinstance(data, pandas.Series):
