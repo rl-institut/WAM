@@ -152,6 +152,7 @@ class CSVWidget:
         filename = os.path.join(BASE_DIR, filename)
         csv_kwargs = {} if csv_kwargs is None else csv_kwargs
         self.data = pandas.read_csv(filename, **csv_kwargs)
+        self.data.fillna('-', inplace=True)
 
     def __str__(self):
         style = self.data.style
