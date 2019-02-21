@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config['WAM']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config['WAM'].get('DEBUG', 'True') == 'True'
+DEBUG = config['WAM'].get('DEBUG', 'False') == 'True'
 
 logging_level = logging.DEBUG if DEBUG else logging.INFO
 logging.getLogger().setLevel(logging_level)
