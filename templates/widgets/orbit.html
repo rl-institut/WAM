@@ -1,0 +1,14 @@
+<div class="orbit" role="region" aria-label="{{caption}}" data-orbit>
+  <ul class="orbit-container">
+    <button class="orbit-previous" aria-label="previous"><span class="show-for-sr">{{labels.previous}}</span>&#9664;</button>
+    <button class="orbit-next" aria-label="next"><span class="show-for-sr">{{labels.next}}</span>&#9654;</button>
+    {% for item in orbits %}
+      <li class="orbit-slide">
+        <div {% if item.class %}class="{{item.class_}}"{% endif %}>
+          <h3>{{item.name}}</h3>
+          {{item.description|safe}}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

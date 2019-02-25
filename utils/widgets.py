@@ -5,6 +5,7 @@ from abc import ABC
 from typing import List, Tuple, Optional
 from markdown import markdown
 from itertools import count
+from collections import ChainMap, namedtuple
 
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
@@ -158,3 +159,33 @@ class CSVWidget:
         style = self.data.style
         style.set_caption(self.caption)
         return mark_safe(style.render(**self.html_kwargs))
+
+
+class OrbitWidget(CustomWidget):
+    OrbitItem = namedtuple('OrbitItem', ['name', 'description', 'class_'])
+    OrbitItem.__new__.__defaults__ = (None,)
+
+    template_name = 'widgets/orbit.html'
+    default_labels = {
+        'next': 'Nächster',
+        'previous': 'Vorheriger'
+    }
+
+    def __init__(
+            self,
+            caption: str,
+            orbits: List[OrbitItem],
+            labels: dict = None
+    ):
+        if labels is None:
+            labels = {}
+        self.labels = ChainMap(self.default_labels, labels)
+        self.caption = caption
+        self.orbits = orbits
+
+    def get_context(self):
+        return {
+            'caption': self.caption,
+            'labels': self.labels,
+            'orbits': self.orbits
+        }
