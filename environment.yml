@@ -6,7 +6,7 @@ dependencies:
   - gunicorn
   - pandas
   - whitenoise
-  - celery
+  - "git+https://https://github.com/celery/celery.git"
   - configobj
   - django-markdownx
   - django-crispy-forms
