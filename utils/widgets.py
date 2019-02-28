@@ -132,7 +132,8 @@ class Wizard(CustomWidget):
 class CSVWidget:
     """Reads in CSV-file and renders it as table"""
 
-    def __init__(self, filename, caption, csv_kwargs=None, html_kwargs=None):
+    def __init__(self, filename, caption, csv_kwargs=None, html_kwargs=None,
+                 links=None):
         """
         Parameters
         ----------
@@ -146,13 +147,19 @@ class CSVWidget:
             csv_kwargs are passed to `pandas.read_csv`
         html_kwargs: dict
             html_kwargs are passed to `pandas.style`
+        links: list-of-str
+            List of columns which shall be wrapped in html <a>-tag
         """
         self.caption = caption
         self.html_kwargs = {} if html_kwargs is None else html_kwargs
+        links = [] if links is None else links
 
         filename = os.path.join(BASE_DIR, filename)
         csv_kwargs = {} if csv_kwargs is None else csv_kwargs
         self.data = pandas.read_csv(filename, **csv_kwargs)
+        for link in links:
+            self.data[link] = self.data[link].apply(
+                lambda x: f'<a href="{x}">{x}</a>')
         self.data.fillna('-', inplace=True)
 
     def __str__(self):
