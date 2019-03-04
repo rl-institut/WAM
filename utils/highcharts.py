@@ -7,35 +7,38 @@ from django.forms.renderers import get_default_renderer
 
 
 RLI_THEME = {
-  'credits': {
-      'enabled': False
-  },
-  'colors': [
-      '#fc8e65', '#55aae5', '#7fadb7', '#fce288', '#f69c3a', '#c28e5e',
-      '#a27b82', '#797097'
-  ],
-  'title': {
-      'style': {
-          'color': '#002E4F',
-          'font': 'bold 1.2rem "Trebuchet MS", Verdana, sans-serif'
-      }
-  },
-  'subtitle': {
-      'style': {
-          'color': '#666',
-          'font': 'bold 12px "Trebuchet MS", Verdana, sans-serif'
-      }
-  },
-
-  'legend': {
-      'itemStyle': {
-          'font': '1rem Trebuchet MS, Verdana, sans-serif',
-          'color': 'black'
-      },
-      'itemHoverStyle': {
-          'color': 'gray'
-      }
-  }
+    'credits': {
+        'enabled': False
+    },
+    'colors': [
+        '#fc8e65', '#55aae5', '#7fadb7', '#fce288', '#f69c3a', '#c28e5e',
+        '#a27b82', '#797097'
+    ],
+    'title': {
+        'style': {
+            'color': '#002E4F',
+            'font': 'bold 1.2rem "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
+    'subtitle': {
+        'style': {
+            'color': '#666',
+            'font': 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
+    'lang': {
+        'decimalPoint': ',',
+        'thousandsSep': '.'
+    },
+    'legend': {
+        'itemStyle': {
+            'font': '1rem Trebuchet MS, Verdana, sans-serif',
+            'color': 'black'
+        },
+        'itemHoverStyle': {
+            'color': 'gray'
+        }
+    }
 }
 
 
