@@ -182,17 +182,20 @@ class OrbitWidget(CustomWidget):
             self,
             caption: str,
             orbits: List[OrbitItem],
-            labels: dict = None
+            labels: dict = None,
+            orbit_class = 'orbit'
     ):
         if labels is None:
             labels = {}
         self.labels = ChainMap(self.default_labels, labels)
         self.caption = caption
         self.orbits = orbits
+        self.orbit_class = orbit_class
 
     def get_context(self):
         return {
             'caption': self.caption,
             'labels': self.labels,
-            'orbits': self.orbits
+            'orbits': self.orbits,
+            'orbit_class': self.orbit_class
         }
