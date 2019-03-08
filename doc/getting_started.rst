@@ -25,7 +25,7 @@ Setup conda environment with required packages via:
 
 .. code:: bash
 
-  conda env create -f env_requirements.yml
+  conda env create -f environment.yml
 
 Afterwards, applications can be "plugged-in" by simply cloning application into wam folder
 and activating app by adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
@@ -41,7 +41,8 @@ The WAM-Server can be configured as follows.
 Configuration file
 ^^^^^^^^^^^^^^^^^^
 
-Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is read in by pythons configobj_ package.
+Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is
+read in using python's configobj_ package.
 The file should contain a *[DATABASE]* section with at least one default database connection, which will be used as django's database:
 
 .. code:: text
