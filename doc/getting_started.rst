@@ -27,8 +27,8 @@ Setup conda environment with required packages via:
 
   conda env create -f environment.yml
 
-Afterwards, applications can be "plugged-in" by simply cloning application into wam folder
-and activating app by adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
+Afterwards, applications can be "plugged-in" by simply cloning application into the root directory
+and adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
 Requirements and configuration of an application can be found at :ref:`app_settings`
 
 .. _configuration:
@@ -64,7 +64,7 @@ Environment Variables
 WAM-Server needs at least the following environment variables:
 
 - CONFIG_PATH: Path to configuration file (mainly includes database configurations, see :ref:`configuration`)
-- DJANGO_SECRET_KEY: Set a secret key for *settings.py* (from *settings.py*: SECURITY WARNING: keep the secret key used in production secret!)
+- DJANGO_SECRET_KEY: Set a secret key for *settings.py* (SECURITY WARNING: keep the secret key used in production secret!)
 - WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
 
 .. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
