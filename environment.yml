@@ -14,3 +14,4 @@ dependencies:
   - jmespath
   - "git+https://github.com/openego/oedialect"
   - "git+https://github.com/henhuy/python-highcharts.git"
+  - recommonmark
