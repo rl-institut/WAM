@@ -12,6 +12,14 @@ WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to
 
 .. _Django: https://www.djangoproject.com/
 
+Prerequisites
+-----
+Install:
+- `postgresql` library should be installed (https://www.postgresql.org/download/ ).
+- A postgresql database should be created (see :ref:`postgresql`).
+- `postgis` library should be installed (see :ref:`postgis`).
+
+
 Setup
 -----
 
@@ -83,3 +91,61 @@ Additional setups:
 - *settings.py* can setup additional parameters for projects *settings.py*
 - *app_settings.py* contains application specific settings and is loaded at start of django server at the end of *settings.py*. This file may include additional database connections, loading of config files needed for the application, etc.
 - *labels.cfg* (uses configobj_) supports easy adding of labels to templates via templatetags (see :ref:`label_tags`)
+
+.. _postgresql:
+postgresql setup
+----------------
+The following instructions are for Ubuntu and inpired from https://help.ubuntu.com/community/PostgreSQL
+First create a user name (here *wam_admin* is used for the *USER* field of the config file
+:ref:`configuration`)
+.. code::bash
+    sudo -u postgres createuser --superuser wam_admin
+
+Then enter in psql shell
+
+.. code::bash
+
+    sudo -u postgres psql
+
+There, change the password for the user *wam_admin*
+
+.. code::bash
+
+     postgres=# \password wam_admin
+
+Enter the same password you will use under the *PASSWORD* field in the config file
+(:ref:`configuration`) and exit the shell with `\q`
+
+Create the database you will use under the *NAME* field in the config file
+(:ref:`configuration`)
+
+.. code::bash
+
+    sudo -u postgres createdb -O wam_admin wam_database
+
+Whenever you want to use the database you should run
+
+.. code::bash
+
+    sudo service postgresql start
+
+This can be stopped using the command
+
+.. code::bash
+
+    sudo service postgresql stop
+
+.. _postgis:
+Postgis setup
+-------
+For Ubuntu:
+.. code::bash
+
+    sudo apt-get install binutils libproj-dev gdal-bin
+
+.. code::bash
+
+    sudo apt-get install postgis postgresql-10-postgis-2.4
+
+
+For other systems see https://postgis.net/.
