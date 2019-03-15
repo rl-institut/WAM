@@ -58,7 +58,13 @@ class IndexView(TemplateView):
                 )
             ]
         # Third, return generic app info:
-        return [AppInfo(AppCategory.App, app_name, f'{app_name}:index')]
+        return [
+            AppInfo(
+                category=AppCategory.App,
+                name=app_name,
+                url=f'{app_name}:index'
+            )
+        ]
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
