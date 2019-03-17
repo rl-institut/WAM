@@ -65,7 +65,9 @@ class Highchart(HC):
         if use_rli_theme:
             self.set_dict_options(RLI_THEME)
 
-    def add_pandas_data_set(self, data, series_type='column', **kwargs):
+    def add_pandas_data_set(self, data, series_type=None, **kwargs):
+        if series_type is None:
+            ValueError('No highcharts type specified.')
         if isinstance(data, pandas.Series):
             self.add_data_set(
                 data.values.tolist(), series_type, data.name, **kwargs)
@@ -73,15 +75,16 @@ class Highchart(HC):
             for column in data.columns:
                 if series_type == 'scatter':
                     self.add_data_set(
-                        [data[column].tolist()],
-                        series_type,
-                        column,
+                        data=[data[column].tolist()],
+                        series_type=series_type,
+                        name=column,
                         **kwargs
                     )
                 else:
                     self.add_data_set(
-                        data[column].tolist(),
-                        series_type, column,
+                        data=data[column].tolist(),
+                        series_type=series_type,
+                        name=column,
                         **kwargs
                     )
         else:
