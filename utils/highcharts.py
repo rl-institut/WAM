@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
 
 
+# Full HC API reference: https://api.highcharts.com/highcharts/
 RLI_THEME = {
     'credits': {
         'enabled': False
@@ -17,13 +18,13 @@ RLI_THEME = {
     'title': {
         'style': {
             'color': '#002E4F',
-            'font': 'bold 1.2rem "Trebuchet MS", Verdana, sans-serif'
+            'font': 'bold 1.2rem Roboto, "Trebuchet MS", Verdana, sans-serif'
         }
     },
     'subtitle': {
         'style': {
             'color': '#666',
-            'font': 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+            'font': 'bold 12px "Roboto Light", "Trebuchet MS", Verdana, sans-serif'
         }
     },
     'lang': {
@@ -32,11 +33,21 @@ RLI_THEME = {
     },
     'legend': {
         'itemStyle': {
-            'font': '1rem Trebuchet MS, Verdana, sans-serif',
+            'font': '1rem "Roboto Light", Trebuchet MS, Verdana, sans-serif',
             'color': 'black'
         },
         'itemHoverStyle': {
             'color': 'gray'
+        }
+    },
+    'plotOptions': {
+        'series': {
+            'dataLabels': {
+                'style': {
+                    'fontWeight': None,
+                    'textOutline': None
+                }
+            }
         }
     }
 }
