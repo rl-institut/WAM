@@ -5,7 +5,7 @@ from collections import namedtuple
 
 AppInfo = namedtuple(
     'AppInfo',
-    ['category', 'name', 'icon', 'url', 'url_arg'],
+    ['category', 'name', 'url', 'icon', 'url_arg'],
 )
 AppInfo.__new__.__defaults__ = (None, None)
 
