@@ -136,6 +136,26 @@ Finally access to the WAM server by running
 
     python manage.py runserver
 
+
+Example app:
+
+From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_mv* with
+
+.. code:: bash
+
+    git clone https://github.com/rl-institut/WAM_APP_stemp_mv.git
+
+For the time being you have to rename the app folder *stemp* and set your environment variable
+*WAM_APPS* to *stemp*
+
+Save the content of the minimal `configuration file`__ in *config.cfg* at the root level of the
+WAM repository.
+
+.. _config_file: _static/config.cfg
+
+__ config_file_
+
+
 .. _postgresql:
 
 postgresql setup
