@@ -19,18 +19,6 @@
 
 # -- Project information -----------------------------------------------------
 
-# To support both Markdown and reStructuredText
-# https://docs.readthedocs.io/en/latest/intro/
-# getting-started-with-sphinx.html#using-markdown-with-sphinx
-from recommonmark.parser import CommonMarkParser
-
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
-source_suffix = ['.rst', '.md']
-
-
 project = 'WAM-Server'
 copyright = '2018, Hendrik Huyskens'
 author = 'Hendrik Huyskens'
