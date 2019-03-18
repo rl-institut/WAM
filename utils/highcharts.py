@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
 
 
+# Full HC API reference: https://api.highcharts.com/highcharts/
 RLI_THEME = {
     'credits': {
         'enabled': False
@@ -17,13 +18,13 @@ RLI_THEME = {
     'title': {
         'style': {
             'color': '#002E4F',
-            'font': 'bold 1.2rem "Trebuchet MS", Verdana, sans-serif'
+            'font': 'bold 1.2rem Roboto, "Trebuchet MS", Verdana, sans-serif'
         }
     },
     'subtitle': {
         'style': {
             'color': '#666',
-            'font': 'bold 12px "Trebuchet MS", Verdana, sans-serif'
+            'font': 'bold 12px "Roboto Light", "Trebuchet MS", Verdana, sans-serif'
         }
     },
     'lang': {
@@ -32,11 +33,21 @@ RLI_THEME = {
     },
     'legend': {
         'itemStyle': {
-            'font': '1rem Trebuchet MS, Verdana, sans-serif',
+            'font': '1rem "Roboto Light", Trebuchet MS, Verdana, sans-serif',
             'color': 'black'
         },
         'itemHoverStyle': {
             'color': 'gray'
+        }
+    },
+    'plotOptions': {
+        'series': {
+            'dataLabels': {
+                'style': {
+                    'fontWeight': None,
+                    'textOutline': None
+                }
+            }
         }
     }
 }
@@ -54,7 +65,9 @@ class Highchart(HC):
         if use_rli_theme:
             self.set_dict_options(RLI_THEME)
 
-    def add_pandas_data_set(self, data, series_type='column', **kwargs):
+    def add_pandas_data_set(self, data, series_type=None, **kwargs):
+        if series_type is None:
+            ValueError('No highcharts type specified.')
         if isinstance(data, pandas.Series):
             self.add_data_set(
                 data.values.tolist(), series_type, data.name, **kwargs)
@@ -62,15 +75,16 @@ class Highchart(HC):
             for column in data.columns:
                 if series_type == 'scatter':
                     self.add_data_set(
-                        [data[column].tolist()],
-                        series_type,
-                        column,
+                        data=[data[column].tolist()],
+                        series_type=series_type,
+                        name=column,
                         **kwargs
                     )
                 else:
                     self.add_data_set(
-                        data[column].tolist(),
-                        series_type, column,
+                        data=data[column].tolist(),
+                        series_type=series_type,
+                        name=column,
                         **kwargs
                     )
         else:
