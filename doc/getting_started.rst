@@ -15,15 +15,17 @@ WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to
 Prerequisites
 -------------
 Install:
-- `postgresql` library should be installed (https://www.postgresql.org/download/ ).
+^^^^^^^^
+
+- `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
 - A postgresql database should be created (see :ref:`postgresql`).
 - `postgis` library should be installed (see :ref:`postgis`).
 
 
 Setup
------
+^^^^^
 
-Clone repository from gogs via:
+Clone repository from github via:
 
 .. code:: bash
 
@@ -40,7 +42,6 @@ and adding application name to environment variable *WAM_APPS* (see :ref:`enviro
 Requirements and configuration of an application can be found at :ref:`app_settings`
 
 
-
 .. _configuration:
 
 Configuration
@@ -53,7 +54,8 @@ Configuration file
 
 Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is
 read in using python's configobj_ package.
-The file should contain a *[DATABASE]* section with at least one default database connection, which will be used as django's database:
+The file should contain a *[DATABASE]*  section with at least one default database
+connection, which will be used as django's database:
 
 .. code:: text
 
@@ -94,12 +96,52 @@ Additional setups:
 - *app_settings.py* contains application specific settings and is loaded at start of django server at the end of *settings.py*. This file may include additional database connections, loading of config files needed for the application, etc.
 - *labels.cfg* (uses configobj_) supports easy adding of labels to templates via templatetags (see :ref:`label_tags`)
 
+
+To install the required packages for each app run
+
+.. code:: bash
+
+    python install_requirements.py
+
+from the root level of the WAM repository.
+
+
+Make sure the postgresql_ service is running
+
+.. code:: bash
+
+    sudo service postgresql start
+
+Then run the following commands
+
+.. code:: bash
+
+    python manage.py makemigrations
+
+.. code:: bash
+
+    python manage.py migrate
+
+.. code:: bash
+
+    python manage.py createsuperuser
+
+upon the last command follow the instructions inside the terminal and use the same values for
+user and password as the *USER* and *PASSWORD* fields of the config file
+:ref:`configuration`.
+
+Finally access to the WAM server by running
+
+.. code:: bash
+
+    python manage.py runserver
+
 .. _postgresql:
 
 postgresql setup
 ^^^^^^^^^^^^^^^^
 
-The following instructions are for Ubuntu and inpired from https://help.ubuntu.com/community/PostgreSQL
+The following instructions are for Ubuntu and inpired from `here`__
 First create a user name (here *wam_admin* is used for the *USER* field of the config file
 :ref:`configuration`)
 
@@ -140,6 +182,9 @@ This can be stopped using the command
 .. code:: bash
 
     sudo service postgresql stop
+
+__ https://help.ubuntu.com/community/PostgreSQL
+
 
 .. _postgis:
 
