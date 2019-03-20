@@ -12,10 +12,20 @@ WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to
 
 .. _Django: https://www.djangoproject.com/
 
-Setup
------
+Prerequisites
+-------------
+Install:
+^^^^^^^^
 
-Clone repository from gogs via:
+- `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
+- A postgresql database should be created (see :ref:`postgresql`).
+- `postgis` library should be installed (see :ref:`postgis`).
+
+
+Setup
+^^^^^
+
+Clone repository from github via:
 
 .. code:: bash
 
@@ -25,11 +35,12 @@ Setup conda environment with required packages via:
 
 .. code:: bash
 
-  conda env create -f env_requirements.yml
+  conda env create -f environment.yml
 
-Afterwards, applications can be "plugged-in" by simply cloning application into wam folder
-and activating app by adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
+Afterwards, applications can be "plugged-in" by simply cloning application into the root directory
+and adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
 Requirements and configuration of an application can be found at :ref:`app_settings`
+
 
 .. _configuration:
 
@@ -41,8 +52,10 @@ The WAM-Server can be configured as follows.
 Configuration file
 ^^^^^^^^^^^^^^^^^^
 
-Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is read in by pythons configobj_ package.
-The file should contain a *[DATABASE]* section with at least one default database connection, which will be used as django's database:
+Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is
+read in using python's configobj_ package.
+The file should contain a *[DATABASE]*  section with at least one default database
+connection, which will be used as django's database:
 
 .. code:: text
 
@@ -63,7 +76,7 @@ Environment Variables
 WAM-Server needs at least the following environment variables:
 
 - CONFIG_PATH: Path to configuration file (mainly includes database configurations, see :ref:`configuration`)
-- DJANGO_SECRET_KEY: Set a secret key for *settings.py* (from *settings.py*: SECURITY WARNING: keep the secret key used in production secret!)
+- DJANGO_SECRET_KEY: Set a secret key for *settings.py* (SECURITY WARNING: keep the secret key used in production secret!)
 - WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
 
 .. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
@@ -82,3 +95,131 @@ Additional setups:
 - *settings.py* can setup additional parameters for projects *settings.py*
 - *app_settings.py* contains application specific settings and is loaded at start of django server at the end of *settings.py*. This file may include additional database connections, loading of config files needed for the application, etc.
 - *labels.cfg* (uses configobj_) supports easy adding of labels to templates via templatetags (see :ref:`label_tags`)
+
+
+To install the required packages for each app run
+
+.. code:: bash
+
+    python install_requirements.py
+
+from the root level of the WAM repository.
+
+
+Make sure the postgresql_ service is running
+
+.. code:: bash
+
+    sudo service postgresql start
+
+Then run the following commands
+
+.. code:: bash
+
+    python manage.py makemigrations
+
+.. code:: bash
+
+    python manage.py migrate
+
+.. code:: bash
+
+    python manage.py createsuperuser
+
+upon the last command follow the instructions inside the terminal and use the same values for
+user and password as the *USER* and *PASSWORD* fields of the config file
+:ref:`configuration`.
+
+Finally access to the WAM server by running
+
+.. code:: bash
+
+    python manage.py runserver
+
+
+Example app:
+
+From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_mv* with
+
+.. code:: bash
+
+    git clone https://github.com/rl-institut/WAM_APP_stemp_mv.git
+
+For the time being you have to rename the app folder *stemp* and set your environment variable
+*WAM_APPS* to *stemp*
+
+Save the content of the minimal `configuration file`__ in *config.cfg* at the root level of the
+WAM repository.
+
+.. _config_file: _static/config.cfg
+
+__ config_file_
+
+
+.. _postgresql:
+
+postgresql setup
+^^^^^^^^^^^^^^^^
+
+The following instructions are for Ubuntu and inpired from `here`__
+First create a user name (here *wam_admin* is used for the *USER* field of the config file
+:ref:`configuration`)
+
+.. code:: bash
+
+    sudo -u postgres createuser --superuser wam_admin
+
+Then enter in psql shell
+
+.. code:: bash
+
+    sudo -u postgres psql
+
+There, change the password for the user *wam_admin*
+
+.. code:: bash
+
+     postgres=# \password wam_admin
+
+Enter the same password you will use under the *PASSWORD* field in the config file
+(:ref:`configuration`) and exit the shell with `\\q`
+
+Create the database you will use under the *NAME* field in the config file
+(:ref:`configuration`)
+
+.. code:: bash
+
+    sudo -u postgres createdb -O wam_admin wam_database
+
+Whenever you want to use the database you should run
+
+.. code:: bash
+
+    sudo service postgresql start
+
+This can be stopped using the command
+
+.. code:: bash
+
+    sudo service postgresql stop
+
+__ https://help.ubuntu.com/community/PostgreSQL
+
+
+.. _postgis:
+
+Postgis setup
+^^^^^^^^^^^^^
+
+For Ubuntu:
+
+.. code:: bash
+
+    sudo apt-get install binutils libproj-dev gdal-bin
+
+.. code:: bash
+
+    sudo apt-get install postgis postgresql-10-postgis-2.4
+
+
+For other systems see https://postgis.net/.
