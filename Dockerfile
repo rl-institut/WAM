@@ -14,12 +14,14 @@ RUN conda update -n base conda
 
 EXPOSE 5000
 
-# Install nano
-RUN apt-get update
-RUN apt-get install nano
-RUN apt-get install -y coinor-cbc
-RUN apt-get install -y python3-gdal
-RUN apt-get install -y build-essential
+# Install additional libs
+RUN apt-get clean && apt-get update && apt-get install -y nano coinor-cbc python3-gdal build-essential locales
+
+# Set locale
+RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+ENV LANG de_DE.UTF-8
+ENV LANGUAGE de_DE:en
+ENV LC_ALL de_DE.UTF-8
 
 # Create code and config folder
 RUN mkdir /code
@@ -29,7 +31,7 @@ RUN mkdir /config
 COPY environment.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml
 RUN echo "source activate django" > ~/.bashrc
-RUN source activate django
+ENV PATH="/opt/conda/envs/django/bin:$PATH"
 RUN pip install --upgrade pip
 
 # Copy WAM folder and apps
