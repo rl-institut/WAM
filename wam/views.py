@@ -54,6 +54,7 @@ class IndexView(TemplateView):
                     category=AppCategory(app_config['category']),
                     name=app_config['name'],
                     url=f'{app_name}:index',
+                    closed=app_config.get('closed', False),
                     icon=app_config['icon']
                 )
             ]

@@ -5,9 +5,9 @@ from collections import namedtuple
 
 AppInfo = namedtuple(
     'AppInfo',
-    ['category', 'name', 'url', 'icon', 'url_arg'],
+    ['category', 'name', 'url', 'closed', 'icon', 'url_arg'],
 )
-AppInfo.__new__.__defaults__ = (None, None)
+AppInfo.__new__.__defaults__ = (False, None, None)
 
 
 class AppCategory(Enum):

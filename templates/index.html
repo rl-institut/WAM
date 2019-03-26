@@ -26,6 +26,9 @@
                 <div class="cell medium-6 hp-features__card">
                   <h3 class="hp-features__subheader">{{app.name}}</h3>
                   <div class="hp-to-tool">
+                    {% if app.closed %}
+                      <i class ="icon ion-locked" style="color: #F2994A"></i>
+                    {% endif %}
                     <img src="{% static app.icon %}" alt="{{app.name}}" class="hp_wam_img_small">
                   </div>
                   <div class="u-text--center u-margin--m">
