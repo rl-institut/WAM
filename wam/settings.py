@@ -35,7 +35,7 @@ logging.getLogger().setLevel(logging_level)
 ALLOWED_HOSTS = config['WAM'].as_list('ALLOWED_HOSTS')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = config['WAM'].as_list('APPS')
+WAM_APPS = os.environ['WAM_APPS'].split(',')
 
 APP_LABELS = {
     app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
