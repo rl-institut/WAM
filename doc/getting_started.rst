@@ -14,16 +14,82 @@ WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to
 
 Prerequisites
 -------------
-Install:
-^^^^^^^^
 
 - `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
 - A postgresql database should be created (see :ref:`postgresql`).
 - `postgis` library should be installed (see :ref:`postgis`).
 
+.. _postgresql:
+
+postgresql setup
+^^^^^^^^^^^^^^^^
+
+The following instructions are for Ubuntu and inpired from `here`__
+First create a user name (here *wam_admin* is used for the *USER* field of the config file
+:ref:`configuration`)
+
+.. code:: bash
+
+    sudo -u postgres createuser --superuser wam_admin
+
+Then enter in psql shell
+
+.. code:: bash
+
+    sudo -u postgres psql
+
+There, change the password for the user *wam_admin*
+
+.. code:: bash
+
+     postgres=# \password wam_admin
+
+Enter the same password you will use under the *PASSWORD* field in the config file
+(:ref:`configuration`) and exit the shell with `\\q`
+
+Create the database you will use under the *NAME* field in the config file
+(:ref:`configuration`)
+
+.. code:: bash
+
+    sudo -u postgres createdb -O wam_admin wam_database
+
+Whenever you want to use the database you should run
+
+.. code:: bash
+
+    sudo service postgresql start
+
+This can be stopped using the command
+
+.. code:: bash
+
+    sudo service postgresql stop
+
+__ https://help.ubuntu.com/community/PostgreSQL
+
+
+.. _postgis:
+
+Postgis setup
+^^^^^^^^^^^^^
+
+For Ubuntu:
+
+.. code:: bash
+
+    sudo apt-get install binutils libproj-dev gdal-bin
+
+.. code:: bash
+
+    sudo apt-get install postgis postgresql-10-postgis-2.4
+
+
+For other systems see https://postgis.net/.
+
 
 Setup
-^^^^^
+-----
 
 Clone repository from github via:
 
@@ -76,7 +142,6 @@ Environment Variables
 WAM-Server needs at least the following environment variables:
 
 - CONFIG_PATH: Path to configuration file (mainly includes database configurations, see :ref:`configuration`)
-- DJANGO_SECRET_KEY: Set a secret key for *settings.py* (SECURITY WARNING: keep the secret key used in production secret!)
 - WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
 
 .. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
@@ -154,72 +219,3 @@ WAM repository.
 .. _config_file: _static/config.cfg
 
 __ config_file_
-
-
-.. _postgresql:
-
-postgresql setup
-^^^^^^^^^^^^^^^^
-
-The following instructions are for Ubuntu and inpired from `here`__
-First create a user name (here *wam_admin* is used for the *USER* field of the config file
-:ref:`configuration`)
-
-.. code:: bash
-
-    sudo -u postgres createuser --superuser wam_admin
-
-Then enter in psql shell
-
-.. code:: bash
-
-    sudo -u postgres psql
-
-There, change the password for the user *wam_admin*
-
-.. code:: bash
-
-     postgres=# \password wam_admin
-
-Enter the same password you will use under the *PASSWORD* field in the config file
-(:ref:`configuration`) and exit the shell with `\\q`
-
-Create the database you will use under the *NAME* field in the config file
-(:ref:`configuration`)
-
-.. code:: bash
-
-    sudo -u postgres createdb -O wam_admin wam_database
-
-Whenever you want to use the database you should run
-
-.. code:: bash
-
-    sudo service postgresql start
-
-This can be stopped using the command
-
-.. code:: bash
-
-    sudo service postgresql stop
-
-__ https://help.ubuntu.com/community/PostgreSQL
-
-
-.. _postgis:
-
-Postgis setup
-^^^^^^^^^^^^^
-
-For Ubuntu:
-
-.. code:: bash
-
-    sudo apt-get install binutils libproj-dev gdal-bin
-
-.. code:: bash
-
-    sudo apt-get install postgis postgresql-10-postgis-2.4
-
-
-For other systems see https://postgis.net/.
