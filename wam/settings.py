@@ -27,15 +27,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config['WAM']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config['WAM'].get('DEBUG', 'False') == 'True'
+DEBUG = config['WAM'].as_bool('DEBUG')
 
 logging_level = logging.DEBUG if DEBUG else logging.INFO
 logging.getLogger().setLevel(logging_level)
 
-ALLOWED_HOSTS = config['WAM'].get('ALLOWED_HOSTS', '127.0.0.1').split(',')
+ALLOWED_HOSTS = config['WAM'].as_list('ALLOWED_HOSTS')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = os.environ['WAM_APPS'].split(',')
+WAM_APPS = config['WAM'].as_list('APPS')
 
 APP_LABELS = {
     app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
