@@ -2,8 +2,8 @@
 Getting started
 ===============
 
-.. toctree::
-   :maxdepth: 1
+.. contents::
+   :depth: 2
 
 Idea
 ----
