@@ -3,9 +3,7 @@
 __pycache__/
 *.pyc
 .pycharmrc
+celery.sh
 
-db.sqlite3
-config/
-maps/
 doc/_build/
 staticfiles/
