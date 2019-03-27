@@ -120,19 +120,18 @@ Configuration file
 
 Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is
 read in using python's configobj_ package.
-The file should contain a *[DATABASE]*  section with at least one default database
-connection, which will be used as django's database:
+The file should contain following sections:
 
-.. code:: text
+- *[WAM]*: general config for the WAM-Server,
+- *[DATABASE]*: with at least one default database connection, which will be used as django's database,
+- *[CELERY]*: if celery is needed
+- *[<APP_NAME>]*: Multiple sections containing config for each app
 
-   [DATABASES]
-       [[DEFAULT]]
-           ENGINE = postgresql
-           HOST = localhost
-           PORT = 5432
-           NAME = wam_database
-           USER = wam_admin
-           PASSWORD = wam_password
+See minimal example config_file_:
+
+.. literalinclude:: _static/config.cfg
+
+.. _config_file: _static/config.cfg
 
 .. _environment:
 
