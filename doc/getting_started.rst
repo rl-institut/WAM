@@ -18,6 +18,7 @@ Prerequisites
 - `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
 - A postgresql database should be created (see :ref:`postgresql`).
 - `postgis` library should be installed (see :ref:`postgis`).
+- if :ref:`celery_setup` shall be used, a :ref:`message_broker`  must be used.
 
 .. _postgresql:
 
@@ -87,6 +88,23 @@ For Ubuntu:
 
 For other systems see https://postgis.net/.
 
+
+.. _message_broker:
+
+Message Broker
+^^^^^^^^^^^^^^
+
+On our WAM-Server the message broker RabbitMQ_ is running in a docker container (see RabbitMQDocker_).
+Developers allowed to use our service can connect to it by setting up a ssh-tunnel:
+
+.. code:: bash
+
+  ssh -fNL 5672:localhost:5672 wam_user@wam.rl-institut.de
+
+Other users have to setup their own message broker
+
+.. _RabbitMQ: https://www.rabbitmq.com/
+.. _RAbbitMQDocker: https://hub.docker.com/_/rabbitmq/
 
 Setup
 -----
@@ -212,9 +230,52 @@ From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_
 For the time being you have to rename the app folder *stemp* and set your environment variable
 *WAM_APPS* to *stemp*
 
-Save the content of the minimal `configuration file`__ in *config.cfg* at the root level of the
-WAM repository.
+.. _celery_setup:
 
-.. _config_file: _static/config.cfg
+Celery
+------
 
-__ config_file_
+Celery_ is included in WAM. In order to use celery in an app, follow the :ref:`setup`.
+
+.. _Celery: http://docs.celeryproject.org/en/latest/
+
+.. _setup:
+
+Setup
+^^^^^
+
+- :ref:`message_broker` has to be running.
+- Celery must be configured to use the message broker (see :ref:`configuration`).
+- Run celery from WAM root directory via command (environment_ variables have to be set!):
+
+.. code:: bash
+
+  celery -A wam worker -Q wam_queue -l info
+
+- After running above command, celery searches for *tasks.py* in every app and "activates" all tasks in it.
+- WAM-apps are now able to run celery :ref:`celery_tasks`!
+
+.. _celery_tasks:
+
+Tasks
+^^^^^
+
+Celery tasks are easy...
+
+You simply have to create a *task.py* in your app and put *from wam.celery import app* at beginning of the module.
+Then, "normal" python functions can be turned into celery tasks using decorator *@app.task*.
+See minimal example:
+
+.. literalinclude:: _static/tasks.py
+
+Afterwards, the task can be imported, run and controlled from elsewhere:
+
+.. literalinclude:: _static/run_tasks.py
+
+.. note::
+  Input parameters and output results of celery tasks must be pickleable or jsonable.
+  In order to use Django models within the celery task you should exchange primary keys
+  (see also https://oddbird.net/2017/03/20/serializing-things/).
+
+See http://docs.celeryproject.org/en/latest/userguide/tasks.html for more information on tasks.
+
