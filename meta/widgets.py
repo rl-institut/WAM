@@ -21,4 +21,9 @@ class JsonWidget(object):
         return html
 
     def render(self):
-        return mark_safe(self.__convert_to_html(self.json))
+        header = ''
+        if self.json["title"] != "":
+            header += f'<p class="lead">{self.json["title"]}</p>'
+        if self.json["description"] != "":
+            header += f'<p>{self.json["description"]}</p>'
+        return mark_safe(header + self.__convert_to_html(self.json))
