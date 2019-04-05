@@ -43,7 +43,7 @@ class Source(models.Model):
         return JsonWidget(self.meta_data).render()
 
     def infos(self):
-        return jmespath.search(
+        infos = jmespath.search(
             '{'
             'url: identifier, '
             'title: title, '
@@ -52,6 +52,12 @@ class Source(models.Model):
             '}',
             self.meta_data
         )
+        if infos.get('url') is not None:
+            if infos.get('url') == '':
+                infos.pop('url')
+        else:
+            infos.pop('url')
+        return infos
 
 
 class Category(models.Model):

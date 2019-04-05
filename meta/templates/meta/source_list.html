@@ -7,10 +7,10 @@
         {% if 'url' in item.infos %}
           <a href="{{item.infos.url}}" target="_blank">{{item.infos.title}}</a>
         {% else %}
-          {{item.infos.title}}
+          <b>{{item.infos.title}}</b>
         {% endif %}
         {% if item.infos.description != '' %}
-        , {{item.infos.description}}
+        : {{item.infos.description}}
         {% endif %}
         <span class="has-tip--no-border">
           <i data-open="meta_data_{{item.id}}" class ="icon ion-information-circled icon--small info-box" title="Hier klicken für mehr Informationen zur Quelle"></i>
