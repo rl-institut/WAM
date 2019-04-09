@@ -16,8 +16,8 @@ install:
 
 # command to run tests
 script: 
-  - flake8
-  - pylint *.py
+  - flake8 wam/
+  - pylint wam/*.py
 #jobs:  
 #  include:
 #    - stage: "Tests"                # naming the Tests stage
