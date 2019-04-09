@@ -10,6 +10,11 @@ python:
 #  apt:
 #    update: true
 
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - python install_requirements.py  # install the dependencies of the WAM apps
+
 # blocklist
 #branches:
 #  except:
