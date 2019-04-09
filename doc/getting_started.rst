@@ -24,7 +24,7 @@ Prerequisites
 
 postgresql setup
 ^^^^^^^^^^^^^^^^
-
+On Ubuntu, one needs to have sudo rights to proceed to the postgresql setup.
 The following instructions are for Ubuntu and inpired from `here`__
 First create a user name (here *wam_admin* is used for the *USER* field of the config file
 :ref:`configuration`)
