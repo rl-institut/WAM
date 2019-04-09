@@ -13,7 +13,22 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install flake8 pylint
   - python install_requirements.py  # install the dependencies of the WAM apps
+
+# command to run tests
+jobs:  
+  include:
+    - stage: "Tests"                # naming the Tests stage
+      name: "Linting Tests"            # names the first Tests stage job
+      script: flake8
+      script: pylint
+# for later stages
+#    - script: ./integration-tests   
+#      name: "Integration Tests"     # names the second Tests stage job
+#    - stage: deploy
+#      name: "Deploy to GCP"
+#      script: ./deploy
 
 # blocklist
 #branches:
