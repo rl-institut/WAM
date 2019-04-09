@@ -8,3 +8,15 @@ python:
 #addons:
 #  apt:
 #    update: true
+
+# blocklist
+#branches:
+#  except:
+#  - branch_name1
+#  - branch_name2
+
+# safelist
+#branches:
+#  only:
+#  - branch_name1
+#  - branch_name2
