@@ -1,10 +1,8 @@
-
 import os
 import importlib
-from configobj import ConfigObj
 from collections import defaultdict
-
 from django.views.generic import TemplateView
+from configobj import ConfigObj
 
 from wam.settings import WAM_APPS, BASE_DIR
 from utils.constants import AppInfo, AppCategory
