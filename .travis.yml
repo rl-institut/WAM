@@ -16,7 +16,7 @@ install:
 
 # command to run tests
 script: 
-  - flake8 wam/
+  - flake8 --max-line-length=100 wam/
   - pylint wam/*.py
 #jobs:  
 #  include:
