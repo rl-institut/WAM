@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from configobj import ConfigObj
 import importlib
 import logging
+from configobj import ConfigObj
 
 config = ConfigObj(os.environ['CONFIG_PATH'])
 
