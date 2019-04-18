@@ -1,16 +1,5 @@
-name: django
+name: wam-django
 dependencies:
 - python=3.6
 - pip:
-  - django
-  - gunicorn
-  - pandas
-  - whitenoise
-  - "git+https://github.com/celery/celery.git"
-  - configobj
-  - django-markdownx
-  - django-crispy-forms
-  - psycopg2-binary
-  - jmespath
-  - "git+https://github.com/openego/oedialect"
-  - "git+https://github.com/henhuy/python-highcharts.git"
+   - -r requirements.txt
