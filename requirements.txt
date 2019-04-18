@@ -1,4 +1,5 @@
 django
+jmespath
 gunicorn
 pandas
 whitenoise
