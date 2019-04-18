@@ -13,6 +13,9 @@ Welcome to WAM-Server's documentation!
    getting_started
    helpers
    api_changes
+   contributor_guide
+   continuous_integration
+   compile_doc_locally
 
 
 Indices and tables
