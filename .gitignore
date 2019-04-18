@@ -4,6 +4,6 @@ __pycache__/
 *.pyc
 .pycharmrc
 celery.sh
-
+WAM_APP_*/
 doc/_build/
 staticfiles/
