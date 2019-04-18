@@ -15,7 +15,7 @@ import importlib
 import logging
 from configobj import ConfigObj
 
-config = ConfigObj(os.environ['CONFIG_PATH'])
+config = ConfigObj(os.environ['WAM_CONFIG_PATH'])
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
