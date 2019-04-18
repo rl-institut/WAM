@@ -15,7 +15,14 @@ import importlib
 import logging
 from configobj import ConfigObj
 
-config = ConfigObj(os.environ['WAM_CONFIG_PATH'])
+config_file_path = os.environ.get('WAM_CONFIG_PATH')
+
+if config_file_path is None:
+    raise KeyError(
+        'Please add WAM_CONFIG_PATH as an environment variable, see '
+        'https://wam.readthedocs.io/en/latest/getting_started.html#environment-variables'
+    )
+config = ConfigObj(config_file_path)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,7 +42,20 @@ logging.getLogger().setLevel(logging_level)
 ALLOWED_HOSTS = config['WAM'].as_list('ALLOWED_HOSTS')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = os.environ['WAM_APPS'].split(',')
+WAM_APPS = os.environ.get('WAM_APPS')
+
+if WAM_APPS is None:
+    raise KeyError(
+        'Please add WAM_APPS as an environment variable, see '
+        'https://wam.readthedocs.io/en/latest/getting_started.html#environment-variables'
+    )
+
+if WAM_APPS == '':
+    # The environment variable exists but no apps are defined
+    WAM_APPS = []
+else:
+    # Apps name are retrieved
+    WAM_APPS = WAM_APPS.split(',')
 
 APP_LABELS = {
     app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
