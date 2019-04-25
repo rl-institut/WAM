@@ -1,7 +1,7 @@
 from django.utils.safestring import mark_safe
 
 
-class JsonWidget(object):
+class JsonWidget():
     def __init__(self, json):
         self.json = json
 
