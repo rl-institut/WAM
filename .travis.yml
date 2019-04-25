@@ -16,8 +16,8 @@ install:
 
 # command to run tests
 script: 
-  - flake8 --max-line-length=100 wam/
-  - pylint wam/*.py
+  - flake8 --max-line-length=100 wam/ utils/
+  - pylint wam/*.py utils/*.py
 #jobs:  
 #  include:
 #    - stage: "Tests"                # naming the Tests stage

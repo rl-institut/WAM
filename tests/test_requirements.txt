@@ -2,3 +2,5 @@ flake8
 pylint
 django
 configobj
+pandas
+markdown

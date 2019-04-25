@@ -1,11 +1,11 @@
 
 import os
-import pandas
 from abc import ABC
 from typing import List, Tuple, Optional
-from markdown import markdown
 from itertools import count
 from collections import ChainMap, namedtuple
+import pandas
+from markdown import markdown
 
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
@@ -19,7 +19,7 @@ class CustomWidget(ABC):
     def __str__(self):
         return self.render()
 
-    def get_context(self):
+    def get_context(self):  # pylint: disable=no-self-use
         return {}
 
     def render(self):
@@ -183,7 +183,7 @@ class OrbitWidget(CustomWidget):
             caption: str,
             orbits: List[OrbitItem],
             labels: dict = None,
-            orbit_class = 'orbit'
+            orbit_class='orbit'
     ):
         if labels is None:
             labels = {}
