@@ -1,3 +1,4 @@
+# pylint: disable=too-many-ancestors
 import os
 from django.views.generic import ListView
 from wam.settings import BASE_DIR
@@ -48,6 +49,7 @@ class AppListView(ListView):
             self.queryset = self.model.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        # pylint: disable=protected-access
         context = super(AppListView, self).get_context_data(
             object_list=object_list, **kwargs)
 
