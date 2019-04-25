@@ -16,7 +16,7 @@ install:
 
 # command to run tests
 script: 
-  - flake8 --max-line-length=100 wam/ utils/ user_sessions/ templatetags/ meta/
+  - flake8 wam/ utils/ user_sessions/ templatetags/ meta/
   - pylint wam/*.py utils/*.py user_sessions/*.py templatetags/*.py meta/*.py
 #jobs:  
 #  include:
