@@ -4,3 +4,4 @@ django
 configobj
 pandas
 markdown
+jmespath
