@@ -2,7 +2,7 @@ from collections import defaultdict
 from utils.shortcuts import get_app_from_request
 
 
-class SessionData(object):
+class SessionData():
     def __init__(self):
         self.sessions = defaultdict(dict)
 
@@ -14,6 +14,7 @@ class SessionData(object):
             self.sessions[app][request.session.session_key] = session_obj()
 
     def get_session(self, request):
+        # pylint: disable=no-else-raise
         app = get_app_from_request(request)
         user_session = self.sessions[app].get(
             request.session.session_key, None)
