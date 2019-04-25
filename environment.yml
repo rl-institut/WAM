@@ -1,4 +1,4 @@
-name: wam-django
+name: django
 dependencies:
 - python=3.6
 - pip:
