@@ -1,4 +1,3 @@
-
 import logging
 from django.contrib.auth.mixins import UserPassesTestMixin
 
@@ -8,6 +7,7 @@ class GroupCheckMixin(UserPassesTestMixin):
     access_denied_url = 'access_denied'
 
     def get_login_url(self):
+        # pylint: disable=R1705
         if not self.request.user.is_authenticated:
             return super(GroupCheckMixin, self).get_login_url()
         else:

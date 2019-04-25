@@ -1,9 +1,9 @@
 
 from itertools import count
 import pandas
-from highcharts import Highchart as HC
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
+from highcharts import Highchart as HC
 
 
 # Full HC API reference: https://api.highcharts.com/highcharts/

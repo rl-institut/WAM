@@ -1,5 +1,3 @@
-
-import os
 from django.shortcuts import redirect
 
 
