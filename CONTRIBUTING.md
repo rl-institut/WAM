@@ -16,6 +16,12 @@ By default you should stand on the `dev` branch, you can check this with
 git status
 ```
 
+or
+
+```bash
+git branch --list
+```
+
 #### Step 2: Develop
 
 Development of a feature for this repository should follow the workflow described 
@@ -27,7 +33,7 @@ Here are the minimal procedure you should follow :
 0. Create [an issue](https://help.github.com/en/articles/creating-an-issue) on the github repository, describing the problem you will then address with your feature/fix.
 This is an important step as it forces one to think about the issue (to describe an issue to others, one has to think it through first).
 
-1. Create a separate branch from `dev` to work on :
+1. Create a separate branch from `dev`, to work on
 ```bash
 git checkout -b myfeature dev
 ```
@@ -46,8 +52,7 @@ With `--amend` you can even add/modify changes to the commit.
 ```bash
 git push
 ```
-If it is the first time and you branch does not exist on the remote server yet, git will prompt you with instructions. Simply follow them.
-Go to step 4 to setup a pull request when your feature is complete
+If your branch does not exist on the remote server yet, git will provide you with instructions, simply follow them.
 
 
 #### Step 3: Run tests locally
@@ -57,7 +62,8 @@ To run integration tests locally:
 pip install -r tests/test_requirements.txt
 ```
 
-TODO add test scripts to run locally
+The tests which are currently automated are linting tests, you can run them locally by copying the scripts under the comment
+`# command to run tests` of the `.travis.yml` file.
 
 We want more integration tests.
 
