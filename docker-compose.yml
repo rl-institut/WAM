@@ -10,7 +10,7 @@ services:
     container_name: wam
     command: /bin/bash -c "source activate django && cd /code && gunicorn --bind 0.0.0.0:5000 wam.wsgi:application"
     environment:
-      CONFIG_PATH: /config/config.cfg
+      WAM_CONFIG_PATH: /config/config.cfg
     volumes:
     - ../config:/config
     networks:
@@ -24,7 +24,7 @@ services:
     container_name: celery
     command: /bin/bash -c "source activate django && cd /code && celery -A wam -Q wam_queue worker -l info"
     environment:
-      CONFIG_PATH: /config/config.cfg
+      WAM_CONFIG_PATH: /config/config.cfg
     volumes:
     - ../config:/config
     networks:

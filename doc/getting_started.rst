@@ -1,9 +1,10 @@
+Introduction
+============
 
-Getting started
-===============
 
 .. contents::
-   :depth: 2
+   :depth: 3
+
 
 Idea
 ----
@@ -11,6 +12,8 @@ Idea
 WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to easily add applications.
 
 .. _Django: https://www.djangoproject.com/
+
+.. _prerequisites:
 
 Prerequisites
 -------------
@@ -25,9 +28,10 @@ Prerequisites
 postgresql setup
 ^^^^^^^^^^^^^^^^
 
-The following instructions are for Ubuntu and inpired from `here`__
-First create a user name (here *wam_admin* is used for the *USER* field of the config file
-:ref:`configuration`)
+The following instructions are for Ubuntu and inspired from here_.
+
+First, create a user name (here, *wam_admin* is used for the *USER* field of the config
+file :ref:`configuration`)
 
 .. code:: bash
 
@@ -48,7 +52,7 @@ There, change the password for the user *wam_admin*
 Enter the same password you will use under the *PASSWORD* field in the config file
 (:ref:`configuration`) and exit the shell with `\\q`
 
-Create the database you will use under the *NAME* field in the config file
+Then, create the database you will use under the *NAME* field in the config file
 (:ref:`configuration`)
 
 .. code:: bash
@@ -67,12 +71,12 @@ This can be stopped using the command
 
     sudo service postgresql stop
 
-__ https://help.ubuntu.com/community/PostgreSQL
+.. _here: https://help.ubuntu.com/community/PostgreSQL
 
 
 .. _postgis:
 
-Postgis setup
+postgis setup
 ^^^^^^^^^^^^^
 
 For Ubuntu:
@@ -106,8 +110,17 @@ Other users have to setup their own message broker
 .. _RabbitMQ: https://www.rabbitmq.com/
 .. _RAbbitMQDocker: https://hub.docker.com/_/rabbitmq/
 
+
+.. _getting_started:
+
+Getting Started
+---------------
+
+
+.. _setup:
+
 Setup
------
+^^^^^
 
 Clone repository from github via:
 
@@ -129,15 +142,45 @@ Requirements and configuration of an application can be found at :ref:`app_setti
 .. _configuration:
 
 Configuration
--------------
+^^^^^^^^^^^^^
 
 The WAM-Server can be configured as follows.
+
+
+.. _environment:
+
+Environment Variables
+^^^^^^^^^^^^^^^^^^^^^
+
+WAM-Server needs at least the following environment variables:
+
+- WAM_CONFIG_PATH: full path to the configuration file (see :ref:`configuration_file` for the file content)
+
+- WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
+
+On Ubuntu, one can add them to the ``bashrc`` file, so that they are loaded automatically :
+
+.. code:: bash
+
+  nano ~/.bashrc
+
+then add the following two lines
+
+.. code:: bash
+
+   export WAM_CONFIG_PATH=<path to your WAM repo>/.config/config.cfg
+   export WAM_APPS=<name of wam app 1>,<name of wam app 2>
+
+.. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
+
+
+.. _configuration_file:
 
 Configuration file
 ^^^^^^^^^^^^^^^^^^
 
-Configuration file from path given by *CONFIG_PATH* is loaded within *settings.py*. The file is
-read in using python's configobj_ package.
+Configuration file located under the path given by *WAM_CONFIG_PATH* is loaded within *settings
+.py*. The file is read in using python's configobj_ package.
 The file should contain following sections:
 
 - *[WAM]*: general config for the WAM-Server,
@@ -151,22 +194,65 @@ See minimal example config_file_:
 
 .. _config_file: _static/config.cfg
 
-.. _environment:
+Note: the indent level is important in the configuration file. Keywords are specified within ``[]``, they are analog to the
+key in a python ``dict``. The nesting level of a keyword depends on the number of square brackets.
 
-Environment Variables
-^^^^^^^^^^^^^^^^^^^^^
 
-WAM-Server needs at least the following environment variables:
+.. _server_deploy:
 
-- CONFIG_PATH: Path to configuration file (mainly includes database configurations, see :ref:`configuration`)
-- WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
+Deploying server without apps
+-----------------------------
 
-.. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
+Even without adding apps into WAM, you can follow these steps to deploy the WAM server locally.
+
+Make sure the postgresql_ service is running
+
+.. code:: bash
+
+    sudo service postgresql start
+
+Then, run the following commands
+
+.. code:: bash
+
+    python manage.py makemigrations
+
+.. code:: bash
+
+    python manage.py migrate
+
+.. code:: bash
+
+    python manage.py createsuperuser
+
+After the last command, follow the instructions inside the terminal and use the same values for
+user and password as the *USER* and *PASSWORD* fields of the :ref:`configuration_file`.
+
+Finally access to the WAM server with
+
+.. code:: bash
+
+    python manage.py runserver
+
+.. _example_app_settings:
+
+Example app
+^^^^^^^^^^^
+
+From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_mv* with
+
+.. code:: bash
+
+    git clone https://github.com/rl-institut/WAM_APP_stemp_mv.git
+
+For the time being you have to rename the app folder *stemp* and set your environment variable
+*WAM_APPS* to *stemp*
+
 
 .. _app_settings:
 
-App Setup
----------
+Deploying server with custom apps
+---------------------------------
 
 Requirements:
 
@@ -185,52 +271,10 @@ To install the required packages for each app run
 
     python install_requirements.py
 
-from the root level of the WAM repository.
+from the root level of the WAM repository. Then follow the procedure described under :ref:`server_deploy`
 
 
-Make sure the postgresql_ service is running
-
-.. code:: bash
-
-    sudo service postgresql start
-
-Then run the following commands
-
-.. code:: bash
-
-    python manage.py makemigrations
-
-.. code:: bash
-
-    python manage.py migrate
-
-.. code:: bash
-
-    python manage.py createsuperuser
-
-upon the last command follow the instructions inside the terminal and use the same values for
-user and password as the *USER* and *PASSWORD* fields of the config file
-:ref:`configuration`.
-
-Finally access to the WAM server by running
-
-.. code:: bash
-
-    python manage.py runserver
-
-
-Example app:
-
-From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_mv* with
-
-.. code:: bash
-
-    git clone https://github.com/rl-institut/WAM_APP_stemp_mv.git
-
-For the time being you have to rename the app folder *stemp* and set your environment variable
-*WAM_APPS* to *stemp*
-
-.. _celery_setup:
+.. _use_celery:
 
 Celery
 ------
@@ -239,7 +283,7 @@ Celery_ is included in WAM. In order to use celery in an app, follow the :ref:`s
 
 .. _Celery: http://docs.celeryproject.org/en/latest/
 
-.. _setup:
+.. _celery_setup:
 
 Setup
 ^^^^^
