@@ -35,8 +35,10 @@ This is an important step as it forces one to think about the issue (to describe
 
 1. Create a separate branch from `dev`, to work on
 ```bash
-git checkout -b myfeature dev
+git checkout -b feature/myfeature dev
 ```
+The convention is to always have `feature/` in the branch name, `myfeature` part should describe shortly what is the feature about.
+
 2. Try to follow [these conventions](https://chris.beams.io/posts/git-commit) for commit messages:
 - Keep the subject line [short](https://chris.beams.io/posts/git-commit/#limit-50) (i.e. do not commit more than a few changes at the time)
 - Use [imperative](https://chris.beams.io/posts/git-commit/#imperative) for commit messages 
