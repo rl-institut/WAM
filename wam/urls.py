@@ -19,14 +19,17 @@ from django.views.generic import TemplateView
 
 from wam.admin import wam_admin_site
 from wam.settings import WAM_APPS
-from wam.views import IndexView
+from wam import views
 
 from meta import models
 from meta.views import AppListView, AssumptionsView
 
 
 urlpatterns = [
-    path('', IndexView.as_view()),
+    path('', views.IndexView.as_view()),
+    path('contact/', views.ContactView.as_view(), name='contact'),
+    path('privacy/', views.PrivacyView.as_view(), name='privacy'),
+    path('impressum/', views.ImpressumView.as_view(), name='impressum'),
     path('sources/', AppListView.as_view(model=models.Source), name='sources'),
     path('assumptions/', AssumptionsView.as_view()),
     path('admin/', wam_admin_site.urls),

@@ -12,8 +12,15 @@
     <div class="cell">
       {% for category in categories %}
         <div id="category-{{category.grouper.id}}">
-          <h2>{{category.grouper.name}}</h2>
-          <h4>{{category.grouper.description}}</h4>
+          <h2>
+            {{category.grouper.name}}
+            <span class="has-tip--no-border">
+              <i data-open="cat_data_{{category.grouper.id}}" class ="icon ion-information-circled icon--small info-box" title="Hier klicken für mehr Informationen zur Kategorie"></i>
+            </span>
+          </h2>
+        <div class="reveal" id="cat_data_{{category.grouper.id}}" data-reveal>
+          {{category.grouper.description}}
+        </div>
           {% block items %}
             <ul class="table__list">
               {% for item in category.list %}

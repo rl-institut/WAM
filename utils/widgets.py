@@ -1,11 +1,16 @@
 
+import os
 from abc import ABC
 from typing import List, Tuple, Optional
-from markdown import markdown
 from itertools import count
+from collections import ChainMap, namedtuple
+import pandas
+from markdown import markdown
 
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
+
+from wam.settings import BASE_DIR
 
 
 class CustomWidget(ABC):
@@ -14,7 +19,7 @@ class CustomWidget(ABC):
     def __str__(self):
         return self.render()
 
-    def get_context(self):
+    def get_context(self):  # pylint: disable=no-self-use
         return {}
 
     def render(self):
@@ -121,4 +126,76 @@ class Wizard(CustomWidget):
             'urls': self.urls,
             'current': self.current,
             'screen_reader': self.screen_reader
+        }
+
+
+class CSVWidget:
+    """Reads in CSV-file and renders it as table"""
+
+    def __init__(self, filename, caption, csv_kwargs=None, html_kwargs=None,
+                 links=None):
+        """
+        Parameters
+        ----------
+        filename: str
+            Filename is joined with basic wam-path. Thus, if file "nems.csv"
+            in folder "texts" from app "stemp" shall be loaded, filename has to
+            be given as 'stemp/texts/names.csv'
+        caption: str
+            Caption for table
+        csv_kwargs: dict
+            csv_kwargs are passed to `pandas.read_csv`
+        html_kwargs: dict
+            html_kwargs are passed to `pandas.style`
+        links: list-of-str
+            List of columns which shall be wrapped in html <a>-tag
+        """
+        self.caption = caption
+        self.html_kwargs = {} if html_kwargs is None else html_kwargs
+        links = [] if links is None else links
+
+        filename = os.path.join(BASE_DIR, filename)
+        csv_kwargs = {} if csv_kwargs is None else csv_kwargs
+        self.data = pandas.read_csv(filename, **csv_kwargs)
+        for link in links:
+            self.data[link] = self.data[link].apply(
+                lambda x: f'<a href="{x}">{x}</a>')
+        self.data.fillna('-', inplace=True)
+
+    def __str__(self):
+        style = self.data.style
+        style.set_caption(self.caption)
+        return mark_safe(style.render(**self.html_kwargs))
+
+
+class OrbitWidget(CustomWidget):
+    OrbitItem = namedtuple('OrbitItem', ['name', 'description', 'class_'])
+    OrbitItem.__new__.__defaults__ = (None,)
+
+    template_name = 'widgets/orbit.html'
+    default_labels = {
+        'next': 'Nächster',
+        'previous': 'Vorheriger'
+    }
+
+    def __init__(
+            self,
+            caption: str,
+            orbits: List[OrbitItem],
+            labels: dict = None,
+            orbit_class='orbit'
+    ):
+        if labels is None:
+            labels = {}
+        self.labels = ChainMap(self.default_labels, labels)
+        self.caption = caption
+        self.orbits = orbits
+        self.orbit_class = orbit_class
+
+    def get_context(self):
+        return {
+            'caption': self.caption,
+            'labels': self.labels,
+            'orbits': self.orbits,
+            'orbit_class': self.orbit_class
         }

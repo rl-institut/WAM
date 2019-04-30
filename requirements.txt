@@ -1,0 +1,11 @@
+django
+jmespath
+gunicorn
+pandas
+whitenoise
+celery
+configobj
+django-markdownx
+django-crispy-forms
+psycopg2-binary
+git+https://github.com/openego/oedialect

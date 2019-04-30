@@ -1,4 +1,6 @@
 
+import jmespath
+
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
@@ -37,14 +39,25 @@ class Source(models.Model):
 
     category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
 
-    def render_json(self):
+    def json(self):
         return JsonWidget(self.meta_data).render()
 
-    def render_url(self):
-        try:
-            return self.meta_data['sources'][0]['url']
-        except (KeyError, IndexError):
-            return None
+    def infos(self):
+        infos = jmespath.search(
+            '{'
+            'url: identifier, '
+            'title: title, '
+            'description: description, '
+            'licenses: licenses[*].name'
+            '}',
+            self.meta_data
+        )
+        if infos.get('url') is not None:
+            if infos.get('url') == '':
+                infos.pop('url')
+        else:
+            infos.pop('url')
+        return infos
 
 
 class Category(models.Model):

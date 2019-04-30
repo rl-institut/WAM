@@ -1,11 +1,13 @@
 /*
-  Highcharts JS v6.0.2 (2017-10-20)
+  Highcharts JS v7.0.3 (2019-02-06)
 
  Item series type for Highcharts
 
- (c) 2010-2017 Torstein Honsi
+ (c) 2010-2019 Torstein Honsi
 
  License: www.highcharts.com/license
 */
-(function(b){"object"===typeof module&&module.exports?module.exports=b:b(Highcharts)})(function(b){(function(f){var b=f.each,p=f.extend,q=f.pick,h=f.seriesType;h("item","column",{itemPadding:.2,marker:{symbol:"circle",states:{hover:{},select:{}}}},{drawPoints:function(){var c=this,n=c.chart.renderer,h=this.options.marker;b(this.points,function(a){var b,k,d,e,l,r=(a.marker||{}).symbol||h.symbol,g,m;a.graphics=d=a.graphics||{};l=a.pointAttr?a.pointAttr[a.selected?"selected":""]||c.pointAttr[""]:c.pointAttribs(a,
-a.selected&&"select");delete l.r;if(null!==a.y)for(a.graphic||(a.graphic=n.g("point").add(c.group)),e=a.y,m=q(a.stackY,a.y),g=Math.min(a.pointWidth,c.yAxis.transA*(1-c.options.itemPadding)),b=m;b>m-a.y;b--)k={x:a.barX+a.pointWidth/2-g/2,y:c.yAxis.toPixels(b,!0)-g/2,width:g,height:g},d[e]?d[e].animate(k):d[e]=n.symbol(r).attr(p(k,l)).add(a.graphic),d[e].isActive=!0,e--;f.objectEach(d,function(a,b){a.isActive?a.isActive=!1:(a.destroy(),delete a[b])})})}})})(b)});
+(function(b){"object"===typeof module&&module.exports?(b["default"]=b,module.exports=b):"function"===typeof define&&define.amd?define(function(){return b}):b("undefined"!==typeof Highcharts?Highcharts:void 0)})(function(b){(function(b){var x=b.extend,u=b.pick,r=b.seriesType;r("item","column",{itemPadding:.2,marker:{symbol:"circle",states:{hover:{},select:{}}}},{drawPoints:function(){var c=this,k=c.chart.renderer,l=this.options.marker,m=this.yAxis.transA*c.options.itemPadding,n=this.borderWidth%2?
+.5:1;this.points.forEach(function(a){var d,e,f,g,h;d=a.marker||{};var v=d.symbol||l.symbol,r=u(d.radius,l.radius),p,t,w="rect"!==v,q;a.graphics=f=a.graphics||{};h=a.pointAttr?a.pointAttr[a.selected?"selected":""]||c.pointAttr[""]:c.pointAttribs(a,a.selected&&"select");delete h.r;c.chart.styledMode&&(delete h.stroke,delete h["stroke-width"]);if(null!==a.y)for(a.graphic||(a.graphic=k.g("point").add(c.group)),g=a.y,t=u(a.stackY,a.y),p=Math.min(a.pointWidth,c.yAxis.transA-m),d=t;d>t-a.y;d--)e=a.barX+
+(w?a.pointWidth/2-p/2:0),q=c.yAxis.toPixels(d,!0)+m/2,c.options.crisp&&(e=Math.round(e)-n,q=Math.round(q)+n),e={x:e,y:q,width:Math.round(w?p:a.pointWidth),height:Math.round(p),r:r},f[g]?f[g].animate(e):f[g]=k.symbol(v).attr(x(e,h)).add(a.graphic),f[g].isActive=!0,g--;b.objectEach(f,function(a,b){a.isActive?a.isActive=!1:(a.destroy(),delete a[b])})})}});b.SVGRenderer.prototype.symbols.rect=function(c,k,l,m,n){return b.SVGRenderer.prototype.symbols.callout(c,k,l,m,n)}})(b)});
+//# sourceMappingURL=item-series.js.map

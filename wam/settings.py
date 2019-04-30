@@ -11,11 +11,18 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from configobj import ConfigObj
 import importlib
 import logging
+from configobj import ConfigObj
 
-config = ConfigObj(os.environ['CONFIG_PATH'])
+config_file_path = os.environ.get('WAM_CONFIG_PATH')
+
+if config_file_path is None:
+    raise KeyError(
+        'Please add WAM_CONFIG_PATH as an environment variable, see '
+        'https://wam.readthedocs.io/en/latest/getting_started.html#environment-variables'
+    )
+config = ConfigObj(config_file_path)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,15 +34,28 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config['WAM']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config['WAM'].get('DEBUG', 'True') == 'True'
+DEBUG = config['WAM'].as_bool('DEBUG')
 
 logging_level = logging.DEBUG if DEBUG else logging.INFO
 logging.getLogger().setLevel(logging_level)
 
-ALLOWED_HOSTS = config['WAM'].get('ALLOWED_HOSTS', '127.0.0.1').split(',')
+ALLOWED_HOSTS = config['WAM'].as_list('ALLOWED_HOSTS')
 
 # Additional apps are loaded from environment variable
-WAM_APPS = os.environ['WAM_APPS'].split(',')
+WAM_APPS = os.environ.get('WAM_APPS')
+
+if WAM_APPS is None:
+    raise KeyError(
+        'Please add WAM_APPS as an environment variable, see '
+        'https://wam.readthedocs.io/en/latest/getting_started.html#environment-variables'
+    )
+
+if WAM_APPS == '':
+    # The environment variable exists but no apps are defined
+    WAM_APPS = []
+else:
+    # Apps name are retrieved
+    WAM_APPS = WAM_APPS.split(',')
 
 APP_LABELS = {
     app: ConfigObj(os.path.join(BASE_DIR, app, 'labels.cfg'))
@@ -73,7 +93,7 @@ ROOT_URLCONF = 'wam.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join('templates/')],
+        'DIRS': ['templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,7 +104,7 @@ TEMPLATES = [
             ],
             'libraries': {
                 'labels': 'templatetags.labels',
-                'dictionary': 'templatetags.dictionary',
+                'simple': 'templatetags.simple',
             },
         },
     },
@@ -126,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'de-DE'
 
 TIME_ZONE = 'Europe/Berlin'
 
@@ -135,6 +155,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# USE_THOUSAND_SEPARATOR = True
+# DECIMAL_SEPARATOR = ','
+# THOUSAND_SEPARATOR = '.'
 
 
 # Static files (CSS, JavaScript, Images)

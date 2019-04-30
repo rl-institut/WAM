@@ -257,7 +257,7 @@ def restore_results(session, input_result_id, restore_none_type=False,
             f"{advanced_label.__name__}\(" +
             ', '.join(
                 [
-                    f"{field}=(?P<{field}>[\(\)A-Za-z0-9_,\ ']*)"
+                    f"{field}=(?P<{field}>[\(\)A-Za-z0-9#._\-,\ ']*)"
                     for field in advanced_label._fields
                 ]
             ) +

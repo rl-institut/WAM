@@ -3,6 +3,7 @@ from django import template
 from django.utils.safestring import mark_safe
 
 from wam.settings import APP_LABELS
+from utils.shortcuts import get_app_from_request
 
 register = template.Library()
 
@@ -17,7 +18,7 @@ def label(context, value, safe=False, app=None):
     """
     if app is None:
         try:
-            app = context.request.path.split('/')[1]
+            app = get_app_from_request(context.request)
         except AttributeError:
             raise AttributeError(
                 'Current app could not be found. '
