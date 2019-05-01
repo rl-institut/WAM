@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.com/rl-institut/WAM.svg?branch=master)](https://travis-ci.com/rl-institut/WAM)
 [![Documentation Status](https://readthedocs.org/projects/wam/badge/?version=latest)](https://wam.readthedocs.io/en/latest/?badge=latest)
 
 # Zurb-Installation on Linux:

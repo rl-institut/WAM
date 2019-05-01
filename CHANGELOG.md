@@ -28,3 +28,20 @@ Here is a template for new release sections
 ### Changed
 - fixed flake8 and pylint errors
 - environnement.yml installs dependencies from requirements.txt so that conda is not required
+
+
+## [0.1.0] 2019-04-30
+
+### Added
+- CHANGELOG.md
+- CONTRIBUTING.md
+- LICENSE.md
+- continuous integration with TravisCI (`.travis.yml`)
+- linting tests and their config files (`.pylintrc` and `.flake8`)
+- tests/ folder
+
+### Changed
+- fixed flake8 and pylint errors
+- environment.yml installs dependencies
+- if the environment variable WAM_CONFIG_PATH or WAM_APPS do not exist, the user is prompted with a meaningful error message
+- if  WAM_APPS is an empty string, the app loads until the start page.
