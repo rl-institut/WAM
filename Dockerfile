@@ -29,6 +29,7 @@ RUN mkdir /config
 
 # Install WAM conda environment
 COPY environment.yml /tmp/environment.yml
+COPY requirements.txt /tmp/requirements.txt
 RUN conda env create -f /tmp/environment.yml
 RUN echo "source activate django" > ~/.bashrc
 ENV PATH="/opt/conda/envs/django/bin:$PATH"
