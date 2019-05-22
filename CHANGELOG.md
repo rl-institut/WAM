@@ -26,8 +26,18 @@ Here is a template for new release sections
 - tests/ folder
 
 ### Changed
-- fixed flake8 and pylint errors
+- fix flake8 and pylint errors
 - environnement.yml installs dependencies from requirements.txt so that conda is not required
+
+## [0.1.1] 2019-05-22
+
+### Added
+- include highcharts in requirements.txt
+- add StEmp-MV BETA icon for landing page to static files
+
+### Changed
+- fix a bug in the Dockerfile: requirements.txt was not copied into the tmp folder
+- BETA icon for the WAM landing page
 
 
 ## [0.1.0] 2019-04-30
