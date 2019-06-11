@@ -6,8 +6,8 @@ class SessionData():
     def __init__(self):
         self.sessions = defaultdict(dict)
 
-    def start_session(self, request, session_obj):
-        if request.session.session_key is None:
+    def start_session(self, request, session_obj, force_new_session=False):
+        if request.session.session_key is None or force_new_session:
             request.session.create()
         app = get_app_from_request(request)
         if request.session.session_key not in self.sessions[app]:
