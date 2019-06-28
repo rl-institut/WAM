@@ -52,7 +52,7 @@ class InfoButton(CustomWidget):
             ionicon_type: str = 'ion-information-circled',
             ionicon_size: str = 'small',
             ionicon_color: str = None,
-            info_id = None
+            info_id: str = None
     ):
         """
 
