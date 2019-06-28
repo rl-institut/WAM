@@ -6,7 +6,7 @@ from exchangelib.errors import AutoDiscoverFailed
 from wam.settings import WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL, WAM_EXCHANGE_PW
 
 
-def send_email(to_email, app_name, from_name, from_email, subject, message):
+def send_email(to_email, subject, message):
     """Send E-mail via MS Exchange Server using credentials from env vars"""
 
     credentials = Credentials(WAM_EXCHANGE_ACCOUNT,
@@ -30,23 +30,10 @@ def send_email(to_email, app_name, from_name, from_email, subject, message):
 
     recipients = [Mailbox(email_address=to_email)]
 
-    subject_notification = f'Nachricht über WAM Feedback-Formular: ' \
-                           f'App {app_name}'
-    body = f'Sie haben eine Nachricht über das Feedback-Formular der WAM ' \
-           f'erhalten.\n\n' \
-           f'App: {app_name}\n' \
-           f'Absender: {from_name} ({from_email})\n' \
-           f'Betreff: {subject}\n' \
-           f'====================\n' \
-           f'{message}\n' \
-           f'====================\n' \
-           f'Bitte antworte nicht auf diese E-Mail, junger PadaWAM!\n' \
-           f'Gez. Obi WAM Kenobi'
-
     m = Message(account=account,
                 folder=account.sent,
-                subject=subject_notification,
-                body=body,
+                subject=subject,
+                body=message,
                 to_recipients=recipients)
 
     try:

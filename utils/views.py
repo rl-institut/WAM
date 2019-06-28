@@ -57,9 +57,11 @@ class FeedbackView(FormView):
 
     def form_valid(self, form):
         form.submit()
+
+        subject, body = self.prepare_message(**form.cleaned_data)
         success = send_email(to_email=self.to_email,
-                             app_name=self.app_name,
-                             **form.cleaned_data)
+                             subject=subject,
+                             message=body)
         if success:
             return super().form_valid(form)
         else:
@@ -72,6 +74,22 @@ class FeedbackView(FormView):
         context['intro_text'] = self.intro_text
 
         return context
+
+    def prepare_message(self, **kwargs):
+        subject = f'Nachricht über WAM Feedback-Formular: ' \
+            f'App {self.app_name}'
+        body = f'Sie haben eine Nachricht über das Feedback-Formular der WAM ' \
+            f'erhalten.\n\n' \
+            f'App: {self.app_name}\n' \
+            f'Absender: {kwargs.get("from_name", "")} ' \
+            f'({kwargs.get("from_email", "")})\n' \
+            f'Betreff: {kwargs.get("subject", "")}\n' \
+            f'========================================\n' \
+            f'{kwargs.get("message", "")}\n' \
+            f'========================================\n' \
+            f'Bitte antworte nicht auf diese E-Mail, junger PadaWAM!\n' \
+            f'Gez. Obi WAM Kenobi'
+        return subject, body
 
 
 class FeedbackSuccessful(TemplateView):
