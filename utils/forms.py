@@ -2,6 +2,7 @@ from django import forms
 
 
 class FeedbackForm(forms.Form):
+    """Input form for feedback page"""
     from_name = forms.CharField(required=False,
                                 max_length=100,
                                 label='Ihr Name (optional)')
