@@ -51,7 +51,8 @@ class InfoButton(CustomWidget):
             is_markdown: bool = False,
             ionicon_type: str = 'ion-information-circled',
             ionicon_size: str = 'small',
-            ionicon_color: str = None
+            ionicon_color: str = None,
+            info_id = None
     ):
         """
 
@@ -71,13 +72,21 @@ class InfoButton(CustomWidget):
             xxlarge
         ionicon_color : str
             Sets color of icon in hex color code, e.g. '#ff0000'
+        info_id : str
+            Optional. If provided, the reveal div id will be set to this value,
+            prepended by "info_". By default, a counter is used which results
+            in ids "info_0", "info_1" etc.
         """
-        self.id = next(self.counter)
         self.text = markdown(text) if is_markdown else text
         self.tooltip = tooltip
         self.ionicon_type = ionicon_type
         self.ionicon_size = ionicon_size
         self.ionicon_color = ionicon_color
+
+        if info_id is not None and isinstance(info_id, str):
+            self.id = info_id
+        else:
+            self.id = next(self.counter)
 
     def get_context(self):
         return {
