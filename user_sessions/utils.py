@@ -40,7 +40,7 @@ def check_session(func):
 
 def log_session_error(request):
     app = get_app_from_request(request)
-    logging.error(
+    err_msg = (
         f'Session error for app "{app}":\n'
         f'Session-Key: {request.session.session_key}\n'
         f'Current session data:\n' +
@@ -48,3 +48,4 @@ def log_session_error(request):
             [f'{k}: {str(v)}' for k, v in SESSION_DATA.sessions[app].items()]
         )
     )
+    logging.error(err_msg)
