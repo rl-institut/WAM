@@ -200,3 +200,8 @@ for app in WAM_APPS:
         importlib.import_module(f'{app}.app_settings', package='wam')
     except ModuleNotFoundError:
         pass
+
+# E-mail config for outgoing mails (used by exchangelib)
+WAM_EXCHANGE_ACCOUNT = os.environ.get('WAM_EXCHANGE_ACCOUNT')
+WAM_EXCHANGE_EMAIL = os.environ.get('WAM_EXCHANGE_EMAIL')
+WAM_EXCHANGE_PW = os.environ.get('WAM_EXCHANGE_PW')
