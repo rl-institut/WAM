@@ -20,7 +20,7 @@ def send_email(to_email, subject, message):
         logging.error(err_msg)
         return False
     except AutoDiscoverFailed:
-        err_msg = 'Feedback-Form - Konto- oder Authentifinzierungsfehler!'
+        err_msg = 'Feedback-Form - Konto- oder Authentifizierungsfehler!'
         logging.error(err_msg)
         return False
     except Exception as err:
