@@ -1,14 +1,15 @@
 from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
 from django.core.validators import validate_email, ValidationError
-from django.http.response import HttpResponseRedirect
+from django.shortcuts import redirect
 
-from wam.settings import BASE_DIR
+from wam.settings import BASE_DIR, WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL, WAM_EXCHANGE_PW
 from utils.forms import FeedbackForm
 from utils.mail import send_email
 
 from configobj import ConfigObj
 import os
+import logging
 
 
 class FeedbackView(FormView):
@@ -65,7 +66,7 @@ class FeedbackView(FormView):
         if success:
             return super().form_valid(form)
         else:
-            return HttpResponseRedirect(self.error_url)
+            return redirect('feedback_error', err_type='send')
 
     def get_context_data(self, **kwargs):
         context = super(FeedbackView, self).get_context_data(**kwargs)
@@ -74,6 +75,18 @@ class FeedbackView(FormView):
         context['intro_text'] = self.intro_text
 
         return context
+
+    def get(self, request, *args, **kwargs):
+        # check if env vars are set, if not redirect to error page
+        if WAM_EXCHANGE_ACCOUNT is None or \
+           WAM_EXCHANGE_EMAIL is None or \
+           WAM_EXCHANGE_PW is None:
+            err_msg = 'Feedback-Form - Konfigurationsfehler: ' \
+                      'Umgebungsvariablen nicht gesetzt oder unvollständig!'
+            logging.error(err_msg)
+            return redirect('feedback_error', err_type='config')
+
+        return super().get(request, *args, **kwargs)
 
     def prepare_message(self, **kwargs):
         subject = f'Nachricht über WAM Feedback-Formular: ' \
