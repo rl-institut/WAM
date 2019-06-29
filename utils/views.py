@@ -1,3 +1,7 @@
+import os
+import logging
+from configobj import ConfigObj
+
 from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
 from django.core.validators import validate_email, ValidationError
@@ -7,9 +11,6 @@ from wam.settings import BASE_DIR, WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL, WAM
 from utils.forms import FeedbackForm
 from utils.mail import send_email
 
-from configobj import ConfigObj
-import os
-import logging
 
 
 class FeedbackView(FormView):
