@@ -65,7 +65,7 @@ class FeedbackView(FormView):
                              message=body)
         if success:
             return super().form_valid(form)
-        
+
         return redirect('feedback_error', err_type='send')
 
     def get_context_data(self, **kwargs):
@@ -113,9 +113,6 @@ class FeedbackError(TemplateView):
     """Error page for feedback form"""
 
     template_name = 'feedback_error.html'
-
-    def __init__(self, *args, **kwargs):
-        super(FeedbackError, self).__init__(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
