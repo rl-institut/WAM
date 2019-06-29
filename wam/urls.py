@@ -40,7 +40,7 @@ urlpatterns = [
         template_name='access_denied.html'), name='access_denied'),
     path('feedback/', FeedbackView.as_view(), name='feedback'),
     path('feedback_thanks/', FeedbackSuccessful.as_view(), name='feedback_thanks'),
-    path('feedback_error/', FeedbackError.as_view(), name='feedback_error')
+    path('feedback_error/<err_type>/', FeedbackError.as_view(), name='feedback_error')
 ]
 
 try:
