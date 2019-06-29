@@ -114,10 +114,8 @@ class FeedbackError(TemplateView):
 
     template_name = 'feedback_error.html'
 
-    def __init__(self, error_text=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(FeedbackError, self).__init__(*args, **kwargs)
-
-        self.error_text = error_text
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
