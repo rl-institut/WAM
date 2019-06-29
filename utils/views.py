@@ -12,7 +12,6 @@ from utils.forms import FeedbackForm
 from utils.mail import send_email
 
 
-
 class FeedbackView(FormView):
     """Feedback form which sends an E-mail to app admin"""
 
@@ -66,8 +65,8 @@ class FeedbackView(FormView):
                              message=body)
         if success:
             return super().form_valid(form)
-        else:
-            return redirect('feedback_error', err_type='send')
+        
+        return redirect('feedback_error', err_type='send')
 
     def get_context_data(self, **kwargs):
         context = super(FeedbackView, self).get_context_data(**kwargs)
