@@ -7,7 +7,22 @@ from wam.settings import WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL, WAM_EXCHANGE_
 
 
 def send_email(to_email, subject, message):
-    """Send E-mail via MS Exchange Server using credentials from env vars"""
+    """Send E-mail via MS Exchange Server using credentials from env vars
+
+    Parameters
+    ----------
+    to_email : :obj:`str`
+        Target mail address
+    subject : :obj:`str`
+        Subject of mail
+    message : :obj:`str`
+        Message body of mail
+
+    Returns
+    -------
+    :obj:`bool`
+        Success status (True: successful)
+    """
 
     credentials = Credentials(WAM_EXCHANGE_ACCOUNT,
                               WAM_EXCHANGE_PW)
