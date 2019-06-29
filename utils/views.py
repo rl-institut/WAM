@@ -110,4 +110,27 @@ class FeedbackSuccessful(TemplateView):
 
 
 class FeedbackError(TemplateView):
+    """Error page for feedback form"""
+
     template_name = 'feedback_error.html'
+
+    def __init__(self, error_text=None, *args, **kwargs):
+        super(FeedbackError, self).__init__(*args, **kwargs)
+
+        self.error_text = error_text
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        # get error type and include corresponding message in context
+        err_type = kwargs.get('err_type')
+        if err_type == 'config':
+            error_text = 'Das Feedback-Formular ist nicht richtig konfiguriert.'
+        elif err_type == 'send':
+            error_text = 'Beim Senden ist leider ein Fehler aufgetreten.'
+        else:
+            error_text = 'Das Feedback-Formular funktioniert nicht richtig.'
+
+        context['error_text'] = error_text
+
+        return self.render_to_response(context)
