@@ -77,9 +77,20 @@ To use the form, just add the view to your urls like
   from utils.views import FeedbackView
 
   admin_url_patterns = [
-      path(...),
+      path(<path to other view>),
+      ...,
       path('feedback/', FeedbackView.as_view(app_name='<my app name>'), name='feedback')
   ]
+
+Make sure you have the parameter ``email`` set in your *app.cfg*, example:
+
+.. code:: text
+
+  # my_app/app.cfg
+  category = app
+  name = ...
+  icon = ...
+  email = 'address_of_app_admin@domain.tld'
 
 
 .. _custom_admin_site:
