@@ -24,9 +24,7 @@ class FeedbackView(FormView):
 
     def __init__(self,
                  app_name=None,
-                 intro_text=None,
-                 *args,
-                 **kwargs):
+                 intro_text=None):
         """
         Parameters
         ----------
@@ -36,7 +34,7 @@ class FeedbackView(FormView):
             Optional. Custom introductory text (inserted before form),
             defaults to standard welcome text (see template).
         """
-        super(FeedbackView, self).__init__(*args, **kwargs)
+        super(FeedbackView, self).__init__()
 
         if app_name is not None:
             self.app_name = app_name
