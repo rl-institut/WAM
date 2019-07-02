@@ -12,7 +12,7 @@ from utils.forms import FeedbackForm
 from utils.mail import send_email
 
 
-class FeedbackView(FormView):  #pylint: disable=too-many-ancestors
+class FeedbackView(FormView):  # pylint: disable=too-many-ancestors
     """Feedback form which sends an E-mail to app admin"""
 
     app_name = None
