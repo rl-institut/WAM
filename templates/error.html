@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="u-vh--100">
+
+  <main>
+
+    <section class="grid-x l-bg-color hp-hero">
+      <div class="cell u-text--center">
+        <img src="{% static '/img/logos/WAM_logo_w.png' %}" alt="Logo WAM" class="hp_wam_img">
+      </div>
+    </section>
+
+    <section class="grid-x align-center l-bg-color--error hp-features">
+      <div class="cell large-10">
+        <div class="grid-x align-center">
+          <h2><i class='icon ion-alert-circled icon--large'></i> {{ err_text }}</h2>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="footer-hp l-bg-color--w">
+    <div class="grid-x">
+
+      <div class="cell footer-hp__logo">
+        <ul>
+          <li>
+            <a href="{% url 'index' %}" rel=”noopener” title="WAM-Startseite">
+	            <img class="footer-hp__logo-wam" src="{% static '/img/logos/WAM_logo.png' %}" alt="Logo WAM">
+            </a>
+          </li>
+          <li>
+            <a href="https://reiner-lemoine-institut.de/" target="_blank" rel=”noopener noreferrer” title="Reiner Lemoine Institut">
+              <img class="footer-hp__logo-rli" src="{% static 'img/rli_logo.png' %}" alt="Logo Reiner Lemoine Institut">
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="cell medium-10 medium-offset-1">
+        <ul class="u-text--center" id="footer-links">
+          <li><a class="anchor-text--dark" href="{% url 'contact' %}">Kontakt</a></li>
+          <li><a class="anchor-text--dark" href="{% url 'impressum' %}">Impressum</a></li>
+          <li><a class="anchor-text--dark" href="{% url 'privacy' %}">Datenschutz</a></li>
+          <li class="hide-for-small-only">
+            <p class="u-no-margin">&copy; Reiner Lemoine Institut gGmbH</p>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+</div>
+{% endblock %}
