@@ -1,8 +1,8 @@
 import logging
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError  # pylint: disable=import-error
 
-from exchangelib import Credentials, Account, Message, Mailbox
-from exchangelib.errors import AutoDiscoverFailed
+from exchangelib import Credentials, Account, Message, Mailbox  # pylint: disable=import-error
+from exchangelib.errors import AutoDiscoverFailed  # pylint: disable=import-error
 from wam.settings import WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL, WAM_EXCHANGE_PW
 
 
@@ -38,7 +38,7 @@ def send_email(to_email, subject, message):
         err_msg = 'Feedback-Form - Konto- oder Authentifizierungsfehler!'
         logging.error(err_msg)
         return False
-    except Exception as err:
+    except Exception as err:  # pylint: disable=broad-except
         err_msg = f'Feedback-Form - Sonstiger Fehler: {err}'
         logging.error(err_msg)
         return False
@@ -53,7 +53,7 @@ def send_email(to_email, subject, message):
 
     try:
         m.send_and_save()
-    except Exception as err:
+    except Exception as err:  # pylint: disable=broad-except
         err_msg = f'Feedback-Form - Fehler beim Mailversand: {err}'
         logging.error(err_msg)
         return False
