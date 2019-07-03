@@ -38,7 +38,6 @@ urlpatterns = [
     path('accounts/login/', LoginView.as_view(template_name='login.html')),
     path('access_denied/', TemplateView.as_view(
         template_name='access_denied.html'), name='access_denied'),
-    path('feedback/', FeedbackView.as_view(), name='feedback'),
     path('feedback_thanks/', FeedbackSuccessful.as_view(), name='feedback_thanks'),
     path('feedback_error/<err_type>/', FeedbackError.as_view(), name='feedback_error')
 ]
