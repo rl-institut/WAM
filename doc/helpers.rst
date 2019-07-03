@@ -62,6 +62,42 @@ Additionally, the label template tag supports two attributes:
     If no label is found or given (sub-) section is not found, *None* will be returned.
 
 
+Feedback Form
+-------------
+
+A feedback form is available which can be used in all apps. The feedback is send via e-mail using an Exchange account.
+Required configuration parameters for the Exchange account are *WAM_EXCHANGE_ACCOUNT*, *WAM_EXCHANGE_EMAIL* and
+*WAM_EXCHANGE_PW*. They must be set in the *[WAM]* section of the *config.cfg* file, see :ref:`configuration_file` for
+details.
+
+To use the form, just add the view to your urls like
+
+.. code:: python
+
+  # my_app/urls.py
+
+  from utils.views import FeedbackView
+
+  admin_url_patterns = [
+      path(<path to other view>),
+      ...,
+      path('feedback/', FeedbackView.as_view(app_name='<my app name>'), name='feedback')
+  ]
+
+Make sure you have the parameter ``email`` set in your *app.cfg*, example:
+
+.. code:: text
+
+  # my_app/app.cfg
+  category = app
+  name = ...
+  icon = ...
+  email = 'address_of_app_admin@domain.tld'
+
+This address is used to send feedback messages for the app.
+If the Exchange account or app admin's e-mail address is not configured correctly, the user will be redirected to an
+error page.
+
 .. _custom_admin_site:
 
 Customizing Admin Site

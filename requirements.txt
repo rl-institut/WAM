@@ -5,6 +5,7 @@ pandas
 whitenoise
 celery
 configobj
+exchangelib
 django-markdownx
 django-crispy-forms
 psycopg2-binary
