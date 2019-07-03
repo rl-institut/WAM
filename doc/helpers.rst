@@ -66,7 +66,9 @@ Feedback Form
 -------------
 
 A feedback form is available which can be used in all apps. The feedback is send via e-mail using an Exchange account.
-Required environment variables for the Exchange account are WAM_EXCHANGE_ACCOUNT, WAM_EXCHANGE_EMAIL and WAM_EXCHANGE_PW.
+Required configuration parameters for the Exchange account are *WAM_EXCHANGE_ACCOUNT*, *WAM_EXCHANGE_EMAIL* and
+*WAM_EXCHANGE_PW*. They must be set in the *[WAM]* section of the *config.cfg* file, see :ref:`configuration_file` for
+details.
 
 To use the form, just add the view to your urls like
 
@@ -92,6 +94,9 @@ Make sure you have the parameter ``email`` set in your *app.cfg*, example:
   icon = ...
   email = 'address_of_app_admin@domain.tld'
 
+This address is used to send feedback messages for the app.
+If the Exchange account or app admin's e-mail address is not configured correctly, the user will be redirected to an
+error page.
 
 .. _custom_admin_site:
 
