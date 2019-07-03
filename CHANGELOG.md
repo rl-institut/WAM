@@ -24,12 +24,15 @@ Here is a template for new release sections
 - continuous integration with TravisCI (`.travis.yml`)
 - linting tests and their config files (`.pylintrc` and `.flake8`)
 - tests/ folder
-- support custom id in InfoButton widget 
-- session error logging
+- add session error logging
+- support custom id in InfoButton widget #63
+- add feedback form #65
+- add custom 404 and 500 error pages #70
 
 ### Changed
 - fix flake8 and pylint errors
 - environnement.yml installs dependencies from requirements.txt so that conda is not required
+- fix grid-x layout error in InfoButton widget #66
 
 ## [0.1.1] 2019-05-22
 

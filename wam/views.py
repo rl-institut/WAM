@@ -68,3 +68,24 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context)
+
+
+class WAMErrorPage(TemplateView):
+    """A custom error page template"""
+    template_name = 'error.html'
+    err_text = 'Es ist ein Fehler aufgetreten'
+
+    def get_context_data(self, **kwargs):
+        context = super(WAMErrorPage, self).get_context_data()
+        context['err_text'] = self.err_text
+        return context
+
+
+class WAM404View(WAMErrorPage):
+    """A custom 404 page"""
+    err_text = 'Die Seite wurde leider nicht gefunden'
+
+
+class WAM500View(WAMErrorPage):
+    """A custom 500 page"""
+    err_text = 'Es ist ein Server-Fehler aufgetreten'
