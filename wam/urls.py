@@ -24,7 +24,7 @@ from wam import views
 from meta import models
 from meta.views import AppListView, AssumptionsView
 
-from utils.views import FeedbackView, FeedbackSuccessful, FeedbackError
+from utils.views import FeedbackSuccessful, FeedbackError
 
 
 urlpatterns = [
