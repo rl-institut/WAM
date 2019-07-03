@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid-x grid-padding-x align-center">
+  <div class="cell medium-8 large-6">
+    <h1><i class='icon ion-alert-circled icon--large'></i> {{ error_text }}</h1>
+    <p><a href="{% url 'index' %}" class="u-padding-top--l u-padding-bt--l">Zur WAM-Startseite</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -24,7 +24,8 @@ Here is a template for new release sections
 - continuous integration with TravisCI (`.travis.yml`)
 - linting tests and their config files (`.pylintrc` and `.flake8`)
 - tests/ folder
-- support custom id in InfoButton widget 
+- support custom id in InfoButton widget
+- add feedback form
 
 ### Changed
 - fix flake8 and pylint errors
