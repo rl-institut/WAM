@@ -19,12 +19,18 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+## [0.1.2] 2019-07-04
+
+### Added
 - CHANGELOG.md
 - CONTRIBUTING.md
 - continuous integration with TravisCI (`.travis.yml`)
 - linting tests and their config files (`.pylintrc` and `.flake8`)
 - tests/ folder
-- add session error logging
+- add session error logging #64
 - support custom id in InfoButton widget #63
 - add feedback form #65
 - add custom 404 and 500 error pages #70
