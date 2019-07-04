@@ -16,6 +16,12 @@ Here is a template for new release sections
 ### Removed
 -
 ```
+## [Unreleased]
+
+### Added
+
+### Changed
+
 ## [0.1.2] 2019-07-04
 
 ### Added
