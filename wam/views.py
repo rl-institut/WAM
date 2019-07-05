@@ -4,6 +4,7 @@ from collections import defaultdict
 from configobj import ConfigObj
 
 from django.views.generic import TemplateView
+from django.shortcuts import render_to_response
 
 from wam.settings import WAM_APPS, BASE_DIR
 from utils.constants import AppInfo, AppCategory
@@ -71,29 +72,17 @@ class IndexView(TemplateView):
         return self.render_to_response(context)
 
 
-class WAMErrorPage(TemplateView):
-    """A custom error page template"""
-    template_name = 'error.html'
-    err_text = 'Es ist ein Fehler aufgetreten'
-    status_code = None
-
-    def get_context_data(self, **kwargs):
-        context = super(WAMErrorPage, self).get_context_data()
-        context['err_text'] = self.err_text
-        return context
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context, status=self.status_code)
-
-
-class WAM404View(WAMErrorPage):
+def handler404(request, exception, template_name='error.html'):
     """A custom 404 page"""
-    err_text = 'Die Seite wurde leider nicht gefunden'
-    status_code = 404
+    context = {'err_text': 'Die Seite wurde leider nicht gefunden'}
+    response = render_to_response(template_name, context=context)
+    response.status_code = 404
+    return response
 
 
-class WAM500View(WAMErrorPage):
+def handler500(request, template_name='error.html'):
     """A custom 500 page"""
-    err_text = 'Es ist ein Server-Fehler aufgetreten'
-    status_code = 500
+    context = {'err_text': 'Es ist ein Server-Fehler aufgetreten'}
+    response = render_to_response(template_name, context=context)
+    response.status_code = 500
+    return response

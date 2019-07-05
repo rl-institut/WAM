@@ -55,5 +55,5 @@ for app_name in WAM_APPS:
     urlpatterns.append(app_url)
 
 # error handlers (work in non-debug mode only)
-handler404 = views.WAM404View.as_view()
-handler500 = views.WAM500View.as_view()
+handler404 = 'wam.views.handler404'
+handler500 = 'wam.views.handler500'
