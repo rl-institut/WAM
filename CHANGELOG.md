@@ -39,6 +39,7 @@ Here is a template for new release sections
 - fix flake8 and pylint errors
 - environnement.yml installs dependencies from requirements.txt so that conda is not required
 - fix grid-x layout error in InfoButton widget #66
+- fix: avoid reimport of modules if multiple apps use the same #75
 
 ## [0.1.1] 2019-05-22
 
