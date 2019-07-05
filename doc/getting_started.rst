@@ -271,6 +271,11 @@ Then, wam core will manage the packages' installation and avoid duplicate instal
 
 
 - *app_settings.py* contains application specific settings and is loaded at start of django server at the end of *settings.py*. This file may include additional database connections, loading of config files needed for the application, etc.
+
+
+.. warning:: Avoid using config variables for packages in your app as it may override or get overridden by package config of other app!
+
+
 - *labels.cfg* (uses configobj_) supports easy adding of labels to templates via templatetags (see :ref:`label_tags`)
 
 
