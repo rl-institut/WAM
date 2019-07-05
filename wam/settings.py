@@ -191,7 +191,10 @@ for app in WAM_APPS:
         for setting in dir(settings):
             if setting == setting.upper():
                 if setting in locals() and isinstance(locals()[setting], list):
-                    locals()[setting] += getattr(settings, setting)
+                    attr_list = getattr(settings, setting)
+                    for attr in attr_list:
+                        if attr not in locals()[setting]:
+                            locals()[setting].append(attr)
                 else:
                     locals()[setting] = getattr(settings, setting)
 
