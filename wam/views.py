@@ -1,8 +1,9 @@
 import os
 import importlib
 from collections import defaultdict
-from django.views.generic import TemplateView
 from configobj import ConfigObj
+
+from django.views.generic import TemplateView
 
 from wam.settings import WAM_APPS, BASE_DIR
 from utils.constants import AppInfo, AppCategory
@@ -74,18 +75,25 @@ class WAMErrorPage(TemplateView):
     """A custom error page template"""
     template_name = 'error.html'
     err_text = 'Es ist ein Fehler aufgetreten'
+    status_code = None
 
     def get_context_data(self, **kwargs):
         context = super(WAMErrorPage, self).get_context_data()
         context['err_text'] = self.err_text
         return context
 
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context, status=self.status_code)
+
 
 class WAM404View(WAMErrorPage):
     """A custom 404 page"""
     err_text = 'Die Seite wurde leider nicht gefunden'
+    status_code = 404
 
 
 class WAM500View(WAMErrorPage):
     """A custom 500 page"""
     err_text = 'Es ist ein Server-Fehler aufgetreten'
+    status_code = 500
