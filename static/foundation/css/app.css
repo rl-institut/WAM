@@ -8,6 +8,9 @@
 .l-bg-color--light {
   background-color: #D8E2ED; }
 
+.l-bg-color--error {
+  background-color: #F2994A; }
+
 a {
   font-weight: 700; }
 

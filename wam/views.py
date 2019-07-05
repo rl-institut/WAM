@@ -1,8 +1,10 @@
 import os
 import importlib
 from collections import defaultdict
-from django.views.generic import TemplateView
 from configobj import ConfigObj
+
+from django.views.generic import TemplateView
+from django.shortcuts import render_to_response
 
 from wam.settings import WAM_APPS, BASE_DIR
 from utils.constants import AppInfo, AppCategory
@@ -68,3 +70,19 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context)
+
+
+def handler404(request, exception, template_name='error.html'):  # pylint: disable=unused-argument
+    """A custom 404 page"""
+    context = {'err_text': 'Die Seite wurde leider nicht gefunden'}
+    response = render_to_response(template_name, context=context)
+    response.status_code = 404
+    return response
+
+
+def handler500(request, template_name='error.html'):  # pylint: disable=unused-argument
+    """A custom 500 page"""
+    context = {'err_text': 'Es ist ein Server-Fehler aufgetreten'}
+    response = render_to_response(template_name, context=context)
+    response.status_code = 500
+    return response

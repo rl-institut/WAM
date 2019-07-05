@@ -191,7 +191,10 @@ for app in WAM_APPS:
         for setting in dir(settings):
             if setting == setting.upper():
                 if setting in locals() and isinstance(locals()[setting], list):
-                    locals()[setting] += getattr(settings, setting)
+                    attr_list = getattr(settings, setting)
+                    for attr in attr_list:
+                        if attr not in locals()[setting]:
+                            locals()[setting].append(attr)
                 else:
                     locals()[setting] = getattr(settings, setting)
 
@@ -200,3 +203,8 @@ for app in WAM_APPS:
         importlib.import_module(f'{app}.app_settings', package='wam')
     except ModuleNotFoundError:
         pass
+
+# E-mail config for outgoing mails (used by exchangelib)
+WAM_EXCHANGE_ACCOUNT = config['WAM']['WAM_EXCHANGE_ACCOUNT']
+WAM_EXCHANGE_EMAIL = config['WAM']['WAM_EXCHANGE_EMAIL']
+WAM_EXCHANGE_PW = config['WAM']['WAM_EXCHANGE_PW']
