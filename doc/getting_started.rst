@@ -260,8 +260,22 @@ Requirements:
 
 Additional setups:
 
-- *settings.py* can setup additional parameters for projects *settings.py*
+- *settings.py* can setup additional parameters for projects *settings.py*.
+If your app requires the use of additional packages, you should list them in the settings.py of your app (not the settings.py file form wam core) in the following way
+
+.. code:: python
+
+    INSTALLED_APP = ['package1', 'package2']
+
+Then, wam core will manage the packages' installation and avoid duplicate installations between the different apps.
+
+
 - *app_settings.py* contains application specific settings and is loaded at start of django server at the end of *settings.py*. This file may include additional database connections, loading of config files needed for the application, etc.
+
+
+.. warning:: Avoid using config variables for packages in your app as it may override or get overridden by package config of other app!
+
+
 - *labels.cfg* (uses configobj_) supports easy adding of labels to templates via templatetags (see :ref:`label_tags`)
 
 
