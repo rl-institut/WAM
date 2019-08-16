@@ -7,6 +7,8 @@ services:
     command: /bin/bash -c "source activate django && cd /code && gunicorn --bind 0.0.0.0:5000 wam.wsgi:application"
     environment:
       WAM_CONFIG_PATH: /config/config.cfg
+    ports:
+      - "5000:5000"  # Adapt this to your needs!
     volumes:
     - ../config:/config
     networks:
@@ -37,10 +39,9 @@ services:
     container_name: wam_db
     restart: unless-stopped
     environment:
+      POSTGRES_DB: wam_database
       POSTGRES_USER: wam_admin
       POSTGRES_PASSWORD: wam_pwd  # Change this!
-    ports:
-    - "5432:5432"
     volumes:
     - ../django_db:/var/lib/postgresql/data
     networks:
@@ -49,8 +50,6 @@ services:
     restart: unless-stopped
     image: rabbitmq:latest
     container_name: rabbitmq
-    ports:
-    - "5672:5672"
     environment:
       RABBITMQ_DEFAULT_VHOST: rabbit_vhost    # Change this!
       RABBITMQ_DEFAULT_USER: rabbit_user      # Change this!
