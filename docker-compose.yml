@@ -2,10 +2,6 @@ version: '2'
 services:
   wam:
     restart: unless-stopped
-    build:
-      context: ./WAM
-      args:
-      - WAM_APPS=stemp,stemp_abw,app_mapping  # Activate wam apps here!
     image: wam
     container_name: wam
     command: /bin/bash -c "source activate django && cd /code && gunicorn --bind 0.0.0.0:5000 wam.wsgi:application"
@@ -20,6 +16,10 @@ services:
     - celery
   celery:
     restart: unless-stopped
+    build:
+      context: ./WAM
+      args:
+        - WAM_APPS=stemp,stemp_abw,app_mapping  # Activate wam apps here!
     image: wam
     container_name: celery
     command: /bin/bash -c "source activate django && cd /code && celery -A wam -Q wam_queue worker -l info"
@@ -37,9 +37,10 @@ services:
     container_name: wam_db
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: password  # Change this!
+      POSTGRES_USER: wam_admin
+      POSTGRES_PASSWORD: wam_pwd  # Change this!
     ports:
-    - "127.0.0.1:5432:5432"
+    - "5432:5432"
     volumes:
     - ../django_db:/var/lib/postgresql/data
     networks:
@@ -49,11 +50,11 @@ services:
     image: rabbitmq:latest
     container_name: rabbitmq
     ports:
-    - "127.0.0.1:5672:5672"
+    - "5672:5672"
     environment:
-      RABBITMQ_DEFAULT_VHOST: vhost    # Change this!
-      RABBITMQ_DEFAULT_USER: user      # Change this!
-      RABBITMQ_DEFAULT_PASS: password  # Change this! 
+      RABBITMQ_DEFAULT_VHOST: rabbit_vhost    # Change this!
+      RABBITMQ_DEFAULT_USER: rabbit_user      # Change this!
+      RABBITMQ_DEFAULT_PASS: rabbit_pwd  # Change this!
     networks:
     - wam_network
 
