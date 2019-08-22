@@ -21,7 +21,7 @@ services:
     build:
       context: ./WAM
       args:
-        - WAM_APPS=stemp,stemp_abw,app_mapping  # Activate wam apps here!
+        - WAM_APPS=  # Activate wam apps here!
     image: wam
     container_name: celery
     command: /bin/bash -c "source activate django && cd /code && celery -A wam -Q wam_queue worker -l info"
