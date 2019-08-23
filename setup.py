@@ -4,12 +4,8 @@ from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
-    dependencies = {
-        requirement
-        for requirement in requirements
-        if requirement.startswith('git')
-    }
-    requirements = set(requirements) - dependencies
+    dependencies = [req for req in requirements if req.startswith('git')]
+    requirements = list(set(requirements) - set(dependencies))
 
 setup(
     name='wam',
