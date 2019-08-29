@@ -4,8 +4,9 @@ from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
-    dependencies = [req.lstrip('-e ') for req in requirements if req.startswith('-e')]
+    dependencies = [req for req in requirements if req.startswith('-e')]
     requirements = list(set(requirements) - set(dependencies))
+    dependencies = [dep.lstrip('-e ') for dep in dependencies]
 
 setup(
     name='wam',
