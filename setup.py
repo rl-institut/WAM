@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
-    dependencies = [req for req in requirements if req.startswith('git')]
+    dependencies = [req.lstrip('-e ') for req in requirements if req.startswith('-e')]
     requirements = list(set(requirements) - set(dependencies))
 
 setup(
