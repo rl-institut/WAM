@@ -4,15 +4,16 @@ from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
-    dependencies = [req for req in requirements if req.startswith('-e')]
-    requirements = list(set(requirements) - set(dependencies))
-    dependencies = [dep.lstrip('-e ') for dep in dependencies]
+    git_requirements = [
+        f"{req.split('#egg=')[1]} @ {req}"
+        for req in requirements if req.startswith('git')
+    ]
+    normal_requirements = [req for req in requirements if not req.startswith('git')]
 
 setup(
     name='wam',
     version='1.0',
     packages=find_packages(),
-    install_requires=requirements,
-    dependency_links=dependencies,
+    install_requires=normal_requirements + git_requirements,
     scripts=['manage.py']
 )
