@@ -92,6 +92,11 @@ For Ubuntu:
 
 For other systems see https://postgis.net/.
 
+Activate postgis extension (execute as SQL query) to make it work:
+
+.. code:: bash
+
+    CREATE EXTENSION postgis;
 
 .. _message_broker:
 
