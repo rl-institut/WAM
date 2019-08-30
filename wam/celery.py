@@ -7,8 +7,7 @@ from wam.settings import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wam.settings')
 
-rtd_mode = config['WAM'].get('RTD-MODE', 'False') == 'True'
-if rtd_mode:
+if 'READTHEDOCS' in os.environ:
     url = None
 else:
     url = 'amqp://{user}:{password}@{host}:{port}/{vhost}'.format(
