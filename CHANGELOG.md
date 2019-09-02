@@ -19,6 +19,7 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+- I18N functionality via locale middleware enabled #76 #80
 - enable support for markdownx extensions #83
 
 ### Changed
