@@ -19,6 +19,7 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+- enable support for markdownx extensions #83
 
 ### Changed
 
