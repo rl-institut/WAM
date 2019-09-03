@@ -12,6 +12,12 @@ from django.forms.renderers import get_default_renderer
 
 from wam.settings import BASE_DIR
 
+# import markdownx extensions from settings if available
+try:
+    from wam.settings import MARKDOWNX_MARKDOWN_EXTENSIONS
+except ImportError:
+    MARKDOWNX_MARKDOWN_EXTENSIONS = []
+
 
 class CustomWidget(ABC):
     template_name: str = None
@@ -77,7 +83,9 @@ class InfoButton(CustomWidget):
             prepended by "info_". By default, a counter is used which results
             in ids "info_0", "info_1" etc.
         """
-        self.text = markdown(text) if is_markdown else text
+        self.text = markdown(text,
+                             extensions=MARKDOWNX_MARKDOWN_EXTENSIONS)\
+            if is_markdown else text
         self.tooltip = tooltip
         self.ionicon_type = ionicon_type
         self.ionicon_size = ionicon_size
