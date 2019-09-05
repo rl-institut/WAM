@@ -23,6 +23,7 @@ Here is a template for new release sections
 - enable support for markdownx extensions #83
 
 ### Changed
+- Highcharts source removed #78
 
 ## [0.1.2] 2019-07-04
 
