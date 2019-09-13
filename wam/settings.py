@@ -214,4 +214,3 @@ WAM_EXCHANGE_PW = config['WAM'].get('WAM_EXCHANGE_PW')
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra'
 ]
-
