@@ -19,8 +19,11 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+- I18N functionality via locale middleware enabled #76 #80
+- enable support for markdownx extensions #83
 
 ### Changed
+- Highcharts source removed #78
 
 ## [0.1.2] 2019-07-04
 

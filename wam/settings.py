@@ -209,3 +209,9 @@ for app in WAM_APPS:
 WAM_EXCHANGE_ACCOUNT = config['WAM'].get('WAM_EXCHANGE_ACCOUNT')
 WAM_EXCHANGE_EMAIL = config['WAM'].get('WAM_EXCHANGE_EMAIL')
 WAM_EXCHANGE_PW = config['WAM'].get('WAM_EXCHANGE_PW')
+
+# Extensions for markdownx
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra'
+]
+
