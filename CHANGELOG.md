@@ -21,6 +21,7 @@ Here is a template for new release sections
 ### Added
 - I18N functionality via locale middleware enabled #76 #80
 - enable support for markdownx extensions #83
+- enable autodoc/APIdocs of WAM apps on ReadTheDocs #82
 
 ### Changed
 - Highcharts source removed #78
