@@ -206,9 +206,9 @@ for app in WAM_APPS:
         pass
 
 # E-mail config for outgoing mails (used by exchangelib)
-WAM_EXCHANGE_ACCOUNT = config['WAM']['WAM_EXCHANGE_ACCOUNT']
-WAM_EXCHANGE_EMAIL = config['WAM']['WAM_EXCHANGE_EMAIL']
-WAM_EXCHANGE_PW = config['WAM']['WAM_EXCHANGE_PW']
+WAM_EXCHANGE_ACCOUNT = config['WAM'].get('WAM_EXCHANGE_ACCOUNT')
+WAM_EXCHANGE_EMAIL = config['WAM'].get('WAM_EXCHANGE_EMAIL')
+WAM_EXCHANGE_PW = config['WAM'].get('WAM_EXCHANGE_PW')
 
 # Extensions for markdownx
 MARKDOWNX_MARKDOWN_EXTENSIONS = [

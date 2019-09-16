@@ -7,13 +7,17 @@ from wam.settings import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wam.settings')
 
-url = 'amqp://{user}:{password}@{host}:{port}/{vhost}'.format(
-    user=config['CELERY']['USER'],
-    password=config['CELERY']['PASSWORD'],
-    host=config['CELERY']['HOST'],
-    port=config['CELERY']['PORT'],
-    vhost=config['CELERY']['VHOST'],
-)
+if 'READTHEDOCS' in os.environ:
+    url = None
+else:
+    url = 'amqp://{user}:{password}@{host}:{port}/{vhost}'.format(
+        user=config['CELERY']['USER'],
+        password=config['CELERY']['PASSWORD'],
+        host=config['CELERY']['HOST'],
+        port=config['CELERY']['PORT'],
+        vhost=config['CELERY']['VHOST'],
+    )
+
 app = Celery(
     'wam',
     broker=url,
@@ -26,7 +30,6 @@ app.conf.task_default_queue = 'wam_queue'
 app.conf.update(
     result_expires=3600,
 )
-
 
 if __name__ == '__main__':
     app.start()
