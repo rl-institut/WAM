@@ -19,6 +19,12 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+## [0.1.3] 2019-09-17
+
+### Added
 - I18N functionality via locale middleware enabled #76 #80
 - enable support for markdownx extensions #83
 - enable autodoc/APIdocs of WAM apps on ReadTheDocs #82
