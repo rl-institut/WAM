@@ -19,12 +19,21 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+## [0.1.3] 2019-09-17
+
+### Added
 - I18N functionality via locale middleware enabled #76 #80
 - enable support for markdownx extensions #83
 - enable autodoc/APIdocs of WAM apps on ReadTheDocs #82
 
 ### Changed
 - Highcharts source removed #78
+- apps' icon size increased on landing page #89
+- install docs extended: docker
+- update README.md
 
 ## [0.1.2] 2019-07-04
 
