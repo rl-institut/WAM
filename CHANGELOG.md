@@ -33,6 +33,7 @@ Here is a template for new release sections
 - Highcharts source removed #78
 - apps' icon size increased on landing page #89
 - install docs extended: docker
+- update README.md
 
 ## [0.1.2] 2019-07-04
 
