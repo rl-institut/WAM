@@ -81,6 +81,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -145,8 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-
-# LANGUAGE_CODE = 'de-DE'
+LANGUAGE_CODE = 'de-DE'
 
 TIME_ZONE = 'Europe/Berlin'
 
@@ -208,3 +208,8 @@ for app in WAM_APPS:
 WAM_EXCHANGE_ACCOUNT = config['WAM'].get('WAM_EXCHANGE_ACCOUNT')
 WAM_EXCHANGE_EMAIL = config['WAM'].get('WAM_EXCHANGE_EMAIL')
 WAM_EXCHANGE_PW = config['WAM'].get('WAM_EXCHANGE_PW')
+
+# Extensions for markdownx
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra'
+]

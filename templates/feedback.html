@@ -6,18 +6,18 @@
   <main>
     <section class="grid-x align-center l-bg-color--light hp-features">
       <div class="cell medium-8 large-6">
-        <h1><i class='icon ion-chatbubbles icon--large'></i> Ihr Feedback</h1>
+        <h1><i class='icon ion-chatbubbles icon--large'></i> Your Feedback</h1>
         <p><strong>App: <a href="../" class="u-padding-top--l u-padding-bt--l">{{ app_name }}</a></strong></p>
         {% if intro_text %}
           <p>{{ intro_text }}</p>
         {% else %}
-          <p>Hier können Sie uns eine Rückmeldung zur App geben, wir freuen uns über Ihre Nachricht!</p>
+          <p>Here you can give us your feedback about the app, we are looking forward to your message!</p>
         {% endif %}
 
         <form method="post">
           {% csrf_token %}
           {{ form }}
-          <button class="btn btn-cta" type="submit" style="float: right;">Abschicken</button>
+          <button class="btn btn-cta" type="submit" style="float: right;">Send</button>
         </form>
       </div>
     </section>

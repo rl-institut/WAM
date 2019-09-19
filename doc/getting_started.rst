@@ -1,6 +1,8 @@
 Introduction
 ============
 
+WAM-Server can be set up either manually (setting up database, environment and wam by hand) or via docker.
+Both methods will be presented in the following.
 
 .. contents::
    :depth: 3
@@ -13,10 +15,65 @@ WebAppMap-Server [WAM] provides a basic and expandable Django_ infrastructure to
 
 .. _Django: https://www.djangoproject.com/
 
-.. _prerequisites:
+Installation via Docker
+-----------------------
 
 Prerequisites
--------------
+^^^^^^^^^^^^^
+
+* git is installed.
+* Docker_ and Docker-Compose_ are installed.
+
+.. _Docker: https://docs.docker.com/install/
+.. _Docker-Compose: https://docs.docker.com/compose/install/
+
+
+Setup
+^^^^^
+
+Following folder structure is recommended and used in the following:
+
+.. code-block:: bash
+
+  wam_docker
+  +-- docker (Contains docker config and WAM code basis)
+  |   +-- docker-compose.yml
+  |   +-- WAM (WAM-Codebasis; WAM-apps are integrated here later)
+  +-- config (Config for WAM and apps)
+  |   +-- config.cfg
+
+.. note::
+  Changes to this structure have to be adopted in config file and docker config (docker-compose.yml)
+
+Setup of folder structure and code basis:
+
+.. code-block:: bash
+
+  mkdir wam_docker
+  cd wam_docker
+  mkdir docker
+  mkdir config
+  cd docker
+  git clone https://github.com/rl-institut/WAM.git
+  cp WAM/docker-compose.yml .
+  cp WAM/.config/config.cfg ../config/
+
+Next, config files have to be adopted (`docker-compose.yml` und `config.cfg`).
+Finally, following command builds image and starts new container:
+
+.. code-block:: bash
+
+  sudo docker-compose up -d --build
+
+WAM-Server should now be available under 127.0.0.1:5000 !
+
+.. _prerequisites:
+
+Installation from scratch
+-------------------------
+
+Prerequisites
+^^^^^^^^^^^^^
 
 - `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
 - A postgresql database should be created (see :ref:`postgresql`).
@@ -92,6 +149,11 @@ For Ubuntu:
 
 For other systems see https://postgis.net/.
 
+Activate postgis extension (execute as SQL query) to make it work:
+
+.. code:: bash
+
+    CREATE EXTENSION postgis;
 
 .. _message_broker:
 
@@ -261,6 +323,7 @@ Requirements:
 Additional setups:
 
 - *settings.py* can setup additional parameters for projects *settings.py*.
+
 If your app requires the use of additional packages, you should list them in the settings.py of your app (not the settings.py file form wam core) in the following way
 
 .. code:: python
