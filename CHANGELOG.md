@@ -22,7 +22,7 @@ Here is a template for new release sections
 
 ### Changed
 
-## [0.1.3] 2019-09-17
+## [0.1.3] 2019-09-19
 
 ### Added
 - I18N functionality via locale middleware enabled #76 #80
