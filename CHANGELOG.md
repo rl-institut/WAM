@@ -34,6 +34,7 @@ Here is a template for new release sections
 - apps' icon size increased on landing page #89
 - install docs extended: docker
 - update README.md
+- language in feedback form changed to EN #93
 
 ## [0.1.2] 2019-07-04
 
