@@ -69,21 +69,26 @@ WAM-Server should now be available under 127.0.0.1:5000 !
 
 .. _prerequisites:
 
-Installation from scratch
+Installation from Scratch
 -------------------------
 
 Prerequisites
 ^^^^^^^^^^^^^
 
-- `postgresql library <https://www.postgresql.org/download/>`_ should be installed.
-- A postgresql database should be created (see :ref:`postgresql`).
-- `postgis` library should be installed (see :ref:`postgis`).
-- if :ref:`celery_setup` shall be used, a :ref:`message_broker`  must be used.
+- `PostgreSQL library <https://www.postgresql.org/download/>`_ should be installed.
+- A PostgreSQL database should be created (see :ref:`postgresql`).
+- `PostGIS` library should be installed (see :ref:`postgis`).
+- if :ref:`celery_setup` shall be used, a :ref:`message_broker` must be used.
 
 .. _postgresql:
 
-postgresql setup
+PostgreSQL Setup
 ^^^^^^^^^^^^^^^^
+
+This section describes the installtion of PostgreSQL on Linux and Windows.
+
+Linux
+*****
 
 The following instructions are for Ubuntu and inspired from here_.
 
@@ -130,13 +135,82 @@ This can be stopped using the command
 
 .. _here: https://help.ubuntu.com/community/PostgreSQL
 
+Windows
+*******
+
+1. Download and install latest `PostgreSQL for Windows <https://www.enterprisedb.com/downloads/postgres-postgresql-downloads>`_.
+
+2. At the end of or after the install of PostgreSQL for Windows use `Stack Builder` (will be installed with PostgresSQL) to install `Spatial Extensions -> PostGIS bundle`
+
+In the Windows command line (cmd.exe) or Powershell:
+
+3. Set the path environment variable for PostgreSQL (to be able to use PostgreSQL via the command line), e.g.:
+
+.. code::
+
+    SETX PATH "%PATH%;C:\Program Files\PostgreSQL\11\bin"
+
+4. Login to "psql" as user "postgres":
+
+.. code::
+
+    psql -U postgres
+
+5. In psql create superuser "wam_admin":
+
+.. code::
+
+    CREATE ROLE wam_admin WITH LOGIN SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
+
+6. Set a password for the superuser wam_admin:
+
+.. code::
+
+    \password wam_admin
+
+7. Quit psql:
+
+.. code::
+
+    \q
+
+8. Create database:
+
+.. code::
+
+    createdb -U wam_admin wam_database
+
+
+How to start, stop and restart PostgreSQL on Windows:
+
+1. Start:
+
+.. code::
+
+    pg_ctl -D "<drive letter>:\path\to\PostgreSQL\<version>\data" start
+
+2. Stop:
+
+.. code::
+
+    pg_ctl -D "<drive letter>:\path\to\PostgreSQL\<version>\data" stop
+
+3. Restart:
+
+.. code::
+
+    pg_ctl -D "<drive letter>:\path\to\PostgreSQL\<version>\data" restart
 
 .. _postgis:
 
-postgis setup
+PostGIS Setup
 ^^^^^^^^^^^^^
 
-For Ubuntu:
+This section describes the installtion of PostGIS on Linux and Windows.
+
+Linux (Ubuntu)
+**************
+
 
 .. code:: bash
 
@@ -154,6 +228,32 @@ Activate postgis extension (execute as SQL query) to make it work:
 .. code:: bash
 
     CREATE EXTENSION postgis;
+
+Windows
+*******
+
+If not already installed, use `Stack Builder` (will be installed with
+PostgresSQL) to install `Spatial Extensions -> PostGIS bundle`
+
+
+1. Login to psql as wam_admin in wam_database:
+
+.. code::
+
+    psql -U wam_admin wam_database
+
+
+2. Create postgis extension:
+
+.. code::
+
+    CREATE EXTENSION postgis;
+
+3. Quit psql:
+
+.. code::
+
+    \q
 
 .. _message_broker:
 
@@ -178,13 +278,12 @@ Other users have to setup their own message broker
 Getting Started
 ---------------
 
+.. _setup_linux:
 
-.. _setup:
+Setup on Linux:
+^^^^^^^^^^^^^^^
 
-Setup
-^^^^^
-
-Clone repository from github via:
+Clone repository from GitHub via:
 
 .. code:: bash
 
@@ -200,19 +299,10 @@ Afterwards, applications can be "plugged-in" by simply cloning application into 
 and adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
 Requirements and configuration of an application can be found at :ref:`app_settings`
 
+.. _environment_linux:
 
-.. _configuration:
-
-Configuration
-^^^^^^^^^^^^^
-
-The WAM-Server can be configured as follows.
-
-
-.. _environment:
-
-Environment Variables
-^^^^^^^^^^^^^^^^^^^^^
+Linux: Environment Variables
+****************************
 
 WAM-Server needs at least the following environment variables:
 
@@ -235,6 +325,71 @@ then add the following two lines
 
 .. _configobj: https://configobj.readthedocs.io/en/latest/configobj.html
 
+.. _setup_windows:
+
+Setup on Windows:
+^^^^^^^^^^^^^^^^^
+
+Prerequisites:
+
+- Git Bash (included in `Git for Windows <https://git-scm.com/>`_)
+- Install the `small` version of Conda (Miniconda), the big version Anaconda is
+  not needed (reverse install settings, include Anaconda to PATH but don't
+  install as default): `Link <https://docs.conda.io/en/latest/miniconda.html>`_.
+
+
+1. Open Git Bash and create a project folder
+
+.. code:: bash
+
+    mkdir project_folder_name
+    cd project_folder_name
+
+2. Clone repository from GitHub via:
+
+.. code:: bash
+
+  git clone https://github.com/rl-institut/WAM.git
+
+3. Setup conda environment with required packages via:
+
+.. code:: bash
+
+  conda env create -f environment.yml
+
+Afterwards, applications can be "plugged-in" by simply cloning application into the root directory
+and adding application name to environment variable *WAM_APPS* (see :ref:`environment`).
+Requirements and configuration of an application can be found at :ref:`app_settings`
+
+4. Install package dependencies of your WAM app(s):
+
+- Example app: `stemp_abw <https://github.com/rl-institut/WAM_APP_stemp_abw>`_
+
+.. code:: bash
+
+    conda install -c conda-forge gdal
+    conda activate django
+    conda install shapely
+    pip install -r requirements.txt
+    pip install -r stemp_abw/requirements.txt
+
+.. _environment_windows:
+
+Windows: Environment Variables
+******************************
+
+WAM-Server needs at least the following environment variables:
+
+- WAM_CONFIG_PATH: full path to the configuration file (see :ref:`configuration_file` for the file content)
+
+- WAM_APPS: Apps which shall be loaded within *INSTALLED_APPS*. Additionally, individual app settings are loaded (see :ref:`app_settings`).
+
+Add them to your Windows user environment:
+
+.. code::
+
+   SETX WAM_CONFIG_PATH "<drive letter>:\<path to your WAM repo>\.config\config.cfg"
+   SETX WAM_APPS "<name of wam app 1>,<name of wam app 2>"
 
 .. _configuration_file:
 
