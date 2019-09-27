@@ -22,6 +22,8 @@ Here is a template for new release sections
 
 ### Changed
 
+- WAM installation instructions improved (esp. for Windows) #95
+
 ## [0.1.3] 2019-09-19
 
 ### Added
