@@ -1,4 +1,4 @@
-django
+django==2.2.5
 jmespath
 gunicorn
 pandas
