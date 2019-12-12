@@ -20,8 +20,8 @@ class Assumption(models.Model):
 
     app_name = models.CharField(max_length=255)
 
-    source = models.ForeignKey('Source', on_delete=models.DO_NOTHING)
-    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
+    source = models.ForeignKey('Source', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -37,7 +37,7 @@ class Source(models.Model):
 
     app_name = models.CharField(max_length=255)
 
-    category = models.ForeignKey('Category', on_delete=models.DO_NOTHING)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def json(self):
         return JsonWidget(self.meta_data).render()
