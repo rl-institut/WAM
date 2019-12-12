@@ -39,6 +39,7 @@ class AppListView(ListView):
     default_template_name = 'meta/app_list.html'
     app_name = None
     ordering = ['category__name']
+    title = "Quellen"
 
     def __init__(self, *args, **kwargs):
         super(AppListView, self).__init__(*args, **kwargs)
@@ -52,6 +53,8 @@ class AppListView(ListView):
         # pylint: disable=protected-access
         context = super(AppListView, self).get_context_data(
             object_list=object_list, **kwargs)
+
+        context['title'] = self.title
 
         # Try to load base.html template from app:
         base_template = 'meta/base.html'
@@ -94,6 +97,7 @@ class AppListView(ListView):
 class AssumptionsView(AppListView):
     source_url = None
     model = Assumption
+    title = "Annahmen"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AssumptionsView, self).get_context_data(
