@@ -1,4 +1,3 @@
-
 from wam.admin import wam_admin_site
 from meta import models
 

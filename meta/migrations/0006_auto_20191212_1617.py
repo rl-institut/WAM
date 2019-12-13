@@ -7,23 +7,29 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meta', '0005_auto_20190211_1125'),
+        ("meta", "0005_auto_20190211_1125"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='assumption',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='meta.Category'),
+            model_name="assumption",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="meta.Category"
+            ),
         ),
         migrations.AlterField(
-            model_name='assumption',
-            name='source',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='meta.Source'),
+            model_name="assumption",
+            name="source",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="meta.Source"
+            ),
         ),
         migrations.AlterField(
-            model_name='source',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='meta.Category'),
+            model_name="source",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="meta.Category"
+            ),
         ),
     ]

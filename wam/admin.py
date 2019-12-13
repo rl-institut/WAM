@@ -1,4 +1,3 @@
-
 import importlib
 
 from django.contrib.admin import AdminSite
@@ -11,8 +10,8 @@ from wam import settings
 class WamAdminSite(AdminSite):
     def get_urls(self):
         admin_urls = super(WamAdminSite, self).get_urls()
-        for app in settings.WAM_APPS + ['user_sessions']:
-            urls_module = importlib.import_module(f'{app}.urls')
+        for app in settings.WAM_APPS + ["user_sessions"]:
+            urls_module = importlib.import_module(f"{app}.urls")
             try:
                 admin_urls.extend(urls_module.admin_url_patterns)
             except AttributeError:

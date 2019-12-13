@@ -1,4 +1,3 @@
-
 from wam.celery import app
 
 

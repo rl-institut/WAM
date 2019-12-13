@@ -7,13 +7,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meta', '0002_auto_20181130_1141'),
+        ("meta", "0002_auto_20181130_1141"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='source',
-            name='meta_data',
+            model_name="source",
+            name="meta_data",
             field=django.contrib.postgres.fields.jsonb.JSONField(null=True),
         ),
     ]

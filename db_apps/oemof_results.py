@@ -1,9 +1,7 @@
-
 import re
 import pandas
 import transaction
-from sqlalchemy import (
-    Column, Integer, String, ARRAY, ForeignKey)
+from sqlalchemy import Column, Integer, String, ARRAY, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import DOUBLE_PRECISION
 from sqlalchemy.ext.declarative import declarative_base
@@ -48,90 +46,49 @@ Base = declarative_base()
 
 
 class OemofInputResult(Base):
-    __tablename__ = 'stemp_oemof_input_result'
+    __tablename__ = "stemp_oemof_input_result"
 
-    input_result_id = Column(
-        Integer,
-        primary_key=True
-    )
-    input_id = Column(Integer, ForeignKey('stemp_oemof_data.data_id'))
-    result_id = Column(Integer, ForeignKey('stemp_oemof_data.data_id'))
+    input_result_id = Column(Integer, primary_key=True)
+    input_id = Column(Integer, ForeignKey("stemp_oemof_data.data_id"))
+    result_id = Column(Integer, ForeignKey("stemp_oemof_data.data_id"))
     input = relationship(
-        "OemofData",
-        backref="input",
-        uselist=False,
-        foreign_keys=[input_id],
+        "OemofData", backref="input", uselist=False, foreign_keys=[input_id],
     )
     result = relationship(
-        "OemofData",
-        backref="result",
-        uselist=False,
-        foreign_keys=[result_id],
+        "OemofData", backref="result", uselist=False, foreign_keys=[result_id],
     )
 
 
 class OemofData(Base):
-    __tablename__ = 'stemp_oemof_data'
+    __tablename__ = "stemp_oemof_data"
 
-    data_id = Column(
-        Integer,
-        primary_key=True
-    )
+    data_id = Column(Integer, primary_key=True)
     scalars = relationship("OemofScalar", cascade="delete")
     sequences = relationship("OemofSequence", cascade="delete")
 
 
 class OemofScalar(Base):
-    __tablename__ = 'stemp_oemof_scalar'
+    __tablename__ = "stemp_oemof_scalar"
 
-    scalar_id = Column(
-        Integer,
-        primary_key=True
-    )
-    data_id = Column(
-        Integer, ForeignKey('stemp_oemof_data.data_id'))
-    from_node = Column(
-        String
-    )
-    to_node = Column(
-        String
-    )
-    attribute = Column(
-        String
-    )
-    value = Column(
-        String
-    )
-    type = Column(
-        String
-    )
+    scalar_id = Column(Integer, primary_key=True)
+    data_id = Column(Integer, ForeignKey("stemp_oemof_data.data_id"))
+    from_node = Column(String)
+    to_node = Column(String)
+    attribute = Column(String)
+    value = Column(String)
+    type = Column(String)
 
 
 class OemofSequence(Base):
-    __tablename__ = 'stemp_oemof_sequence'
+    __tablename__ = "stemp_oemof_sequence"
 
-    sequence_id = Column(
-        Integer,
-        primary_key=True
-    )
-    data_id = Column(
-        Integer, ForeignKey('stemp_oemof_data.data_id'))
-    from_node = Column(
-        String
-    )
-    to_node = Column(
-        String,
-        nullable=True
-    )
-    attribute = Column(
-        String
-    )
-    value = Column(
-        ARRAY(DOUBLE_PRECISION)
-    )
-    type = Column(
-        String
-    )
+    sequence_id = Column(Integer, primary_key=True)
+    data_id = Column(Integer, ForeignKey("stemp_oemof_data.data_id"))
+    from_node = Column(String)
+    to_node = Column(String, nullable=True)
+    attribute = Column(String)
+    value = Column(ARRAY(DOUBLE_PRECISION))
+    type = Column(String)
 
 
 def store_results(session, input_data, result_data):
@@ -166,34 +123,33 @@ def store_results(session, input_data, result_data):
         result_data = convert_keys_to_strings(result_data)
 
     input_result = OemofInputResult()
-    for input_result_attr, data in (
-            ('input', input_data), ('result', result_data)):
+    for input_result_attr, data in (("input", input_data), ("result", result_data)):
         scalars = []
         sequences = []
         for (from_node, to_node), sc_sq_dict in data.items():
-            for key, value in sc_sq_dict['scalars'].items():
+            for key, value in sc_sq_dict["scalars"].items():
                 scalars.append(
                     OemofScalar(
                         from_node=from_node,
                         to_node=to_node,
                         attribute=key,
                         value=value,
-                        type=type(value).__name__
+                        type=type(value).__name__,
                     )
                 )
             session.add_all(scalars)
-            for key, series in sc_sq_dict['sequences'].items():
-                list_type = 'list'
+            for key, series in sc_sq_dict["sequences"].items():
+                list_type = "list"
                 if isinstance(series, pandas.Series):
                     series = series.values.tolist()
-                    list_type = 'series'
+                    list_type = "series"
                 sequences.append(
                     OemofSequence(
                         from_node=from_node,
                         to_node=to_node,
                         attribute=key,
                         value=series,
-                        type=list_type
+                        type=list_type,
                     )
                 )
             session.add_all(sequences)
@@ -208,8 +164,9 @@ def store_results(session, input_data, result_data):
     return result_id
 
 
-def restore_results(session, input_result_id, restore_none_type=False,
-                    advanced_label=None):
+def restore_results(
+    session, input_result_id, restore_none_type=False, advanced_label=None
+):
     """
     Restores input and result data from OemofInputResult from DB
 
@@ -229,49 +186,47 @@ def restore_results(session, input_result_id, restore_none_type=False,
     (dict, dict):
         Restored input- and result-data
     """
+
     def type_conversion(value_str, value_type):
-        if value_type == 'str':
+        if value_type == "str":
             return value_str
-        elif value_type == 'float':
+        elif value_type == "float":
             return float(value_str)
-        elif value_type == 'int':
+        elif value_type == "int":
             return int(value_str)
-        elif value_type == 'bool':
+        elif value_type == "bool":
             return bool(value_str)
         else:
             raise TypeError('Unknown conversion type "' + value_type + '"')
 
     def convert_label_to_namedtuple(label):
         def unpack_tuples(value):
-            if value.startswith('(') and value.endswith(')'):
-                value_list = value[1:-1].split(', ')
+            if value.startswith("(") and value.endswith(")"):
+                value_list = value[1:-1].split(", ")
                 if len(value_list) == 1:
                     single = value_list[0][:-1]
-                    return (None, ) if single == 'None' else (single, )
+                    return (None,) if single == "None" else (single,)
                 else:
-                    return (None if v == 'None' else v for v in value_list)
+                    return (None if v == "None" else v for v in value_list)
             else:
-                return None if value == 'None' else value
+                return None if value == "None" else value
 
         pattern = (
-            f"{advanced_label.__name__}\(" +
-            ', '.join(
+            f"{advanced_label.__name__}\("
+            + ", ".join(
                 [
                     f"{field}=(?P<{field}>[\(\)A-Za-z0-9#._\-,\ ']*)"
                     for field in advanced_label._fields
                 ]
-            ) +
-            "\)"
+            )
+            + "\)"
         )
         try:
-            match = re.match(pattern, label.replace('\'', ''))
+            match = re.match(pattern, label.replace("'", ""))
         except AttributeError:
             return label
         if match is not None:
-            fields = {
-                k: unpack_tuples(v)
-                for k, v in match.groupdict().items()
-            }
+            fields = {k: unpack_tuples(v) for k, v in match.groupdict().items()}
             return advanced_label(**fields)
         else:
             return label
@@ -281,35 +236,39 @@ def restore_results(session, input_result_id, restore_none_type=False,
         if advanced_label is not None:
             raw_nodes = tuple(map(convert_label_to_namedtuple, raw_nodes))
         if restore_none_type:
-            return tuple(map(lambda x: None if x == 'None' else x, raw_nodes))
+            return tuple(map(lambda x: None if x == "None" else x, raw_nodes))
         else:
             return raw_nodes
 
     # Find results:
-    input_result = session.query(OemofInputResult).filter(
-        OemofInputResult.input_result_id == input_result_id).first()
+    input_result = (
+        session.query(OemofInputResult)
+        .filter(OemofInputResult.input_result_id == input_result_id)
+        .first()
+    )
     if input_result is None:
         raise IndexError(
-            'Could not find OemofInputResult with ID #' + str(input_result_id))
+            "Could not find OemofInputResult with ID #" + str(input_result_id)
+        )
 
     input_data = {}
     result_data = {}
-    for input_result_attr, data in (
-            ('input', input_data), ('result', result_data)):
+    for input_result_attr, data in (("input", input_data), ("result", result_data)):
         ir_attr = getattr(input_result, input_result_attr)
         for scalar in ir_attr.scalars:
             nodes = get_nodes(scalar)
             if nodes not in data:
-                data[nodes] = {'scalars': {}, 'sequences': {}}
-            data[nodes]['scalars'][scalar.attribute] = type_conversion(
-                scalar.value, scalar.type)
+                data[nodes] = {"scalars": {}, "sequences": {}}
+            data[nodes]["scalars"][scalar.attribute] = type_conversion(
+                scalar.value, scalar.type
+            )
         for sequence in ir_attr.sequences:
             nodes = get_nodes(sequence)
             if nodes not in data:
-                data[nodes] = {'scalars': {}, 'sequences': {}}
-            if sequence.type == 'series':
+                data[nodes] = {"scalars": {}, "sequences": {}}
+            if sequence.type == "series":
                 series = pandas.Series(sequence.value)
             else:
                 series = sequence.value
-            data[nodes]['sequences'][sequence.attribute] = series
+            data[nodes]["sequences"][sequence.attribute] = series
     return input_data, result_data

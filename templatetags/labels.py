@@ -1,4 +1,3 @@
-
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -21,17 +20,17 @@ def label(context, value, safe=False, app=None):
             app = get_app_from_request(context.request)
         except AttributeError:
             raise AttributeError(
-                'Current app could not be found. '
-                'This may occur in widget templates as they do not return '
-                'request object. In this case, you can set app manually.'
+                "Current app could not be found. "
+                "This may occur in widget templates as they do not return "
+                "request object. In this case, you can set app manually."
             )
-    if app == '':
+    if app == "":
         return None
     current = APP_LABELS.get(app)
     if current is None:
         return None
 
-    keys = value.split(':')
+    keys = value.split(":")
     for key in keys:
         current = current.get(key)
         if current is None:

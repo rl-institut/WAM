@@ -1,4 +1,3 @@
-
 import os
 from abc import ABC
 from typing import List, Tuple, Optional
@@ -47,18 +46,18 @@ class InfoButton(CustomWidget):
     showing info text (markdown supported).
     """
 
-    template_name = 'widgets/info_button.html'
+    template_name = "widgets/info_button.html"
     counter = count()
 
     def __init__(
-            self,
-            text: str = '',
-            tooltip: str = '',
-            is_markdown: bool = False,
-            ionicon_type: str = 'ion-information-circled',
-            ionicon_size: str = 'small',
-            ionicon_color: str = None,
-            info_id: str = None
+        self,
+        text: str = "",
+        tooltip: str = "",
+        is_markdown: bool = False,
+        ionicon_type: str = "ion-information-circled",
+        ionicon_size: str = "small",
+        ionicon_color: str = None,
+        info_id: str = None,
     ):
         """
 
@@ -83,9 +82,11 @@ class InfoButton(CustomWidget):
             prepended by "info_". By default, a counter is used which results
             in ids "info_0", "info_1" etc.
         """
-        self.text = markdown(text,
-                             extensions=MARKDOWNX_MARKDOWN_EXTENSIONS)\
-            if is_markdown else text
+        self.text = (
+            markdown(text, extensions=MARKDOWNX_MARKDOWN_EXTENSIONS)
+            if is_markdown
+            else text
+        )
         self.tooltip = tooltip
         self.ionicon_type = ionicon_type
         self.ionicon_size = ionicon_size
@@ -98,12 +99,12 @@ class InfoButton(CustomWidget):
 
     def get_context(self):
         return {
-            'info_id': f'info_{self.id}',
-            'text': self.text,
-            'tooltip': self.tooltip,
-            'ionicon_type': self.ionicon_type,
-            'ionicon_size': self.ionicon_size,
-            'ionicon_color': self.ionicon_color
+            "info_id": f"info_{self.id}",
+            "text": self.text,
+            "tooltip": self.tooltip,
+            "ionicon_type": self.ionicon_type,
+            "ionicon_size": self.ionicon_size,
+            "ionicon_color": self.ionicon_color,
         }
 
 
@@ -114,13 +115,14 @@ class Wizard(CustomWidget):
     Active steps are hrefs, current step is circled, coming steps are inactive.
     Optionally, screen reader text for current step can be given.
     """
-    template_name = 'widgets/wizard.html'
+
+    template_name = "widgets/wizard.html"
 
     def __init__(
-            self,
-            urls: List[Optional[Tuple[str, str]]],
-            current: int,
-            screen_reader_for_current: str = None
+        self,
+        urls: List[Optional[Tuple[str, str]]],
+        current: int,
+        screen_reader_for_current: str = None,
     ):
         """
 
@@ -140,17 +142,18 @@ class Wizard(CustomWidget):
 
     def get_context(self):
         return {
-            'urls': self.urls,
-            'current': self.current,
-            'screen_reader': self.screen_reader
+            "urls": self.urls,
+            "current": self.current,
+            "screen_reader": self.screen_reader,
         }
 
 
 class CSVWidget:
     """Reads in CSV-file and renders it as table"""
 
-    def __init__(self, filename, caption, csv_kwargs=None, html_kwargs=None,
-                 links=None):
+    def __init__(
+        self, filename, caption, csv_kwargs=None, html_kwargs=None, links=None
+    ):
         """
         Parameters
         ----------
@@ -175,9 +178,8 @@ class CSVWidget:
         csv_kwargs = {} if csv_kwargs is None else csv_kwargs
         self.data = pandas.read_csv(filename, **csv_kwargs)
         for link in links:
-            self.data[link] = self.data[link].apply(
-                lambda x: f'<a href="{x}">{x}</a>')
-        self.data.fillna('-', inplace=True)
+            self.data[link] = self.data[link].apply(lambda x: f'<a href="{x}">{x}</a>')
+        self.data.fillna("-", inplace=True)
 
     def __str__(self):
         style = self.data.style
@@ -186,21 +188,18 @@ class CSVWidget:
 
 
 class OrbitWidget(CustomWidget):
-    OrbitItem = namedtuple('OrbitItem', ['name', 'description', 'class_'])
+    OrbitItem = namedtuple("OrbitItem", ["name", "description", "class_"])
     OrbitItem.__new__.__defaults__ = (None,)
 
-    template_name = 'widgets/orbit.html'
-    default_labels = {
-        'next': 'Nächster',
-        'previous': 'Vorheriger'
-    }
+    template_name = "widgets/orbit.html"
+    default_labels = {"next": "Nächster", "previous": "Vorheriger"}
 
     def __init__(
-            self,
-            caption: str,
-            orbits: List[OrbitItem],
-            labels: dict = None,
-            orbit_class='orbit'
+        self,
+        caption: str,
+        orbits: List[OrbitItem],
+        labels: dict = None,
+        orbit_class="orbit",
     ):
         if labels is None:
             labels = {}
@@ -211,8 +210,8 @@ class OrbitWidget(CustomWidget):
 
     def get_context(self):
         return {
-            'caption': self.caption,
-            'labels': self.labels,
-            'orbits': self.orbits,
-            'orbit_class': self.orbit_class
+            "caption": self.caption,
+            "labels": self.labels,
+            "orbits": self.orbits,
+            "orbit_class": self.orbit_class,
         }

@@ -36,56 +36,52 @@ class AppListView(ListView):
     * The template displays all items of a model in a table, each row has a
     unique id
     """
-    default_template_name = 'meta/app_list.html'
+
+    default_template_name = "meta/app_list.html"
     app_name = None
-    ordering = ['category__name']
+    ordering = ["category__name"]
     title = "Quellen"
 
     def __init__(self, *args, **kwargs):
         super(AppListView, self).__init__(*args, **kwargs)
         if self.app_name is not None:
-            self.queryset = self.model.objects.filter(
-                app_name=self.app_name)
+            self.queryset = self.model.objects.filter(app_name=self.app_name)
         else:
             self.queryset = self.model.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         # pylint: disable=protected-access
         context = super(AppListView, self).get_context_data(
-            object_list=object_list, **kwargs)
+            object_list=object_list, **kwargs
+        )
 
-        context['title'] = self.title
+        context["title"] = self.title
 
         # Try to load base.html template from app:
-        base_template = 'meta/base.html'
+        base_template = "meta/base.html"
         if self.app_name is not None:
             base_template_file = os.path.join(
-                BASE_DIR,
-                self.app_name,
-                'templates',
-                self.app_name,
-                'base.html'
+                BASE_DIR, self.app_name, "templates", self.app_name, "base.html"
             )
             if os.path.exists(base_template_file):
-                base_template = self.app_name + '/base.html'
-        context['base_template'] = base_template
+                base_template = self.app_name + "/base.html"
+        context["base_template"] = base_template
 
         # Highlight specific id:
         highlight_id = self.request.GET.get(self.model._meta.model_name, None)
         if (
-                highlight_id is not None and
-                context['object_list'].filter(pk=highlight_id).exists()
+            highlight_id is not None
+            and context["object_list"].filter(pk=highlight_id).exists()
         ):
-            context['highlight'] = str(highlight_id)
+            context["highlight"] = str(highlight_id)
 
         # Highlight category:
-        category_id = self.request.GET.get('category', None)
+        category_id = self.request.GET.get("category", None)
         if (
-                category_id is not None and
-                context['object_list'].filter(
-                    category__pk=category_id).exists()
+            category_id is not None
+            and context["object_list"].filter(category__pk=category_id).exists()
         ):
-            context['category'] = str(category_id)
+            context["category"] = str(category_id)
 
         return context
 
@@ -101,12 +97,13 @@ class AssumptionsView(AppListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AssumptionsView, self).get_context_data(
-            object_list=object_list, **kwargs)
+            object_list=object_list, **kwargs
+        )
         if self.source_url is not None:
-            context['source_url'] = self.source_url
+            context["source_url"] = self.source_url
         else:
             if self.app_name is not None:
-                context['source_url'] = self.app_name + ':sources'
+                context["source_url"] = self.app_name + ":sources"
             else:
-                context['source_url'] = 'sources'
+                context["source_url"] = "sources"
         return context

@@ -6,28 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meta', '0004_auto_20190207_1139'),
+        ("meta", "0004_auto_20190207_1139"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='source',
-            name='author',
-        ),
-        migrations.RemoveField(
-            model_name='source',
-            name='description',
-        ),
-        migrations.RemoveField(
-            model_name='source',
-            name='license',
-        ),
-        migrations.RemoveField(
-            model_name='source',
-            name='url',
-        ),
-        migrations.RemoveField(
-            model_name='source',
-            name='year',
-        ),
+        migrations.RemoveField(model_name="source", name="author",),
+        migrations.RemoveField(model_name="source", name="description",),
+        migrations.RemoveField(model_name="source", name="license",),
+        migrations.RemoveField(model_name="source", name="url",),
+        migrations.RemoveField(model_name="source", name="year",),
     ]
