@@ -117,7 +117,7 @@ WSGI_APPLICATION = "wam.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 DJANGO_DB = config["WAM"].get("DJANGO_DB", "DEFAULT")
-DATABASES = {"default": {**config["DATABASES"][DJANGO_DB],}}
+DATABASES = {"default": {**config["DATABASES"][DJANGO_DB], }}
 
 
 # Password validation
@@ -127,9 +127,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
 
 
