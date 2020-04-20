@@ -19,8 +19,13 @@
         <div class="grid-x align-center">
 
           {% for category, apps in app_infos.items %}
-            <div class="cell">
+            <div class="cell" style="text-align: center">
               <h2 class="hp-features__header">{{category.label|safe}}</h2>
+              {% if category.value == "app" %}
+                <a href="https://reiner-lemoine-institut.de/wp-content/uploads/2020/03/RLI_Stakeholder_Tools.pdf">
+                  Kurzbeschreibung Dialog- und Visualisierungswerkzeuge für Energie und Infrastruktur (pdf)
+                </a>
+              {% endif %}
             </div>
               {% for app in apps %}
                 <div class="cell medium-6 hp-features__card">
