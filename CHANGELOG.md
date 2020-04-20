@@ -19,9 +19,9 @@ Here is a template for new release sections
 ## [Unreleased]
 
 ### Added
+- Short link to Stemp-Tools on landing page
 
 ### Changed
-
 - WAM installation instructions improved (esp. for Windows) #95
 
 ## [0.1.3] 2019-09-19
