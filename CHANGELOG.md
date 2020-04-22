@@ -29,6 +29,9 @@ Here is a template for new release sections
 - WAM installation instructions improved (esp. for Windows) #95
 - Assumptions and sources are deleted if category is deleted (cascade)
 
+### Security
+- set django version to 2.2.10 
+
 ## [0.1.3] 2019-09-19
 
 ### Added
