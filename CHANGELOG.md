@@ -20,9 +20,14 @@ Here is a template for new release sections
 
 ### Added
 - Short link to Stemp-Tools on landing page
+- Sphinx Makefile
+- dynamic title for meta app lists
 
 ### Changed
+- Removed unnecessary ionicon files
+- Black style
 - WAM installation instructions improved (esp. for Windows) #95
+- Assumptions and sources are deleted if category is deleted (cascade)
 
 ## [0.1.3] 2019-09-19
 
