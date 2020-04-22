@@ -2,7 +2,7 @@ from collections import defaultdict
 from utils.shortcuts import get_app_from_request
 
 
-class SessionData():
+class SessionData:
     def __init__(self):
         self.sessions = defaultdict(dict)
 
@@ -16,9 +16,8 @@ class SessionData():
     def get_session(self, request):
         # pylint: disable=no-else-raise
         app = get_app_from_request(request)
-        user_session = self.sessions[app].get(
-            request.session.session_key, None)
+        user_session = self.sessions[app].get(request.session.session_key, None)
         if user_session is None:
-            raise KeyError('Session not found')
+            raise KeyError("Session not found")
         else:
             return user_session

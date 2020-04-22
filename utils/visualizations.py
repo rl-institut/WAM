@@ -1,4 +1,3 @@
-
 import itertools
 from abc import ABC, abstractmethod
 
@@ -18,13 +17,13 @@ class VisualizationTemplate(ABC):
 
     def get_context(self, **kwargs):
         return {
-            'div_id': kwargs.get('div_id', f'rank_{self.id}'),
-            'div_kwargs': kwargs.get('div_kwargs', {})
+            "div_id": kwargs.get("div_id", f"rank_{self.id}"),
+            "div_kwargs": kwargs.get("div_kwargs", {}),
         }
 
     def render(self, **kwargs):
         if self.template_name is None:
-            raise TemplateDoesNotExist('No template_name set')
+            raise TemplateDoesNotExist("No template_name set")
         renderer = get_default_renderer()
         context = self.get_context(**kwargs)
         return renderer.render(self.template_name, context)

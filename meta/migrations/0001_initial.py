@@ -8,49 +8,76 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Assumption',
+            name="Assumption",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('value', models.CharField(max_length=64)),
-                ('value_type', models.CharField(max_length=32)),
-                ('app_name', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                ("value", models.CharField(max_length=64)),
+                ("value_type", models.CharField(max_length=32)),
+                ("app_name", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='Source',
+            name="Source",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.CharField(max_length=255)),
-                ('url', models.URLField()),
-                ('description', models.TextField()),
-                ('year', models.IntegerField()),
-                ('license', models.CharField(max_length=255)),
-                ('app_name', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("author", models.CharField(max_length=255)),
+                ("url", models.URLField()),
+                ("description", models.TextField()),
+                ("year", models.IntegerField()),
+                ("license", models.CharField(max_length=255)),
+                ("app_name", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='SourceCategory',
+            name="SourceCategory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('description', models.TextField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("description", models.TextField()),
             ],
         ),
         migrations.AddField(
-            model_name='source',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='meta.SourceCategory'),
+            model_name="source",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to="meta.SourceCategory"
+            ),
         ),
         migrations.AddField(
-            model_name='assumption',
-            name='source',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='meta.Source'),
+            model_name="assumption",
+            name="source",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to="meta.Source"
+            ),
         ),
     ]

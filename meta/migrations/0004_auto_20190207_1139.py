@@ -7,18 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meta', '0003_source_meta_data'),
+        ("meta", "0003_source_meta_data"),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='SourceCategory',
-            new_name='Category',
-        ),
+        migrations.RenameModel(old_name="SourceCategory", new_name="Category",),
         migrations.AddField(
-            model_name='assumption',
-            name='category',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.DO_NOTHING, to='meta.Category'),
+            model_name="assumption",
+            name="category",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                to="meta.Category",
+            ),
             preserve_default=False,
         ),
     ]

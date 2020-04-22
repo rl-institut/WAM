@@ -16,13 +16,21 @@ Here is a template for new release sections
 ### Removed
 -
 ```
-## [Unreleased]
+## [0.1.4] 2020-04-20
 
 ### Added
+- Short link to Stemp-Tools on landing page
+- Sphinx Makefile
+- dynamic title for meta app lists
 
 ### Changed
-
+- Removed unnecessary ionicon files
+- Black style
 - WAM installation instructions improved (esp. for Windows) #95
+- Assumptions and sources are deleted if category is deleted (cascade)
+
+### Security
+- set django version to 2.2.10 
 
 ## [0.1.3] 2019-09-19
 
