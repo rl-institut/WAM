@@ -1,11 +1,27 @@
 from enum import Enum
-from collections import namedtuple
+from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 
 
-AppInfo = namedtuple(
-    "AppInfo", ["category", "name", "url", "closed", "icon", "url_arg"],
-)
-AppInfo.__new__.__defaults__ = (False, None, None)
+class AppInfo:
+    def __init__(self, category, name, url, closed=False, icon=None, url_arg=None):
+        self.category = category
+        self.name = name
+        self.__url = url
+        self.closed = closed
+        self.icon = icon
+        self.__url_arg = url_arg
+
+    @property
+    def url(self):
+        try:
+            if self.__url_arg is None:
+                url = reverse(self.__url)
+            else:
+                url = reverse(self.__url, kwargs={"path": self.__url_arg})
+        except NoReverseMatch:
+            url = self.__url
+        return url
 
 
 class AppCategory(Enum):
