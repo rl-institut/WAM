@@ -16,7 +16,7 @@ Here is a template for new release sections
 ### Removed
 -
 ```
-## [Unreleased]
+## [0.1.4] 2020-04-20
 
 ### Added
 - Short link to Stemp-Tools on landing page
