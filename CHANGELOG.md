@@ -16,6 +16,14 @@ Here is a template for new release sections
 ### Removed
 -
 ```
+## [0.1.5] 2020-08-13
+
+### Added
+- possibility to set custom urls as app urls on landing page
+
+### Fixed
+- error due to incompatible version of PyUtilib (oemof->pyomo->PyUtilib)
+
 ## [0.1.4] 2020-04-20
 
 ### Added
