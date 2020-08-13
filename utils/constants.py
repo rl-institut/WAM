@@ -4,7 +4,33 @@ from django.urls.exceptions import NoReverseMatch
 
 
 class AppInfo:
-    def __init__(self, category, name, url, closed=False, icon=None, url_arg=None):
+    """App infos are used on WAM landing page"""
+
+    def __init__(
+        self,
+        category: str,
+        name: str,
+        url: str,
+        closed: bool = False,
+        icon: str = None,
+        url_arg: str = None,
+    ):
+        """
+
+        Parameters
+        ----------
+        category:
+            Must be one of available app categories (AppCategory).
+            App is placed in corresponding category section.
+        name:
+            Is displayed on landing page
+        url: Either namespace url to django app, or fix url (to extern page)
+        closed:
+            If closed is active, a lock symbol is shown.
+            (Access restrictions have to be set up by the app itself)
+        icon: Icon to be shown on landing page
+        url_arg: Optional path argument to (namespace) url - relict? unused?
+        """
         self.category = category
         self.name = name
         self.__url = url
@@ -14,6 +40,12 @@ class AppInfo:
 
     @property
     def url(self):
+        """
+        Returns app url for landing page
+
+        First reverse namespace url is tried (with url args if given), if this fails,
+        url will be returned "as is".
+        """
         try:
             if self.__url_arg is None:
                 url = reverse(self.__url)
