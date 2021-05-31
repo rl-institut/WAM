@@ -1,9 +1,9 @@
-django==2.2.13
+django==2.2.18
 jmespath
 gunicorn
 pandas
 whitenoise
-celery
+celery==4.4.6
 configobj
 exchangelib
 django-markdownx
