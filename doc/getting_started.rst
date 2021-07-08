@@ -453,18 +453,20 @@ Finally access to the WAM server with
 
 .. _example_app_settings:
 
-Example app
-^^^^^^^^^^^
+Mockup app
+^^^^^^^^^^
 
-From the root level of the WAM repository, you can clone the app *WAM_APP_stemp_mv* with
+From the root level of the WAM repository, you can clone the app *WAM_APP_example* with
 
 .. code:: bash
 
-    git clone https://github.com/rl-institut/WAM_APP_stemp_mv.git
+    git clone https://github.com/rl-institut/WAM_APP_example.git
 
-For the time being you have to rename the app folder *stemp* and set your environment variable
-*WAM_APPS* to *stemp*
+Then add the name *WAM_APP_example* to the WAM_APPS environment variable.
 
+You can then follow the procedure described under :ref:`server_deploy`.
+
+You should be able to see the app in the index page. Clicking on it will lead you to the example app page.
 
 .. _app_settings:
 
