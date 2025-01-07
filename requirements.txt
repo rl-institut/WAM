@@ -6,8 +6,8 @@ whitenoise
 celery==4.4.6
 configobj
 exchangelib
-django-markdownx
-django-crispy-forms
-psycopg2-binary
+django-markdownx==3.0.1
+django-crispy-forms==1.9.2
+psycopg2-binary==2.8.5
 oedialect
 git+https://github.com/henhuy/python-highcharts.git#egg=python-highcharts

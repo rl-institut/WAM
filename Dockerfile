@@ -1,6 +1,6 @@
 # File from: https://fmgdata.kinja.com/using-docker-with-conda-environments-1790901398
 
-FROM continuumio/miniconda3:latest
+FROM continuumio/miniconda3:4.9.2
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -15,7 +15,7 @@ RUN conda update -n base conda
 EXPOSE 5000
 
 # Install additional libs
-RUN apt-get clean && apt-get update && apt-get install -y nano coinor-cbc python3-gdal build-essential locales
+RUN apt-get clean && apt-get update --allow-releaseinfo-change && apt-get install -y nano coinor-cbc python3-gdal build-essential locales
 
 # Set locale
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && locale-gen

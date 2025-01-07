@@ -1,6 +1,14 @@
 [![Build Status](https://travis-ci.com/rl-institut/WAM.svg?branch=master)](https://travis-ci.com/rl-institut/WAM)
 [![Documentation Status](https://readthedocs.org/projects/wam/badge/?version=latest)](https://wam.readthedocs.io/en/latest/?badge=latest)
 
+**!!! This package is outdated and no longer maintained !!!**
+
+2025-01-07 Installation fixed
+- Pinned old package versions
+- Do not load orphaned apps, restrict to StEmp tools by using
+  `WAM_APPS=stemp_abw,stemp` in `docker-compose.yml`
+
+___
 <img align="right" width="150" src="https://github.com/rl-institut/WAM/blob/master/static/img/rli_logo.png">
 
 # Web Applications & Maps (WAM)
